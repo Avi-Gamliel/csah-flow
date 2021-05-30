@@ -1,0 +1,2273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+
+    <link rel="stylesheet" href="boostrap.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://www.google.com/jsapi"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-functions.js"></script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="img/faviction-01-01.ico">
+    <title>CashFlow - תוכנה לתזרים מזומנים</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+</head>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>
+
+<body>
+
+    <div id="alertBox" class="container col-12"></div>
+    <div class="container-fluid" id="containerFirstAlertAdmin">
+        <div class="alert ud alert-success col-4 offset-4" role="alert"
+            style="position:absolute; z-index:1500; display:none;" id="boxLaertFirst">
+            <h4 class="alert-heading text-center">!מעולה</h4>
+            <p class="text-center">התחבר שנית בשביל שהחשבון יתעדכן והפיצ'רים יפתחו</p>
+            <hr>
+            <p class="mb-0 text-center">!שיהיה בהצלחה</p>
+        </div>
+    </div>
+
+    <div class="h-100 d-flex flex-grow-1 align-item-stretch">
+        <div id="side_bar" class="col-sm-2 text-center log_in h-100 ml-0 pl-0" style="display: none;">
+            <div class="row pl-2 col-12  pr-3 py-2" id="sidemenupad">
+                <div class="col-6 text-left">
+                    <img src="img/logo-01-01-01.png" alt="" style="width: 35px; height: 35px;" class="ml-2">
+                </div>
+                <div class="col-6 text-right" style="display: inline-block;" id="titleApp">
+                    <a class="navbar-brand text-white mr-4">CashFlow</a>
+                </div>
+            </div>
+
+            <div class="profile_image mt-4" id="boxUSer">
+                <img class="w-100 h-100 circle" alt="" id="menuUserimg">
+            </div>
+
+            <h6 id="nameUser" class="text-white"></h6>
+            <ul class=" pl-0 ml-0 mt-4" id="sideBar">
+                <li class="row mr-0 ml-0 sidebar" id="HomeRow">
+                    <div class="py-2">
+                        <a href="#Home" id="HomeMenu" class="align-middle ml-7"><i class="material-icons text-info"
+                                id="iHomeMenu">desktop_windows</i><span class="menuSidebarText ml-3 text-info"
+                                id="Home_Menu">דף
+                                הבית</span></a>
+                    </div>
+                </li>
+
+                <li class="row mr-0 ml-0 sidebar" id="cardRow">
+                    <div class="py-2">
+                        <a href="#Card" id="CardMenu" class="ml-7"><i class="material-icons text-white" id="iCardMenu">
+
+                                call_to_action</i>
+                            <span class="menuSidebarText ml-3 text-white" id="Card_Menu">כרטיס אשראי</span>
+                        </a>
+                    </div>
+
+                </li>
+                <li class="row mr-0 ml-0 sidebar" id="savingRow">
+                    <div class="py-2">
+                        <a href="#" id="saveMenu" class="ml-7"><i class="material-icons text-white" id="isaving">
+                                pending_actions</i>
+                            <span class="menuSidebarText ml-3 text-white" id="savingTitle">חסכונות והלוואות</span>
+                        </a>
+                    </div>
+                </li>
+
+
+                <li class="row mr-0 ml-0 sidebar" id="TableRow">
+                    <div class="py-2">
+                        <a href="#TableviewMenu" id="TableviewMenu" class="ml-7"><i class="material-icons  text-white"
+                                id="iTableView">event_note</i><span id="Tableview_Menu"
+                                class="text-white menuSidebarText ml-3 ">דוחות</span></a>
+                    </div>
+                </li>
+                <li class="row mr-0 ml-0 sidebar" id="SettingRow">
+                    <div class="py-2">
+                        <a href="#settingPage" id="SettingMenu" class="ml-7"><i class="material-icons text-white"
+                                id="iSetting">
+                                settings</i>
+                            <span class=" menuSidebarText ml-3 text-white" id="SettingTitle">הגדרות</span>
+                        </a>
+                    </div>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="container-fluid mx-0 px-0 mt-0 w-100 " id="content">
+
+            <div class="row">
+                <div class="container col-12 w-100 mx-0 align-center" id="navbar">
+                    <nav class="container ctn navbar navbar-expand-sm navbar-light ">
+                        <div class=" collapse navbar-collapse" id=" navbarSupportedContent">
+                            <div class="row col-12 w-100 px-0 mx-0">
+                                <div class="col-6 px-0">
+                                    <ul class="navbar-nav mr-auto log_in" style="display: none;">
+                                        <div class="row">
+
+                                            <li class="pl-3">
+                                                <label for="check">
+                                                    <span class="navbar-toggler-icon" id="sidebar_btn"></span>
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <div data-toggle="tooltip" data-placement="bottom" title="הוסף הוצאה">
+
+                                                    <i id="iconminusbtn" data-toggle="modal"
+                                                        data-target="#add_outcoming"
+                                                        class="material-icons col-4">remove</i>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div data-toggle="tooltip" data-placement="bottom" title="הוסף הכנסה">
+                                                    <i id="iconbtn" class="material-icons" data-toggle="modal"
+                                                        data-target="#add_income">add</i>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div id="laonBoxBtn" data-toggle="tooltip" data-placement="bottom"
+                                                    title="שדרג חבילה">
+                                                    <i id="addloan" class="material-icons" data-toggle="modal"
+                                                        data-target="#modal4">control_point_duplicate</i>
+                                                </div>
+
+                                            </li>
+                                            <li>
+                                                <div id="boxSaveBtn" data-toggle="tooltip" data-placement="bottom"
+                                                    title="שדרג חבילה">
+                                                    <i id="addSave" class="material-icons" data-toggle="modal"
+                                                        data-target="#modal5">redeem</i>
+                                                </div>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                </div>
+
+                                <div class="col-6 text-right px-0">
+                                    <div class="form-inline my-2 my-lg-0 float-right">
+                                        <ul class="navbar-nav ">
+                                            <li class="log_in" style="display:none">
+                                                <div id="search_Tool" data-toggle="tooltip" data-placement="bottom"
+                                                    title="שדרג חבילה">
+                                                    <a id="searchCheckBox" class="nav-link" href="#" data-toggle="modal"
+                                                        data-target="#modal-Check"> <i class="material-icons log_in"
+                                                            style="display: none;" id="checkCash">visibility</i></a>
+                                                </div>
+                                            </li>
+                                            <li class="log_in" style="display:none">
+                                                <div id="searchTool" data-toggle="tooltip" data-placement="bottom"
+                                                    title="שדרג חבילה">
+                                                    <a id="searchBtnBox" class="nav-link" href="#" data-toggle="modal"
+                                                        data-target="#modal-Search"> <i class="material-icons log_in"
+                                                            style="display: none;" id="settingBtn">search</i></a>
+                                                </div>
+                                            </li>
+                                            <li class="log_in" style="display: none;">
+                                                <a class="nav-link py-1 px-4 bgsign text-white cd mt-1" href="#"
+                                                    data-toggle="modal" data-target="#payModel" id="upgrade">שדרג
+                                                    חבילה</a>
+                                            </li>
+                                            <li class="nav-item active log_out">
+                                                <a class="nav-link py-1 px-4 bgsign text-white cd mt-1" href="#"
+                                                    data-toggle="modal" data-target="#modal-signIn">כניסה</a>
+                                            </li>
+                                            <li class="nav-item log_out">
+                                                <a class="nav-link log_out" href="#" data-toggle="modal"
+                                                    data-target="#modal-signUp">הרשמה</a>
+                                            </li>
+                                            <li class="nav-item log_in">
+                                                <a class="nav-link log_in" style="display: none;" href="#"
+                                                    id="logOut">יציאה</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+
+
+            </div>
+
+            <div class="row-fill mt-2" id="boxmain">
+                <div id="home_page" class="col-sm-12 log_in" style="display: none;">
+                    <div class="container">
+                        <div class="row pt-3">
+                            <div class="col px-ms-3 ">
+                                <div class="card shadow-sm hp_st_box hp_balance border-0 radius_box">
+                                    <h6 class="card-header text-center bg-warning text-white radius_box_title backgroundTitleBlue"
+                                        id="homeBalanceBox">מאזן</h6>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i id="iconBalance"
+                                                    class="large material-icons balColor">vertical_align_center</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+                                                <img id="ils" src="img/ils_black-01.png"></img>
+                                                <span id="num_balanceMonth" class="cash">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col px-ms-3 ">
+                                <div class="card shadow-sm hp_st_box hp_balance border-0 radius_box">
+                                    <h6 class="card-header text-center bg-success text-white radius_box_title "
+                                        id="inHome">
+                                        הכנסות
+                                    </h6>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i class="medium material-icons text-success">arrow_upward</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+
+                                                <img id="ils" src="img/ils_black-01.png"></img>
+                                                <span id="num_incomingMonth" class="cash  text-dark">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-muted text-center bgfooterin radius_box_expend"
+                                        id="cardFooterin" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <p id="leftmoneyin" class="px-0 my-0 text-white text-center"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col px-ms-3 ">
+                                <div class="card shadow-sm hp_st_box hp_balance border-0 radius_box">
+                                    <h6 class="card-header text-center bg-danger text-white radius_box_title"
+                                        id="outHome">
+                                        הוצאות</h6>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i class="material-icons  text-danger">arrow_downward</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+
+                                                <img id="ils" src="img/ils_black-01.png"></img>
+                                                <span id="num_expendMonth" class="cash">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-muted bgfooterExpend radius_box_expend" id="cardFooter"
+                                        style="display: none;">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <p id="precentExpendMust" class="px-0 my-0 text-white  text-center">asd
+                                                </p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p id="precentExpend" class="px-0 my-0 text-white  text-center">asd</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col px-ms-3 my-0 py-0 ">
+                                <div class="card shadow-sm hp_st_box hp_balance border-0 radius_box" id="mainflag">
+                                    <div class="card-header radius_box_title bg-info radius_box_title" id="statusHome">
+                                        <div class="row my-0" id="rowflag">
+                                            <div class="col-6 text-left text-white" id="flagBox">
+                                                <i id="iconFlag" class="material-icons iconFlag" data-toggle="tooltip"
+                                                    data-placement="top" title=""
+                                                    data-original-title='היעד הוא להגיע ל -50% הוצאות מסה"כ ההכנסות'>flag</i>
+                                            </div>
+                                            <div class="col-6 text-white " id="titleflagBox">
+                                                <h6 id="st">מצב
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i class="material-icons" id="place">place</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+                                                <span id="num_currectStatusCash" class="cash text-sm">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-muted bgfooterExpend radius_box_expend"
+                                        id="cardFooterinout" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <p id="in" class="px-0 my-0 text-white text-center">asd</p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p id="out" class="px-0 my-0 text-white text-center">asd</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8 offset-4">
+                            <div class="row text-right">
+                                <form action="#" class='text-right col-12'>
+                                    <p id="homeChartChoose">
+                                    <div class="row col-12">
+                                        <div class="custom-control col-6 ml-0 pl-0">
+                                            <div class="row mx-0 my-0">
+                                                <i class="material-icons checked" id="insertcharthome">insert_chart</i>
+                                                <i class="material-icons" id="photohome">photo</i>
+                                                <i class="material-icons" id="linecharthome">show_chart</i>
+
+                                            </div>
+                                        </div>
+                                        <div class="custom-control custom-radio pr-3 col-2 offset-3">
+                                            <input name="goupChartHome" id="weeklyChart" type="radio"
+                                                class="custom-control-input checked" />
+                                            <label class="custom-control-label" for="weeklyChart">שבועי</label>
+                                        </div>
+                                        <div class="custom-control custom-radio col-1 ">
+                                            <input name="goupChartHome" id="monthlyChart" type="radio"
+                                                class="custom-control-input" checked />
+                                            <label class="custom-control-label" for="monthlyChart">חודשי</label>
+                                        </div>
+                                    </div>
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="container row pl-0  pr-0 ml-0">
+                            <div class="col-md-4 pl-0">
+                                <div class="calenderBox shadow-sm card border-0">
+                                    <div class="month" class="grid">
+                                        <i class="material-icons prev">chevron_left</i>
+                                        <div class="datesbox">
+                                            <span id="monthCalnder"></span>
+                                        </div>
+                                        <i class="material-icons next">chevron_right</i>
+                                    </div>
+
+                                    <div class="weekdays">
+                                        <div>שבת</div>
+                                        <div>שישי</div>
+                                        <div>חמישי</div>
+                                        <div>רביעי</div>
+                                        <div>שלישי</div>
+                                        <div>שני</div>
+                                        <div>ראשון</div>
+                                    </div>
+
+                                    <div class="days" id="days"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 pr-0">
+                                <div class="container shadow-sm  pr-0 ml-0 chartHomeBox">
+                                    <div class="col 12 pl-0 pr-0">
+                                        <canvas id="chart_div" style="height:100%; width:100%;" class="px-3"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row pt-4">
+                            <div class="col px-ms-2">
+                                <div id="creditCARDbox"
+                                    class="card shadow-sm hp_st_box hp_balance radius_box  border-0 typeBox">
+                                    <h6 id="creditCARD"
+                                        class="card-header text-center bg-light  border-0  text-secondary radius_box_title"
+                                        id="credit">כרטיס אשראי
+                                    </h6>
+                                    <div class="card-body ">
+
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i id="i_credit"
+                                                    class="material-icons text-secondary">call_to_action</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+                                                <img id="ilsType" src="img/grey_ils-01-01.png"></img>
+                                                <span id="num_credit" class="cashbox text-secondary">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col px-ms-2 ">
+                                <div id="paperCARDbox"
+                                    class="card shadow-sm hp_st_box hp_balance radius_box  border-0 typeBox">
+                                    <h6 id="paperCARD"
+                                        class="card-header text-center bg-light border-0  text-secondary radius_box_title"
+                                        id="paper">
+                                        צ'קים
+                                    </h6>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i id="i_paper" class="material-icons  text-secondary">local_atm</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+
+                                                <img id="ilsType" src="img/grey_ils-01-01.png"></img>
+                                                <span id="num_paper" class="cashbox text-secondary">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col px-ms-2 ">
+                                <div id="cashCARDbox"
+                                    class="card shadow-sm hp_st_box hp_balance radius_box border-0 typeBox">
+                                    <h6 id="cashCARD"
+                                        class="card-header text-center  bg-light  border-0  text-secondary radius_box_title"
+                                        id="cash">מזומן
+                                    </h6>
+                                    <div class="card-body">
+                                        <div class="row ">
+                                            <div class="col-3">
+                                                <i id="i_cash"
+                                                    class="material-icons text-secondary">account_balance_wallet</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+                                                <img id="ilsType" src="img/grey_ils-01-01.png"></img>
+                                                <span id="num_cash" class="cashbox text-secondary">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col px-ms-2 ">
+                                <div id="debitCARDbox"
+                                    class="card shadow-sm hp_st_box hp_balance radius_box border-0 typeBox">
+                                    <h6 id="debitCARD"
+                                        class="card-header text-center  bg-light border-0  text-secondary radius_box_title"
+                                        id="directDebit">
+                                        הוראת קבע</h6>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i id="i_debit" class="material-icons  text-secondary">attach_money</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+                                                <img id="ilsType" src="img/grey_ils-01-01.png"></img>
+                                                <span id="num_directDebit" class="cashbox text-secondary">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col px-ms-2">
+                                <div id="bitCARDbox"
+                                    class="card shadow-sm hp_st_box hp_balance radius_box border-0 typeBox">
+                                    <h6 id="bitCARD"
+                                        class="card-header text-center  bg-light  border-0  text-secondary radius_box_title"
+                                        id="bit">
+                                        ביט</h6>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i id="i_bit" class="material-icons  text-secondary">touch_app</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+                                                <img id="ilsType" src="img/grey_ils-01-01.png"></img>
+                                                <span id="num_bit" class="cashbox text-secondary">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col px-ms-2">
+                                <div id="bankCARDbox"
+                                    class="card shadow-sm hp_st_box hp_balance radius_box border-0 typeBox">
+                                    <h6 id="bankCARD"
+                                        class="card-header text-center bg-light border-0 text-secondary radius_box_title"
+                                        id="transferBank">
+                                        העברה בנקאית</h6>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i id="i_bank" class="material-icons text-secondary">account_balance</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+                                                <img id="ilsType" src="img/grey_ils-01-01.png"></img>
+                                                <span id="num_transferBank" class="cashbox text-secondary">0</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container  pt-3 pr-0 mx-0 mr-0 px-0 border-0 cd">
+                            <div class="row mr-0 ml-0" id="containerLoan">
+                                <div class="col-6 pl-0 mx-0 py-3" id="box_Loan"></div>
+                                <div class="col-6 pr-0 mx-0 py-3" id="boxsave"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="table_page" class="col-sm-12" style="display: none;">
+                    <div class="container">
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col px-ms-3 ">
+                                <div class="card shadow-sm hp_st_box hp_balance border-0 radius_box ">
+                                    <h6 class="card-header text-center bg-warning text-white radius_box_title backgroundTitleBlue"
+                                        id="titleBoxTableBalance">מאזן</h6>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i id="icon_Balance"
+                                                    class="large material-icons balColor">vertical_align_center</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+                                                <img id="ils" src="img/ils_black-01.png"></img>
+                                                <span id="balance" class="cash">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col px-ms-3 ">
+                                <div class="card shadow-sm hp_st_box hp_balance border-0 radius_box">
+                                    <h6 class="card-header text-center bg-success text-white radius_box_title "
+                                        id="titleBoxTableIn">
+                                        הכנסות</h6>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i class="large material-icons text-success">arrow_upward</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+                                                <img id="ils" src="img/ils_black-01.png"></img>
+                                                <span id="incoming" class="cash">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col px-ms-3 ">
+                                <div class="card shadow-sm hp_st_box hp_balance border-0 radius_box">
+                                    <h6 class="card-header text-center bg-info text-white radius_box_title"
+                                        id="titleBoxTableOut">
+                                        הוצאות</h6>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i class="large material-icons text-danger">arrow_downward</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+                                                <img id="ils" src="img/ils_black-01.png"></img>
+                                                <span id="outcoming" class="cash">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col px-ms-3 ">
+                                <div class="card shadow-sm hp_st_box hp_balance border-0 radius_box">
+                                    <div class="card-header radius_box_title bg-info" id="statusTable">
+                                        <div class="row">
+                                            <div class="col-6 text-left text-white">
+                                                <i class="material-icons iconFlag" data-toggle="tooltip"
+                                                    data-placement="top" title=""
+                                                    data-original-title='היעד הוא להגיע ל -50% הוצאות מסה"כ ההכנסות'>flag</i>
+                                            </div>
+                                            <div class="col-6 text-left text-white">
+                                                <h6 class="text-centertext-white">
+                                                    מצב </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i class="material-icons" id="place">place</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+                                                <span id="Status" class="cash">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row  mt-4  mr-0 ml-0 chetrtable">
+                            <div class="container col-4 offset-4 mb-3">
+                                <div class="row mx-0 my-0">
+                                    <i class="material-icons checked" id="insertchart">insert_chart</i>
+                                    <i class="material-icons" id="photo">photo</i>
+                                    <i class="material-icons" id="linechart">show_chart</i>
+                                </div>
+                            </div>
+                            <div class="container row pl-0  pr-0 ml-0">
+                                <div class="col-4 pl-0">
+                                    <div class="shadow-sm align-center card border-0 chartTableBox" id="chartType_box">
+                                        <div class="chartBoxExpend px-0 py-0 mx-0 my-0  mt-1"
+                                            style="position: relative; height:100%;width: 100%;" id="chart_Type_box">
+                                            <canvas id="chartTypeTable" style="height:100%; width: 100%;"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-8 pr-0">
+                                    <div class="container shadow-sm h-100 pr-0 ml-0 chartHomeBox">
+                                        <div class="col 12 pl-0 pr-0 h-100">
+                                            <canvas id="dual_x_div" style="height:100%; width:100%;"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3  mr-0 ml-0" id="chooseDates">
+                            <div title="הורד לאקסל" class="col">
+                                <svg class="groupSvg" id="export" version="1.1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;"
+                                    xmlns:graph="&ns_graphs;" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 36 36"
+                                    style="enable-background:new 0 0 36 36;" xml:space="preserve">
+                                    <g class="svg">
+                                        <path d="M21.04,2c0.37,0.16,0.52,0.43,0.52,0.84c-0.02,1.01-0.01,2.01-0.01,3.06c0.15,0,0.29,0,0.42,0c3.48,0,6.96,0,10.44,0
+                               c0.75,0,1.23,0.28,1.44,0.87c0.07,0.2,0.11,0.41,0.11,0.62c0.01,7.28,0.01,14.55,0,21.83c0,0.93-0.56,1.47-1.53,1.47
+                               c-3.48,0-6.96,0-10.44,0c-0.14,0-0.27,0-0.44,0c0,0.71,0,1.38,0,2.06c0,0.37,0,0.74,0,1.11c0,0.5-0.34,0.79-0.83,0.7
+                               c-1.58-0.29-3.15-0.59-4.73-0.89c-2.3-0.44-4.6-0.87-6.91-1.31c-2.14-0.41-4.27-0.81-6.41-1.22c-0.5-0.1-0.69-0.33-0.69-0.83
+                               c0-4.97,0-9.95,0-14.92c0-3,0-6,0-9c0-0.63,0.17-0.82,0.79-0.94c2.52-0.48,5.04-0.96,7.56-1.44c2.06-0.39,4.13-0.78,6.19-1.17
+                               c1.37-0.26,2.74-0.52,4.11-0.78c0.03-0.01,0.05-0.03,0.08-0.05C20.83,2,20.93,2,21.04,2z M3.31,6.67c0,7.76,0,15.49,0,23.25
+                               c5.65,1.07,11.29,2.15,16.94,3.22c0-9.93,0-19.79,0-29.7C14.6,4.52,8.97,5.59,3.31,6.67z M21.56,29.34c3.7,0,7.38,0,11.05,0
+                               c0-7.38,0-14.75,0-22.11c-3.69,0-7.36,0-11.04,0c0,1.08,0,2.14,0,3.24c0.87,0,1.73,0,2.57,0c0,0.45,0,0.87,0,1.31
+                               c-0.87,0-1.71,0-2.57,0c0,1.09,0,2.15,0,3.26c0.87,0,1.72,0,2.57,0c0,0.45,0,0.85,0,1.29c-0.87,0-1.71,0-2.57,0
+                               c0,1.09,0,2.16,0,3.25c0.86,0,1.71,0,2.57,0c0,0.45,0,0.88,0,1.33c-0.87,0-1.72,0-2.57,0c0,1.3,0,2.58,0,3.89c0.87,0,1.72,0,2.58,0
+                               c0,0.46,0,0.87,0,1.33c-0.87,0-1.73,0-2.59,0C21.56,27.21,21.56,28.26,21.56,29.34z" />
+                                        <path class="svg" d="M6.03,24.4c0.5-0.78,0.96-1.51,1.42-2.23c0.74-1.17,1.48-2.34,2.24-3.49c0.18-0.27,0.18-0.46,0.01-0.73
+                               c-1.08-1.83-2.14-3.66-3.21-5.5c-0.04-0.06-0.07-0.13-0.12-0.23c0.48,0,0.92,0,1.37,0c0.33,0,0.67,0.05,0.99-0.01
+                               c0.77-0.14,1.14,0.19,1.42,0.89c0.42,1.07,0.96,2.09,1.44,3.13c0.09,0.2,0.15,0.42,0.22,0.62c0.3-0.63,0.58-1.27,0.89-1.88
+                               c0.44-0.85,0.9-1.7,1.37-2.54c0.05-0.09,0.16-0.19,0.24-0.2c0.96-0.01,1.92-0.01,2.92-0.01c-0.8,1.33-1.59,2.63-2.37,3.93
+                               c-0.37,0.61-0.72,1.22-1.11,1.81c-0.15,0.23-0.13,0.39,0.01,0.62c1.15,1.85,2.28,3.71,3.41,5.56c0.04,0.07,0.08,0.14,0.16,0.26
+                               c-0.22,0-0.39,0-0.56,0c-0.82,0-1.63,0-2.45,0c-0.16,0-0.26-0.03-0.35-0.19c-0.64-1.23-1.3-2.44-1.93-3.67
+                               c-0.14-0.27-0.21-0.57-0.32-0.87c-0.16,0.37-0.29,0.75-0.47,1.1c-0.6,1.15-1.22,2.29-1.84,3.43c-0.05,0.09-0.18,0.19-0.27,0.19
+                               C8.12,24.41,7.11,24.4,6.03,24.4z" />
+                                        <path class="svg"
+                                            d="M25.49,11.75c0-0.43,0-0.84,0-1.27c1.74,0,3.46,0,5.2,0c0,0.42,0,0.83,0,1.27C28.96,11.75,27.24,11.75,25.49,11.75z" />
+                                        <path class="svg"
+                                            d="M25.49,26.1c0-0.44,0-0.86,0-1.28c1.73,0,3.44,0,5.18,0c0,0.43,0,0.84,0,1.28C28.95,26.1,27.23,26.1,25.49,26.1z" />
+                                        <path class="svg"
+                                            d="M25.49,20.88c0-0.44,0-0.85,0-1.28c1.73,0,3.45,0,5.19,0c0,0.42,0,0.84,0,1.28C28.95,20.88,27.23,20.88,25.49,20.88z" />
+                                        <path class="svg"
+                                            d="M30.68,15.06c0,0.42,0,0.83,0,1.25c-1.73,0-3.45,0-5.18,0c0-0.42,0-0.83,0-1.25C27.22,15.06,28.94,15.06,30.68,15.06z" />
+                                    </g>
+                                </svg>
+                            </div>
+                            <form action="#" class="float-sm-right mt-2">
+                                <p id="chooseView">
+                                <div class="row mr-0 ml-0">
+                                    <div class="custom-control custom-radio">
+                                        <input name="groupView" id="choosWeekly" type="radio"
+                                            class="custom-control-input" />
+                                        <label class="custom-control-label" for="choosWeekly">שבועי</label>
+                                    </div>
+                                    <div class="custom-control custom-radio  ml-3">
+                                        <input name="groupView" id="chooseMonthly" type="radio"
+                                            class="custom-control-input" checked />
+                                        <label class="custom-control-label" for="chooseMonthly">חודשי</label>
+                                    </div>
+                                    <div class="custom-control custom-radio  ml-3">
+                                        <input name="groupView" id="chooseYearly" type="radio"
+                                            class="custom-control-input" />
+                                        <label class="custom-control-label" for="chooseYearly">שנתי</label>
+                                    </div>
+                                    <div class="custom-control custom-radio ml-3">
+                                        <input name="groupView" id="chooseBitweenDates" type="radio"
+                                            class="custom-control-input" data-toggle="collapse"
+                                            data-target="#bitweenDates" aria-expanded="false"
+                                            aria-controls="bitweenDates" />
+                                        <label class="custom-control-label" for="chooseBitweenDates">בין תאריכים</label>
+                                    </div>
+                                </div>
+                                </p>
+                            </form>
+                        </div>
+                        <div class="row mr-0 ml-0 px-2 pb-2 pt-0 ">
+                            <div id="bitweenDates" class="collapse col-12 px-0 py-0">
+                                <div id="datesBox" class="row mr-0 ml-0">
+                                    <div class="card col-6 offset-6 cd border-0 shadow-sm">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div id="btnBitweenDates" class="col-2">
+                                                    <button type="button" class="btn btn-info my-2 my-sm-0 mr-4  btn-sm"
+                                                        id="btn_BitweenDates">הצג</button>
+                                                </div>
+                                                <div id="endBox" class="col-5">
+                                                    <label id="endDateTitle" class="form-label float-right"
+                                                        style="font-size: 8pt;">ת.
+                                                        סיום</label>
+                                                    <input type="date" id="end_date" class="date form-control">
+                                                </div>
+                                                <div id="startBox" class="col-5">
+                                                    <label id="startDateTitle" class=" form-label float-right"
+                                                        style="font-size: 8pt;">ת.
+                                                        התחלה</label>
+                                                    <input type="date" id="start_date" class="date  form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container card mt-2 shadow-sm table_main border-0 cd px-0 py-0 " id="table_Main">
+                            <table class="table table-hover  table-borderless " id="table_main">
+                                <thead class="col-12  text-secondary px-0 py-0">
+                                    <tr class="text-center cd  border-0">
+                                        <th scope="col" id="must_have">רשות/חובה</th>
+                                        <th scope="col">כושר פרעון</th>
+                                        <th scope="col">סכום</th>
+                                        <th scope="col">מצב</th>
+                                        <th scope="col">תנאי תשלום</th>
+                                        <th scope="col">סוג תשלום</th>
+                                        <th scope="col">פירוט</th>
+                                        <th scope="col">תאריך</th>
+                                        <th scope="col" id="numAct">מס' פעולות</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center" id="mainTable">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="Card_page" class="col-sm-12" style="display: none;">
+                    <div class="container">
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col-3 px-ms-3">
+                                <div class="card shadow-sm hp_st_box hp_balance border-0 radius_box">
+                                    <h6 class="card-header text-center bg-info text-white radius_box_title"
+                                        id="titleprecnetCard">
+                                        אחוז אשראי מכלל הוצאות</h6>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i class="large material-icons text-info">donut_small</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+                                                <span id="precentCard" class="cash-2">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3 px-ms-3 ">
+                                <div class="card shadow-sm hp_st_box hp_balance border-0 radius_box">
+                                    <h6 class="card-header text-center bg-success text-white radius_box_title "
+                                        id="titleMonthBefore">
+                                        חודש לפני</h6>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <i class="large material-icons text-danger">arrow_forward</i>
+                                            </div>
+                                            <div class="col-9 text-right">
+                                                <img id="ils" src="img/ils_black-01.png"></img>
+                                                <span id="monthBefore" class="cash-2">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 px-ms-3 ">
+                                <div class="card shadow-sm hp_st_box hp_balance border-0 radius_box ">
+                                    <h6 class="card-header text-center bg-warning text-white radius_box_title backgroundTitleBlue"
+                                        id="StatusCardCash">מצב הורדות קרוב</h6>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6 text-right border-right">
+                                                <div class="col-12" id="overCreditBox">
+                                                    <span id="overmassage" class="badge red_1 px-2 py-1">0</span>
+                                                    <img id="ils" src="img/ils_black-01.png"></img>
+                                                    <span id="BlanceMOnthlyCashCard" class="cash ft_4">0</span>
+                                                    <label for="BlanceMOnthlyCashCard" class=" ft_2"> - יתרה
+                                                        לניצול</label>
+                                                </div>
+                                                <div class="col-12"> <img id="ils" src="img/ils_black-01.png"></img>
+
+                                                    <span id="limitCard" class="cash ft_4">0</span>
+                                                    <label for="limitCard" class=" ft_2"> - מסגרת אשראי</label> </div>
+                                            </div>
+                                            <div class="col-6 text-right">
+
+                                                <div class="col-12"> <label for="card_cash" class=" ft_2">מצב אשראי
+                                                    </label></div>
+                                                <div class="col-12"> <img id="ils" src="img/ils_black-01.png"></img>
+                                                    <span id="card_cash" class="cash">0</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row  mt-4  mr-0 ml-0 chetrtable">
+                            <div class="container col-4 offset-4 mb-3">
+                                <div class="row mx-0 my-0">
+                                    <i class="material-icons checked" id="insertchart_card">insert_chart</i>
+                                    <i class="material-icons" id="photo_card">photo</i>
+                                    <i class="material-icons" id="linechart_card">show_chart</i>
+                                </div>
+                            </div>
+                            <div class="container row pl-0  pr-0 ml-0">
+                                <div class="col-4 pl-0">
+                                    <div class="shadow-sm align-center card border-0 chartTableBox" id="chartCard_box">
+                                        <div class="chartBoxExpend px-0 py-0 mx-0 my-0  mt-1"
+                                            style="position: relative; height:100%;width: 100%;" id="chart_Card_box">
+                                            <canvas id="chartCardTable" style="height:100%; width: 100%;"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-8 pr-0">
+                                    <div class="container shadow-sm h-100 pr-0 ml-0 chartCardBox card border-0">
+                                        <div class="col 12 pl-0 pr-0 h-100">
+                                            <canvas id="dual_Card_div" style="height:100%; width:100%;"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row  mt-4  mr-0 ml-0 chetrtable ">
+                            <div class="form-group col-md-4 offset-8 text-right">
+                                <label for="inputMonth">בחר חודש</label>
+                                <select id="inputMonth" class="form-control">
+                                    <option>שנתי</option>
+                                    <option>ינואר</option>
+                                    <option>פברואר</option>
+                                    <option>מרץ</option>
+                                    <option>אפריל</option>
+                                    <option>מאי</option>
+                                    <option>יוני</option>
+                                    <option>יולי</option>
+                                    <option>אוגוסט</option>
+                                    <option>ספטמבר</option>
+                                    <option>אוקטובר</option>
+                                    <option>נובמבר</option>
+                                    <option>דצמבר</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="container card mt-2 shadow-sm table_main border-0 cd px-0 py-0 " id="table_Main">
+                            <table class="table table-hover  table-borderless " id="table_CARD_main">
+                                <thead class="col-12  text-secondary px-0 py-0">
+                                    <tr class="text-center cd  border-0">
+                                        <th scope="col">תאריך פרעון</th>
+                                        <th scope="col">חובה/רשות</th>
+                                        <th scope="col">סכום</th>
+                                        <th scope="col">מצב</th>
+                                        <th scope="col">תנאי תשלום</th>
+                                        <th scope="col">סוג תשלום</th>
+                                        <th scope="col">פירוט</th>
+                                        <th scope="col">תאריך</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center" id="mainTableCard">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="settingPage" class="col-sm-12" style="display: none;">
+                    <div class="container">
+                        <div class="mt-3 text-right">
+                            <h5 class="heb">הגדרות ראשונות</h5>
+                        </div>
+                        <div class="mt-3 text-right" id="topSettingBox">
+                            <div class="card border-0 shadow-sm px-2 py-2 cd">
+                                <div class="row float-right">
+                                    <div class="col-6 container align-middle pt-4" id="userInfoText">
+                                        <div class="card col-7 offset-5 py-2 px-2 mt-3">
+                                            <div class="row col-12 pt-2">
+                                                <div class="container text-center pb-4">
+                                                    <label for="start_db" style="font-size: 10pt;"> מצב חשבון התחלתי
+                                                    </label>
+                                                    <div id="start_db" class=""></div>
+                                                </div>
+                                            </div>
+                                            <div class="row  col-12 ">
+                                                <div class="container  text-center pb-4">
+                                                    <label for="line_bank_db" style="font-size: 10pt;"> מסגרת עו"ש
+                                                    </label>
+
+                                                    <div id="line_bank_db" class=""></div>
+                                                </div>
+                                            </div>
+                                            <div class="row col-12">
+                                                <div class="container  text-center pb-4">
+                                                    <label for="line_card_db" style="font-size: 10pt;">מסגרת אשראי
+                                                    </label>
+                                                    <div id="line_card_db" class=""></div>
+                                                </div>
+                                            </div>
+                                            <div class="row  col-12">
+                                                <div class="container text-center pb-4">
+                                                    <label for="day_db" style="font-size: 10pt;"> תאריך הורדות
+                                                        קבוע</label>
+                                                    <div id="day_db" class=""></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <form class="col-6 container" id="settingform" novalidate>
+                                        <div class="form-row">
+                                            <div class="col-md-6 offset-6 px-3 py-3">
+                                                <label for="startYear">מצב החשבון בתחילת שנה</label>
+                                                <input type="number" class="form-control" id="startYear"
+                                                    placeholder="0">
+                                                <div class="valid-feedback">
+                                                    !מעולה
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    !חסרים פרטים
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row ">
+                                            <div class="col-md-6 offset-6 px-3 py-3">
+                                                <label for="bankLine">מסגרת עו"ש</label>
+                                                <input type="number" class="form-control" id="bankLine" placeholder="0">
+                                                <div class="valid-feedback">
+                                                    !מעולה
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    !חסרים פרטים
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-6 offset-6 px-3 py-3">
+                                                <label for="creditLine">מסגרת אשראי</label>
+                                                <input type="number" class="form-control" id="creditLine"
+                                                    placeholder="0">
+                                                <div class="valid-feedback">
+                                                    !מעולה
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    !חסרים פרטים
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-6 offset-6 px-3 py-3">
+                                                <label for="dateExpend">תאריך הורדות קבוע</label>
+                                                <input type="date" class="form-control" id="imporatntDate"
+                                                    value="2012-12-17">
+                                                <div class="valid-feedback">
+                                                    !מעולה
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    !חסרים פרטים
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-success mt-4 col-2 offset-10" id="buttonSettingFirst"
+                                            type="
+                                        submit">שמור</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 text-right">
+                            <h5 class="heb">מילות חיפוש</h5>
+                        </div>
+
+                        <div class="row col-12 w-100 m-0 p-2" id="middleSettingBox">
+                            <div class="row col-12 mt-3 my-0 mx-0 p-2 card cd border-0 shadow-sm" id="middleSetting">
+                                <div class="row m-0">
+                                    <div class="col-3 py-2 px-2 mt-3 mb-3 text-right border-right">
+                                        <h6 class="text-center">הכנסות</h6>
+                                        <div id="inWords" class="row p-0 m-0"></div>
+                                    </div>
+                                    <div class="col-3 py-2 px-2 mt-3 mb-3 text-right border-right">
+                                        <h6 class="text-center">הוצאות</h6>
+                                        <div id="outWords" class="row p-0 m-0"></div>
+                                    </div>
+                                    <div class="col-3 py-2 px-2 mt-3 mb-3 text-right border-right">
+                                        <h6 class="text-center">הלוואות</h6>
+                                        <div id="LoanWords" class="row p-0 m-0"></div>
+                                    </div>
+                                    <div class="col-3 py-2 px-2 mt-3 mb-3 text-right">
+                                        <h6 class="text-center">חסכונות</h6>
+                                        <div id="saveWords" class="row p-0 m-0"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="save_loan_Page" class="col-sm-12" style="display: none;">
+                    <div class="container  main">
+                        <div class="row col-12 h-100 mx-0 my-0">
+                            <div class="col-6 colmn px-2 py-0">
+                                <h4 class=" text-center my-3">הלוואות</h4>
+                                <div id="containerloan">
+                                </div>
+                            </div>
+                            <div class="col-6 colmn px-2 py-0">
+                                <h4 class="text-center  my-3">חסכונות</h4>
+                                <div id="containerSave">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="log_in">
+                <div class="modal fade" id="payModel" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                    role="dialog">
+                    <div class="modal-dialog modal-sm modal-dialog-centered">
+                        <div class="modal-content" id="payid">
+                            <div class="modal-header float-right " id="payHeader">
+                                <h6 class="modal-title text-secondary text-center" id="staticBackdropLabel">קופון</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                    id="closesignin">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form class="container formSignIn" id="payform">
+                                <div class="form-row mt-4">
+                                    <div class="col-md-12 px-3 mb-2">
+                                        <div class=" row col-md-12 mb-2 px-0">
+                                            <i class="material-icons col-2 mt-1 icon_form">person</i>
+                                            <input type="password" class="form-control col-10 " id="CUPUN"
+                                                placeholder="קופון">
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                            <div class="invalid-feedback text-right">
+                                                קופון לא נכון
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row mb-4">
+                                    <button type="submit"
+                                        class=" mb-2 mt-3 btn col-8 offset-2 bgsign shadow-sm border-0"
+                                        id="cupunBtn">שלח</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-Check" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                    role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content cd" id="checkid">
+
+                            <div class="modal-header float-right " id="checkHeader">
+                                <h6 class="modal-title text-secondary text-center" id="staticBackdropLabel">בדוק כושר
+                                    פרעון</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                    id="closCheck">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="row modal-body">
+                                <div class="col-md-7 mt-3">
+                                    <div class="col">
+                                        <h3 id="titleCheck" class="text-center ml-4 ft_3">תוצאות בדיקה</h3>
+                                    </div>
+                                    <div class="col d-flex justify-content-center mt-3">
+                                        <div class="row m-0 p-0  align-items-end">
+                                            <img id="ils" src="img/ils_black-01.png"
+                                                class="align-item-bottom mb-2 mr-1">
+
+                                            <span class="display-6 m-0 pl-0 pr-2 text-left" id="totalEnd">0</span>
+                                            <label for="totalEnd text-right" class=" m-0 p-0"> - מצב </label>
+                                        </div>
+                                    </div>
+                                    <div class="col d-flex justify-content-center mt-3">
+                                        <div class="row m-0 p-0  align-items-end">
+                                            <img id="ils" src="img/ils_black-01.png"
+                                                class="align-item-bottom  mr-1 mb-1">
+                                            <span class="display-7 m-0 pl-0 pr-2 text-left" id="inCheck">0</span>
+                                            <label for="inCheck text-right" class=" m-0 p-0"> - הכנסות </label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col d-flex justify-content-center mt-3">
+                                        <div class="row m-0 p-0  align-items-end">
+                                            <img id="ils" src="img/ils_black-01.png"
+                                                class="align-item-bottom mr-1 mb-1">
+                                            <span class="display-7 m-0 pl-0 pr-2 text-left" id="outCheck">0</span>
+                                            <label for="outCheck text-right" class=" m-0 p-0"> - הוצאות </label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col row">
+                                        <span id="massage" class="text-center">
+
+                                        </span>
+                                    </div>
+                                    <div class="col row mt-5 mx-0 px-0">
+                                        <div class="col-6 mt-3">
+                                            <label for="mustbox" class="col-6 offset-3 py-1 text-center">חובה</label>
+                                            <span id="mustbox"
+                                                class="col-6 offset-3 bg-danger text-white text-center cd py-1 ">0</span>
+                                        </div>
+                                        <div class="col-6 mt-3">
+                                            <label for="freebox" class="col-6 offset-3 py-1 text-center">רשות</label>
+                                            <span id="freebox"
+                                                class=" col-6 offset-3 orange_1  text-white text-center cd py-1">0</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 border-right">
+                                    <form class="container formCheck" id="Checkform">
+                                        <div class="form-row mt-4">
+                                            <div class="col-md-12 px-3 mb-2">
+                                                <div class=" row col-md-12 mx-0 mb-2 px-0 text-right">
+                                                    <label for="startDate" class="text-right col-12 ft_2">הזן תאריך
+                                                        התחלה</label>
+                                                    <input type="date" class="form-control col-12" id="startDate"
+                                                        placeholder="תאריך התחלה">
+                                                    <div class="valid-feedback text-right">
+                                                        !מעולה
+                                                    </div>
+                                                    <div class="invalid-feedback text-right">
+                                                        חסר תאריך
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 px-3 mb-2 text-right">
+                                                <div class=" row col-md-12 mx-0 mb-2 px-0">
+                                                    <label for="endDate" class="text-right  col-12 ft_2">הזן תאריך
+                                                        יעד</label>
+                                                    <input type="date" class="form-control col-12" id="endDate"
+                                                        placeholder="תאריך סיום">
+                                                    <div class="valid-feedback text-right">
+                                                        !מעולה
+                                                    </div>
+                                                    <div class="invalid-feedback text-right">
+                                                        חסר תאריך
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 px-3 mb-2">
+                                                <div class=" row col-md-12 mb-2 mx-0 px-0 text-right">
+                                                    <label for="statusbank" class="text-right col-12 ft_2">הזן את מצב
+                                                        החשבון ההתחלתי
+                                                        <br>
+                                                        (מצב עו"ש שהיה בתאריך התחלה)</label>
+                                                    <input type="number" class="form-control col-12 text-right"
+                                                        id="statusbank" placeholder="0">
+                                                    <div class="valid-feedback text-right">
+                                                        !מעולה
+                                                    </div>
+                                                    <div class="invalid-feedback text-right">
+                                                        חסר תאריך
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-4">
+                                            <button type="submit"
+                                                class=" mb-2 mt-3 btn col-4 cd offset-4 bgsign shadow-sm border-0"
+                                                id="CheckBtn">בדוק</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="container card mt-4 cd shadow-sm border-0">
+                                    <table class="table table-hover table-striped table-borderless" id="tableCheck">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th scope="col"><span class="ft_5">חובה/רשות</span></th>
+                                                <th scope="col">כושר פרעון</th>
+                                                <th scope="col">מצב</th>
+                                                <th scope="col">סכום</th>
+                                                <th scope="col">תנאי תשלום</th>
+                                                <th scope="col">סוג תשלום</th>
+                                                <th scope="col">תאריך</th>
+                                                <th scope="col">פירוט</th>
+                                                <th scope="col"></th>
+                                            </tr>
+                                        </thead>
+                                        <div class="scroll">
+                                            <tbody class="overflow-auto text-center" id="tableCheckData">
+                                            </tbody>
+                                        </div>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="add_income" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="container-fluid modal-dialog ">
+                        <div class="modal-content cd ">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">הוסף הכנסה</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body row">
+                                <form id="incomingForm" class="container">
+                                    <div class="form-row ">
+                                        <div class="col-md-12 px-3 mb-2">
+                                            <label for="typeIncoimg" class="float-right  ft_2">שם העסקה</label>
+                                            <input type="text" class="form-control text-right" id="typeIncoimg"
+                                                placeholder="משכורת" list="autoCompIn" autocomplete="off">
+                                            <datalist id="autoCompIn">
+                                            </datalist>
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                            <div class="invalid-feedback text-right">
+                                                הגדר שם לעסקה
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-12 px-3  mb-2">
+                                            <label for="infoIncoimg" class="float-right  ft_2">פירוט</label>
+                                            <input type="text" class="form-control text-right" id="infoIncoimg"
+                                                placeholder="הכנסה קבועה" autocomplete="off">
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row ">
+                                        <div class="col-md-6 offset-6  mb-2 px-3">
+                                            <label for="totalIncoimg" class="float-right  ft_2">סכום</label>
+                                            <input type="number" class="form-control text-right" id="totalIncoimg"
+                                                placeholder="0" autocomplete="off">
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                            <div class="invalid-feedback text-right">
+                                                הכנס סכום
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row ">
+                                        <label class="col-12 text-right mt-3 px-3  ft_2" for="boxPayTypeIn">תנאי
+                                            תשלום</label>
+                                        <div class="mb-2 col-12 px-3" id="boxPayTypeIn">
+                                            <div class="row mx-0 my-0  float-right">
+
+                                                <div class="in custom-control custom-radio pr-2">
+                                                    <input class="custom-control-input" name="group3" id="cardType"
+                                                        type="radio">
+                                                    <label class="custom-control-label" for="cardType"
+                                                        style="font-size: 8pt;">אשראי</label>
+                                                </div>
+
+                                                <div class="in custom-control custom-radio pr-2">
+                                                    <input class="custom-control-input" name="group3"
+                                                        id="directDebitType" type="radio">
+                                                    <label class="custom-control-label" for="directDebitType"
+                                                        style="font-size: 8pt;">הוראת
+                                                        קבע</label>
+                                                </div>
+                                                <div class="in custom-control custom-radio pr-2">
+                                                    <input class="custom-control-input" name="group3" id="bitType"
+                                                        type="radio">
+                                                    <label class="custom-control-label" for="bitType"
+                                                        style="font-size: 8pt;">ביט</label>
+                                                </div>
+                                                <div class="in custom-control custom-radio pr-2">
+                                                    <input class="custom-control-input" name="group3" id="cheqType"
+                                                        type="radio">
+                                                    <label class="custom-control-label" for="cheqType"
+                                                        style="font-size: 8pt;">צ'ק</label>
+                                                </div>
+                                                <div class="in custom-control custom-radio pr-2">
+                                                    <input class="custom-control-input" name="group3" id="transeType"
+                                                        type="radio">
+                                                    <label class="custom-control-label" for="transeType"
+                                                        style="font-size: 8pt;">העברה
+                                                        בנקאית</label>
+                                                </div>
+                                                <div class="in custom-control custom-radio pr-2">
+                                                    <input class="custom-control-input" name="group3" id="cashType"
+                                                        type="radio" checked>
+                                                    <label class="custom-control-label" for="cashType"
+                                                        style="font-size: 8pt;">מזומן</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-12 px-3  mb-2">
+
+                                            <label class="col-12 text-right mt-3 px-0  ft_2" for="dateIncoimg">בחר
+                                                תאריך</label>
+                                            <input id="dateIncoimg" type="date"
+                                                class="mb-2 col-6 offset-6 date form-control" id="infoIncoimg">
+
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-12 px-3  mb-2">
+                                            <label class="col-12 text-right mt-3 px-0  ft_2">סוג תשלום</label>
+                                            <div class="mb-2 col-12 float-right px-0">
+                                                <div class="row mx-0 my-0 float-right">
+                                                    <div class="in custom-control custom-radio pr-3">
+                                                        <input class="custom-control-input" name="group2" id="dusIn"
+                                                            type="radio">
+                                                        <label class="custom-control-label" for="dusIn"
+                                                            style="font-size: 8pt;">דו
+                                                            חודשי</label>
+                                                    </div>
+                                                    <div class="in custom-control custom-radio pr-3">
+                                                        <input class="custom-control-input" name="group2" id="yearlyIn"
+                                                            type="radio">
+                                                        <label class="custom-control-label" for="yearlyIn"
+                                                            style="font-size: 8pt;">שנתי</label>
+                                                    </div>
+                                                    <div class="in custom-control custom-radio pr-3">
+                                                        <input class="custom-control-input" name="group2" id="flowIn"
+                                                            type="radio">
+                                                        <label class="custom-control-label" for="flowIn"
+                                                            style="font-size: 8pt;">שוטף</label>
+                                                    </div>
+                                                    <div class="in custom-control custom-radio pr-3">
+                                                        <input class="custom-control-input" name="group2" id="paymentIn"
+                                                            type="radio">
+                                                        <label class="custom-control-label" for="paymentIn"
+                                                            style="font-size: 8pt;">תשלומים</label>
+                                                    </div>
+                                                    <div class="in custom-control custom-radio pr-3">
+                                                        <input class="custom-control-input" name="group2" id="onceIn"
+                                                            type="radio" checked>
+                                                        <label class="custom-control-label" for="onceIn"
+                                                            style="font-size: 8pt;">חד
+                                                            פעמי</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row col-12 ">
+                                        <div class="col-3 offset-6 " id="FlowBox">
+                                            <div>
+                                                <input id="flowin" type="number" class="validate form-control"
+                                                    placeholder="0">
+
+                                            </div>
+                                        </div>
+                                        <div id="creditbox" class="col-3 offset-6 ">
+                                            <div>
+                                                <input id="creditinput" type="number" class="validate form-control"
+                                                    placeholder="0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mb-2 float-right modal-footer mt-3">
+                                        <div class="container  text-center">
+                                            <button type="submit" class="btn btnIn cd mt-3  ft_2">הוסף
+                                                הכנסה</button>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="add_outcoming" data-keyboard="false" tabindex="-1" role="dialog"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="container-fluid modal-dialog ">
+                        <div class="modal-content cd">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">הוסף הוצאה</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body row">
+                                <form id="outcomingForm" class="container">
+                                    <div class="form-row ">
+                                        <div class="col-md-12 px-3 mb-2">
+                                            <label for="typeOut" class="float-right  ft_2">שם העסקה</label>
+                                            <input type="text" class="form-control text-right" id="typeOut"
+                                                placeholder="משכורת" list="autoCompout" autocomplete="off">
+                                            <datalist id="autoCompout">
+                                            </datalist>
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                            <div class="invalid-feedback text-right">
+                                                הגדר שם לעסקה
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-12 px-3  mb-2">
+                                            <label for="infoOut" class="float-right ft_2">פירוט</label>
+                                            <input type="text" class="form-control text-right" id="infoOut"
+                                                placeholder="הוצאה קבועה" autocomplete="off">
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-12 px-3 mb-2">
+                                            <div class="row col-md-6  mb-2">
+                                                <div class="out col-4 custom-control custom-radio">
+                                                    <input class="custom-control-input" name="groupchoose" id="must"
+                                                        type="radio">
+                                                    <label class="custom-control-label" for="must"
+                                                        style="font-size: 8pt;">חובה</label>
+                                                </div>
+                                                <div class="out col-4 custom-control custom-radio">
+                                                    <input class="custom-control-input" name="groupchoose" id="temp"
+                                                        type="radio" checked>
+                                                    <label class="custom-control-label" for="temp"
+                                                        style="font-size: 8pt;">רשות</label>
+                                                </div>
+                                                <div class="col-1 flaot-left">
+
+                                                    <i class="material-icons help" data-toggle="tooltip"
+                                                        data-placement="bottom"
+                                                        title="דוגמאות להוצאת חובה - שכירות, הוצאות רכב, חשמל ומים, מזון ומוצרי היגיינה">help</i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row ">
+                                        <div class="col-md-12 px-3 mb-2">
+                                            <div class="col-md-6 offset-6 mb-2 px-0">
+                                                <label for="totalOut" class="float-right ft_2">סכום</label>
+                                                <input type="number" class="form-control text-right" id="totalOut"
+                                                    placeholder="0">
+                                                <div class="valid-feedback text-right">
+                                                    !מעולה
+                                                </div>
+                                                <div class="invalid-feedback text-right">
+                                                    הכנס סכום
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row ">
+                                        <label class="col-12 text-right mt-3 px-3 ft_2" for="boxPayTypeIn">תנאי
+                                            תשלום</label>
+                                        <div class="mb-2 col-12 px-3" id="boxPayTypeIn">
+                                            <div class="row mx-0 my-0  float-right">
+
+                                                <div class="out custom-control custom-radio pr-2">
+                                                    <input class="custom-control-input" name="group4" id="cardTypeOut"
+                                                        type="radio">
+                                                    <label class="custom-control-label" for="cardTypeOut"
+                                                        style="font-size: 8pt;">אשראי</label>
+                                                </div>
+
+                                                <div class="out custom-control custom-radio pr-2">
+                                                    <input class="custom-control-input" name="group4"
+                                                        id="directDebitTypeOut" type="radio">
+                                                    <label class="custom-control-label" for="directDebitTypeOut"
+                                                        style="font-size: 8pt;">הוראת
+                                                        קבע</label>
+                                                </div>
+                                                <div class="out custom-control custom-radio pr-2">
+                                                    <input class="custom-control-input" name="group4" id="bitTypeOut"
+                                                        type="radio">
+                                                    <label class="custom-control-label" for="bitTypeOut"
+                                                        style="font-size: 8pt;">ביט</label>
+                                                </div>
+                                                <div class="out custom-control custom-radio pr-2">
+                                                    <input class="custom-control-input" name="group4" id="cheqTypeOut"
+                                                        type="radio">
+                                                    <label class="custom-control-label" for="cheqTypeOut"
+                                                        style="font-size: 8pt;">צ'ק</label>
+                                                </div>
+                                                <div class="out custom-control custom-radio pr-2">
+                                                    <input class="custom-control-input" name="group4" id="transeTypeOut"
+                                                        type="radio">
+                                                    <label class="custom-control-label" for="transeTypeOut"
+                                                        style="font-size: 8pt;">העברה
+                                                        בנקאית</label>
+                                                </div>
+                                                <div class="out custom-control custom-radio">
+                                                    <input class="custom-control-input" type="radio" name="group4"
+                                                        id="cashTypeOut" type="radio" checked>
+                                                    <label class="custom-control-label" for="cashTypeOut"
+                                                        style="font-size: 8pt;">מזומן</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-12 px-3  mb-2">
+                                            <label class="col-12 text-right mt-3 px-0 ft_2" for="dateOut">בחר
+                                                תאריך</label>
+                                            <input id="dateOut" type="date"
+                                                class="mb-2 col-6 offset-6 date form-control" id="infoIncoimg">
+
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-12 px-3  mb-2">
+                                            <label class="col-12 text-right mt-3 px-0 ft_2">סוג תשלום</label>
+
+                                            <div class="mb-2 col-12 float-right px-0">
+                                                <div class="row mx-0 my-0 float-right">
+                                                    <div class="out custom-control custom-radio pr-3">
+                                                        <input class="custom-control-input" name="group1" id="dus"
+                                                            type="radio">
+                                                        <label class="custom-control-label" for="dus"
+                                                            style="font-size: 8pt;">דו
+                                                            חודשי</label>
+                                                    </div>
+
+                                                    <div class="out custom-control custom-radio pr-3">
+                                                        <input class="custom-control-input" name="group1" id="yearly"
+                                                            type="radio">
+                                                        <label class="custom-control-label" for="yearly"
+                                                            style="font-size: 8pt;">שנתי</label>
+                                                    </div>
+
+                                                    <div class="out custom-control custom-radio pr-3">
+                                                        <input class="custom-control-input" name="group1" id="flow"
+                                                            type="radio">
+                                                        <label class="custom-control-label" for="flow"
+                                                            style="font-size: 8pt;">שוטף</label>
+                                                    </div>
+
+                                                    <div class="out custom-control custom-radio pr-3">
+                                                        <input class="custom-control-input" name="group1" id="payment"
+                                                            type="radio">
+                                                        <label class="custom-control-label" for="payment"
+                                                            style="font-size: 8pt;">תשלומים</label>
+                                                    </div>
+
+                                                    <div class="out custom-control custom-radio  pr-3">
+                                                        <input class="custom-control-input" name="group1" id="once"
+                                                            type="radio" checked>
+                                                        <label class="custom-control-label" for="once"
+                                                            style="font-size: 8pt;">חד
+                                                            פעמי</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row col-12 ">
+                                        <div class="col-3 offset-6 " id="FlowBoxOut">
+                                            <div>
+                                                <input id="flowOut" type="number" class="validate form-control"
+                                                    placeholder="0">
+
+                                            </div>
+                                        </div>
+
+                                        <div id="creditboxOut" class="col-3 offset-6 ">
+                                            <div>
+                                                <input id="creditinputOut" type="number" class="validate form-control"
+                                                    placeholder="0">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 mb-2 float-right modal-footer mt-3">
+                                        <div class="container text-center">
+                                            <button type="submit" class="btn btnout cd mt-3" id="addIcombtn">הוסף
+                                                הוצאה</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="log_out">
+                <div class="modal fade" id="modal-signIn" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                    role="dialog">
+                    <div class="modal-dialog modal-sm modal-dialog-centered">
+                        <div class="modal-content" id="signIn">
+                            <div class="modal-header float-right " id="loginHeader">
+                                <h6 class="modal-title text-secondary text-center" id="staticBackdropLabel">כניסה
+                                </h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                    id="closesignin">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form class="container formSignIn" id="loginform">
+                                <div class="form-row mt-4">
+                                    <div class="col-md-12 px-3 mb-2">
+                                        <div class=" row col-md-12 mb-2 px-0">
+                                            <i class="material-icons col-2 mt-1 icon_form">person</i>
+                                            <input type="email" class="form-control col-10 " id="Email"
+                                                placeholder="מייל">
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                            <div class="invalid-feedback text-right">
+                                                הזן מייל
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row ">
+                                    <div class="col-md-12 px-3 mb-2">
+                                        <div class=" row col-md-12 mb-2 px-0">
+                                            <i class="material-icons col-2 mt-1 icon_form">lock</i>
+                                            <input type="password" class="form-control col-10" id="password"
+                                                placeholder="סיסמה">
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                            <div class="invalid-feedback text-right">
+                                                הזן סיסמא
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button type="button"
+                                        class=" mb-2 mt-3 btn col-8 text-white offset-2 shadow-sm border-0"
+                                        id="signinEmail">כניסה</button>
+                                    <button type="button" class="mb-4 btn  col-8 offset-2 shadow-sm" id="signinGoole"
+                                        data-dismiss="modal">כניסה מהירה עם גוגל</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-signUp" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                    role="dialog">
+                    <div class="modal-dialog modal-sm modal-dialog-centered">
+                        <div class="modal-content" id="signIn">
+                            <div class="modal-header float-right " id="loginHeader">
+                                <h6 class="modal-title text-secondary text-center" id="staticBackdropLabel">הרשמה
+                                </h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <form class="container formSignIn" id="formSignUp">
+
+                                <div class="row">
+                                    <div class="mt-4 row offset-1">
+                                        <i class="material-icons col-2 mt-1 icon_form mr-1">person</i>
+                                        <input type="text" class="form-control col-8 " id="name_signup"
+                                            placeholder="שם פרטי">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="mt-2  row offset-1">
+                                        <i class="material-icons col-2 mt-1 icon_form mr-1">person</i>
+                                        <input type="text" class="form-control col-8 " id="lastName_signup"
+                                            placeholder="שם משפחה">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="mt-4 row offset-1">
+                                        <i class="material-icons col-2 mt-1 icon_form mr-1">email</i>
+                                        <input type="email" class="form-control col-8 " id="newEmail_signup"
+                                            placeholder="מייל">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="mt-2  row offset-1">
+                                        <i class="material-icons col-2 mt-1 icon_form mr-1">lock</i>
+                                        <input type="password" class="form-control col-8 " id="newpassword_signup"
+                                            placeholder="סיסמא">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <button type="button"
+                                        class=" mb-2 mt-5 btn col-8 offset-2 text-white shadow-sm border-0"
+                                        id="signupEmail">הרשמה</button>
+                                    <button type="button" class="mb-4 btn  col-8 offset-2 shadow-sm cd"
+                                        id="sign_inGoole" data-dismiss="modal">הרשמה עם גוגל</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="openpage" class="col-sm-12 log_out mx-0 px-0" style="display: none;">
+                <div class="openMenu">
+                    <div class="container upRow">
+                        <div class="row">
+                            <div class=" col-7 up_Row mt-4">
+                                <div class="card border-0 ">
+                                    <img src="img/gif/home.gif" class="img-fluid cd shadow-sm" alt="" id="img_1">
+                                </div>
+                            </div>
+                            <div class=" col-5 up_Row mt-4 text-right ">
+                                <h1 class="display-4 text-dark mt-5 pt-5">CashFlow</h1>
+                                <h6 class="text-dark ">מערכת ידידותית וחכמה לניהול תזרים מזומנים</h6>
+                                <h4 class="btn btnLoan cd mt-5 px-3" id="btnSignUpFree" href="#" data-toggle="modal"
+                                    data-target="#modal-signUp"> להצטרפות - <span id="monthfree">
+                                        חודש 1
+                                        בחינם </span></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ff d-flex align-items-center">
+                        <div class="container">
+                            <h6 class="display-6 text-center mt-3">
+                                תזרים מזומנים - CashFlow
+                            </h6>
+                            <h6 class="text-center">תזרים מזומנים - תיעוד זרימת המזומנים שלנו
+                            </h6>
+                            <div class="row text-center">
+                                <div class="col-3 benfit mt-2">
+                                    <div class="shadow-sd">
+                                        <i class="material-icons if_3">trending_up</i>
+                                    </div>
+                                    <h5 class="mt-3">יציאה מהמינוס</h5>
+                                </div>
+                                <div class="col-3 benfit mt-2">
+                                    <div>
+                                        <i class="material-icons if_1">insert_chart</i>
+                                    </div>
+                                    <h5 class="mt-3"> ניתוח והנפקת דוחות </h5>
+                                </div>
+                                <div class="col-3 benfit mt-2">
+                                    <div>
+                                        <i class="material-icons if_2">swap_vert</i>
+                                    </div>
+                                    <h5 class="mt-3">מעקב</h5>
+                                </div>
+                                <div class="col-3 benfit mt-2">
+                                    <div>
+                                        <i class="material-icons if">create</i>
+                                    </div>
+                                    <h5 class="mt-3">מילוי</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row_3 d-flex align-items-center">
+                        <div class=" container">
+                            <div class="row">
+                                <div class=" col-7 up_Row  text-center">
+                                    <div class="card cd border-0 ">
+                                        <img src="img/gif/out.gif" class="img-fluid cd shadow-sm" alt="">
+                                    </div>
+                                </div>
+                                <div class=" col-5 up_Row mt-2 text-right ">
+                                    <h1 class="display-6 text-dark mt-4 pt-5 text-center">הזנת<br> <span
+                                            class="red_c_1">
+                                            הוצאות</span> ו<span class="green_c_1">הכנסות</span></h1>
+                                    <h6 class="text-dark text-center "> הזנת נתונים בצורה פשוטה ויעילה
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row_3 d-flex align-items-center">
+                        <div class=" container">
+                            <div class="row">
+                                <div class=" col-5  mt-5 up_Row  text-center">
+                                    <h1 class="display-6 text-dark  pt-5 text-center"><span class="orange_c_1">
+                                            מעקב</span> <br>נוח וידידותי</h1>
+                                    <h6 class="text-dark text-center ">תצוגה ופירוט יעיל של הנתונים
+                                    </h6>
+                                </div>
+                                <div class=" col-7 up_Row  text-right ">
+                                    <div class="card cd border-0 ">
+                                        <img src="img/gif/chart.gif" class="img-fluid cd shadow-sm" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row downRow d-flex align-items-center" id="lastRow">
+                        <div class=" container">
+                            <div class="row">
+                                <div class=" col-7 up_Row  text-center">
+                                    <div class="card cd border-0 ">
+                                        <img src="img/gif/searchspl.gif" class="img-fluid cd shadow-sm" alt="">
+                                    </div>
+                                </div>
+                                <div class=" col-5 up_Row mt-2 text-right ">
+                                    <h1 class="display-6 text-dark mt-4 pt-5 text-center">בדיקת <br><span
+                                            class="green_c_1">
+                                            מצב חשבון</span> עתידי</h1>
+                                    <h6 class="text-dark text-center col-10 offset-1">בפיצ'ר זה תוכלו להכניס מצב חשבון
+                                        בתאריך מסוים
+                                        ולבדוק עם הנתונים שהכנסתם למערכת מה מצב החשבון יהיה בתאריך שתבחרו
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row_3 d-flex align-items-center">
+                        <div class=" container">
+                            <div class="row">
+                                <div class=" col-5  mt-5 up_Row  text-center">
+                                    <h1 class="display-6 text-dark  pt-5 text-center"><span class="green_c_1">
+                                            חיפוש</span> מעמיק</h1>
+                                    <h6 class="text-dark text-center ">:חיפוש מפורט לפי
+                                        <br>
+                                        תנאי תשלום | שם העסקה | תאריך | מעל או מתחת לסכום
+                                    </h6>
+                                </div>
+                                <div class=" col-7 up_Row  text-right ">
+                                    <div class="card cd border-0 ">
+
+                                        <img src="img/gif/search.gif" class="img-fluid cd shadow-sm" alt="">
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row downbottom d-flex align-items-center">
+                        <div class=" container">
+                            <div class="row col-12 d-flex align-items-center">
+                                <p class="col-6 text-gray text-left m-0 ft_2">כל הזכויות שמורות לאבי גמליאל</p>
+                                <p class="col-6 text-gray text-right m-0 ft_2">יצירת קשר - Gamlielphoto@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="modal4" data-keyboard="false" tabindex="-1" role="dialog"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="container-fluid modal-dialog">
+                    <div class=" modal-content cd">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">הוסף הלוואה</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="loanForm">
+                                <label class="col-12 text-right mt-3">פרטי ההלוואה</label>
+                                <div class="form-row ">
+                                    <div class="col-md-12 px-3 mb-2">
+                                        <div class="col-md-12  mb-2 px-0">
+                                            <label for="bankType" class="float-right ft_2">שם הבנק</label>
+                                            <input type="text" class="form-control text-right" id="bankType"
+                                                placeholder="בנק לאומי" list="nameBankListCompout" autocomplete="off">
+                                            <datalist id="nameBankListCompout">
+                                                <option value="לאומי"></option>
+                                                <option value="פועלים"></option>
+                                                <option value="דיסקונט"></option>
+                                                <option value="מזרחי טפחות"></option>
+                                                <option value="אוצר החייל"></option>
+                                                <option value="בנק ישראל"></option>
+                                                <option value="מימון חיצוני"></option>
+                                            </datalist>
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                            <div class="invalid-feedback text-right">
+                                                הוסף שם בנק
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row ">
+                                    <div class="col-md-12 px-3 mb-2">
+                                        <div class="col-md-12  mb-2 px-0">
+                                            <label for="infoLoan" class="float-right ft_2">סיבת ההלוואה</label>
+                                            <input type="text" class="form-control text-right" id="infoLoan"
+                                                autocomplete="off" placeholder="עסק" list="laonList">
+                                            <datalist id="laonList">
+                                            </datalist>
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                            <div class="invalid-feedback text-right">
+                                                הוסף סיבה להלוואה: בית, עסק, לימודים וכו'
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label class="col-12 text-right mt-3">פרטי העסקה</label>
+                                <div class="form-row ">
+                                    <div class="col-md-12 px-3 mb-2">
+                                        <div class="col-md-6 offset-6  mb-2 px-0">
+                                            <label for="CashLoan" class="float-right ft_2">סכום ההלוואה</label>
+                                            <input type="number" class="form-control text-right" id="CashLoan"
+                                                placeholder="0">
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                            <div class="invalid-feedback text-right">
+                                                הוסף סכום
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row ">
+                                    <div class="col-md-12 px-3 mb-2">
+                                        <div class="col-md-6 offset-6  mb-2 px-0">
+                                            <label for="totalYear" class="float-right ft_2">מס' שנים</label>
+                                            <input type="number" class="form-control text-right" id="totalYear"
+                                                placeholder="0">
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                            <div class="invalid-feedback text-right">
+                                                חסר כמות שנים
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row ">
+                                    <div class="col-md-12 px-3 mb-2">
+                                        <div class="col-md-6 offset-6  mb-2 px-0">
+                                            <label for="startLoan" class="float-right ft_2">תאריך התחלה</label>
+                                            <input type="date" class="form-control text-right" id="startLoan"
+                                                placeholder="עסק">
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                            <div class="invalid-feedback text-right">
+                                                הוסף תאריך
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2 float-right modal-footer mt-3">
+                                    <div class="container  text-center">
+                                        <button id="submitOut" type="submit" class="btn btnLoan cd mt-3">הוסף
+                                            הלוואה</button>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modal5" data-keyboard="false" tabindex="-1" role="dialog"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="container-fluid modal-dialog">
+                    <div class=" modal-content cd">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">הוסף חסכון</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="loanSave">
+                                <div class="form-row ">
+                                    <div class="col-md-12 px-3 mb-2">
+                                        <div class="col-md-12  mb-2 px-0">
+                                            <label for="nameSave" class="float-right ft_2">שם החסכון</label>
+                                            <input type="text" class="form-control text-right" id="nameSave"
+                                                placeholder="טיסה ליוון" autocomplete="off" list="saveAutoComp">
+                                            <datalist id="saveAutoComp">
+                                            </datalist>
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                            <div class="invalid-feedback text-right">
+                                                הוסף שם לחסכון
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row ">
+                                    <div class="col-md-12 px-3 mb-2">
+                                        <div class="col-md-12 mb-2 px-0">
+                                            <label for="whySave" class="float-right ft_2">מטרת החסכון</label>
+                                            <input type="text" class="form-control text-right" id="whySave"
+                                                placeholder="חסכון בית" autocomplete="off">
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                            <div class="invalid-feedback text-right">
+                                                הוסף מטרה לחסכון
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label class="col-12 text-right mt-3">פרטי העסקה</label>
+                                <div class="form-row ">
+                                    <div class="col-md-12 px-3 mb-2">
+                                        <div class="col-md-6 offset-6 mb-2 px-0">
+                                            <label for="CashSave" class="float-right ft_2">סכום החסכון</label>
+                                            <input type="number" class="form-control text-right" id="CashSave"
+                                                placeholder="0">
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                            <div class="invalid-feedback text-right">
+                                                הכנס סכום
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row ">
+                                    <div class="col-md-12 px-3 mb-2">
+                                        <div class="col-md-6 offset-6 mb-2 px-0">
+                                            <label for="numPaySave" class="float-right ft_2">סכום יעד</label>
+                                            <input type="number" class="form-control text-right" id="numPaySave"
+                                                placeholder="0">
+                                            <div class="valid-feedback text-right">
+                                                !מעולה
+                                            </div>
+                                            <div class="invalid-feedback text-right">
+                                                הכנס יעד, יעד זה ניתן לשינוי
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row ">
+                                    <label class="col-12 text-right  px-3 ft_2" for="boxPayTypeIn">תנאי
+                                        תשלום</label>
+                                    <div class="mb-2 col-12 px-3" id="boxPayTypeIn">
+                                        <div class="row mx-0 my-0  float-right">
+                                            <div class="out custom-control custom-radio pr-3">
+                                                <input class="custom-control-input" name="groupSave" id="yearlySave"
+                                                    type="radio">
+                                                <label class="custom-control-label" for="yearlySave"
+                                                    style="font-size: 8pt;">שנתי</label>
+                                            </div>
+                                            <div class="out custom-control custom-radio pr-3">
+                                                <input class="custom-control-input" name="groupSave" id="paymentSave"
+                                                    type="radio">
+                                                <label class="custom-control-label" for="paymentSave"
+                                                    style="font-size: 8pt;">תשלומים</label>
+                                            </div>
+                                            <div class="out custom-control custom-radio  pr-3">
+                                                <input class="custom-control-input" name="groupSave" id="onceSave"
+                                                    type="radio" checked>
+                                                <label class="custom-control-label" for="onceSave"
+                                                    style="font-size: 8pt;">חד
+                                                    פעמי</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row col-12">
+                                    <div id="creditboxSave" class="col-3  offset-7">
+                                        <div>
+                                            <input id="creditinputSave" type="number" class="validate form-control"
+                                                placeholder="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row ">
+                                    <div class="col-md-12 px-3 mb-2">
+                                        <label class="col-12 text-right mt-3 ft_2 px-0">תאריך התחלה</label>
+                                        <input type="date" id="startSave" class="mb-2 col-6 offset-6 form-control date">
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2 float-right modal-footer mt-3">
+                                    <div class="container text-center">
+                                        <button id="submitSave" type="submit" class="btn btnLoan cd mt-3">הוסף
+                                            חסכון</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="modal-Search" data-keyboard="false" tabindex="-1" role="dialog"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="container-fluid modal-dialog modal-lg ">
+                    <div class="modal-content cd">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">חיפוש</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="SearchForm">
+                                <div class="row  mb-2">
+                                    <div class="col-6">
+                                        <input class="form-control  text-right" type="text" id="nameSearch"
+                                            placeholder="חיפוש לפי שם">
+                                    </div>
+                                    <div class="col-6">
+                                        <input class="form-control text-right" type="text" id="typeCashSearch"
+                                            placeholder="חיפוש לפי תנאי תשלום" autocomplete="off" list="serachType">
+                                        <datalist id="serachType">
+                                            <option value="צ'ק"></option>
+                                            <option value="מזומן"></option>
+                                            <option value="אפליקציית ביט"></option>
+                                            <option value="כרטיס אשראי"></option>
+                                            <option value="הוראת קבע"></option>
+                                            <option value="כרטיס אשראי הורדה"></option>
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <div class="row  mb-2">
+                                    <div class="col-6">
+                                        <input class="mb-2 form-control text-right" type="number" id="highSearch"
+                                            placeholder="סכום מעל">
+                                    </div>
+                                    <div class="col-6">
+                                        <input class="mb-2 form-control text-right" type="number" id="lowSearch"
+                                            placeholder="סכום מתחת">
+                                    </div>
+                                </div>
+                                <div class="row  mb-2">
+                                    <div class="col-5">
+                                        <button type="submit" id="SearchBtn" class="btn btn btnSearch cd">חפש</button>
+                                    </div>
+                                    <div class="form-row col-7">
+                                        <div class="mb-2 col-6 px-3" id="boxPayTypeIn">
+                                            <div class="row mx-0 my-0  float-right">
+                                                <div class="in custom-control custom-radio pr-1">
+                                                    <input class="custom-control-input" name="search" id="important"
+                                                        type="radio">
+                                                    <label class="custom-control-label" for="important"
+                                                        style="font-size: 8pt;">חובה</label>
+                                                </div>
+                                                <div class="in custom-control custom-radio  pr-1">
+                                                    <input class="custom-control-input" name="search" id="free"
+                                                        type="radio">
+                                                    <label class="custom-control-label" for="free"
+                                                        style="font-size: 8pt;">רשות</label>
+                                                </div>
+                                                <div class="in custom-control custom-radio">
+                                                    <input class="custom-control-input" name="search" id="all"
+                                                        type="radio" checked>
+                                                    <label class="custom-control-label" for="all"
+                                                        style="font-size: 8pt;">הכל</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="date" id="dateSearch" class="mb-2 col-6 date form-control">
+                                    </div>
+                                </div>
+                        </div>
+                        </form>
+                        <div class="container card mt-4 cd shadow-sm border-0">
+                            <table class="table table-hover table-striped table-borderless" id="tableSearch">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th scope="col">חובה/רשות</th>
+                                        <th scope="col">סכום</th>
+                                        <th scope="col">תנאי תשלום</th>
+                                        <th scope="col">סוג תשלום</th>
+                                        <th scope="col">תאריך</th>
+                                        <th scope="col">פירוט</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <div class="scroll">
+                                    <tbody class="overflow-auto text-center" id="tableData">
+                                    </tbody>
+                                </div>
+                            </table>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="checkbox" id="check" style="display:none;">
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+    <script>
+
+        var firebaseConfig = {
+            apiKey: "AIzaSyB6SgCIap2pUYqSmwpGo30GR3LBj8wZKHg",
+            authDomain: "cash-flow-app-236ed.firebaseapp.com",
+            databaseURL: "https://cash-flow-app-236ed.firebaseio.com",
+            projectId: "cash-flow-app-236ed",
+            storageBucket: "cash-flow-app-236ed.appspot.com",
+            messagingSenderId: "897825428960",
+            appId: "1:897825428960:web:13e76cb018e62da56f0785",
+            measurementId: "G-L1DXJG8LED"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        let db = firebase.firestore();
+        let functions = firebase.functions();
+
+        const database = firebase.database();
+
+    </script>
+
+    <script src="main.js"></script>
+    <script src="authoot.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+</body>
+
+</html>

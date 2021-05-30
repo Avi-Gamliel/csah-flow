@@ -1,0 +1,1971 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://www.google.com/jsapi"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-auth.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-firestore.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+    <title>Cash Flow</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+
+    <!-- <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-functions.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-database.js"></script>
+    <!--     
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-firestore.js"></script> -->
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+</head>
+
+<body>
+
+
+    <div class="navbar-fixed ">
+        <nav class=" blue-grey darken-4">
+            <div class="nav-wrapper container ">
+                <a href="#Home" class="brand-logo">Cash Flow</a>
+                <a id="addbtn" class="btn-floating btn-small waves-effect waves-light green modal-trigger"
+                    data-target="modal1" class="btn modal-trigger"><i id="iconaddbtn" class="material-icons">add</i></a>
+                <a id="setting" class="btn-floating btn-small waves-effect waves-light red modal-trigger right"
+                    data-target="modal3" class="btn modal-trigger"><i class="material-icons">settings</i></a>
+
+                <a id="minusbtn" class="btn-floating btn-small waves-effect waves-light red modal-trigger"
+                    data-target="modal2" class="btn modal-trigger"><i id="iconminusbtn"
+                        class="material-icons">remove</i></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a id="TableviewMenu" href="#Tableview">Dashboard</a></li>
+                    <li><a id="HomeMenu" href="#Home">Home</a></li>
+                    <li><a id="SettingMenu" href="#Home">Setting</a></li>
+                    <li>
+                        <div id="img"></div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+    </div>
+
+    <div id="tab-content">
+
+        <div id="Home" class="active container">
+
+            <div id="containertop">
+                <div id="userData">
+
+                    <!-- <div id="donutchart" style="width: 340px; height:340px;"></div> -->
+                    <canvas id="donutchart" width="300" height="300"></canvas>
+
+
+                </div>
+
+
+                <div id="in_out_monthly">
+                    <!-- <div id="barchart_material" style="width: 340px; height: 340px;"></div> -->
+                    <canvas id="barchart_material" width="320" height="320"></canvas>
+                </div>
+                <div id="details">
+                    <div class="center">
+                        <div>
+                            <i id="statusIcons" class="material-icons">remove</i>
+                            <span id="titleCash">
+                            </span>
+
+                            <span id="cashFlowtitle"> :מצב חשבון עדכני </span>
+
+                        </div>
+
+                        <div>
+
+                            <i id="statusIconsLiq" class="material-icons">remove</i>
+
+                            <span id="LiquidCash">
+                            </span>
+
+                            <span id="cashFlowtitle"> :מזומן נזיל </span>
+                            <br>
+                            <span id="overmas">
+                            </span>
+
+
+                        </div>
+                        <div id="divider"></div>
+                        <div>
+
+                            <i id="statusIconsincoming" class="material-icons">arrow_upward</i>
+
+                            <span id="IncomingCash">0
+                            </span>
+
+                            <span id="cashFlowtitle"> :הכנסות </span>
+                            <br>
+
+
+                        </div>
+
+
+                        <div>
+
+                            <i id="statusIconsoutcoming" class="material-icons">arrow_downward</i>
+
+                            <span id="outcomingCash">0
+                            </span>
+
+                            <span id="cashFlowtitle"> :הוצאות </span>
+                            <br>
+
+
+                        </div>
+
+                    </div>
+
+                    <div id="massageBox">
+
+                        <span id="massage">
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="chartYearly">
+                <canvas id="chart_div" width="1260" height="300"></canvas>
+                <!-- <div id="chart_div" style="width: 1260px; height: 300px;"></div> -->
+            </div>
+
+            <div id="table" class="container">
+
+            </div>
+        </div>
+
+        <div id="Tableview" class=" container">
+
+            <div id="bannerbutton">
+
+                <div id="boxCorrectCash">
+                    <div id="title">
+                        <span id="TitleCreditLimit">מאזן </span>
+                    </div>
+                    <div id="BodyBoxBal">
+                        <span id="balance"></span>
+                    </div>
+
+                </div>
+
+
+                <div id="boxCorrectCash">
+                    <div id="title">
+                        <span id="TitleCreditLimit">הוצאות</span>
+                    </div>
+                    <div id="BodyBoxOut">
+                        <span id="outcoming"></span>
+                    </div>
+
+                </div>
+
+
+                <div id="boxCorrectCash">
+                    <div id="title">
+                        <span id="TitleCreditLimit">הכנסות </span>
+                    </div>
+                    <div id="BodyBoxInc">
+                        <span id="incoming"></span>
+                    </div>
+
+                </div>
+
+                <div id="boxCorrectCash">
+                    <div id="title">
+                        <span id="TitleCreditLimit">מצב עדכני </span>
+                    </div>
+                    <div id="BodyBoxSta">
+                        <span id="Status"></span>
+                    </div>
+
+                </div>
+            </div>
+
+            <br>
+            <canvas id="dual_x_div" width="1270" height="230"></canvas>
+
+            <!-- <div id="dual_x_div" style="top:50px; width:1270; height: 230px;" class="container"></div> -->
+
+            <table class="centered">
+                <thead>
+                    <tr>
+                        <th>כושר פרעון</th>
+                        <th>סכום</th>
+                        <th>מצב</th>
+                        <th>תאריך</th>
+                        <th>תנאי תשלום</th>
+                        <th>סוג תשלום</th>
+                        <th>פירוט</th>
+                        <th>
+
+
+
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody id="mainTable">
+                    <!-- <tr id="newRow">
+                    <td id="TotalCashAfter">ש"ח 0</td>
+                    <td id="TotalCash">100 ש"ח</td>
+                    <td id="DateCash"> 01/01/2020</td>
+                    <td id="typeCash">רואת חשבון</td>
+                </tr> -->
+
+                </tbody>
+            </table>
+
+        </div>
+
+
+
+        <div id="dashboardView"></div>
+
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal">
+
+            <div class="modal-content">
+
+                <h3 class="center green-text">הוסף הכנסה</h3>
+
+                <div class="row right-align">
+
+                    <form class="col s12" id="incomingForm">
+
+                        <div class="row">
+
+                            <div class="col s6">
+
+                                <p>
+
+                                <div class="row center">
+                                    <label class="center">אמצעי תשלום</label>
+                                </div>
+
+                                <label class=" input-field col s4">
+                                    <input name="group3" id="cashType" type="radio" checked />
+                                    <span class="left typeTitle">מזומן</span>
+                                </label>
+
+                                <label class="input-field col s4">
+                                    <input name="group3" id="cardType" type="radio" />
+                                    <span class="left typeTitle">אשראי</span>
+                                </label>
+
+                                <label class="input-field col s4">
+                                    <input name="group3" id="cheqType" type="radio" />
+                                    <span class="left typeTitle">צ'ק</span>
+                                </label>
+
+
+                                </p>
+
+                            </div>
+
+                            <div class="input-field  col s6">
+                                <a id="btnaddsetting" class="btn-floating btn-tiny waves-effect waves-light green"><i
+                                        id="iconaddSetting" class="material-icons">add</i></a>
+                                <input id="typeIncoimg" type="text" class="autocomplete">
+                                <label for="typeIncoimg">הוסף הכנסה</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col s6">
+
+                                <p>
+
+                                    <label class="input-field col s4">
+                                        <input name="group3" id="transeType" type="radio" />
+                                        <span class="left typeTitle">העברה בנקאית</span>
+                                    </label>
+
+                                    <label class="input-field col s4">
+                                        <input name="group3" id="directDebitType" type="radio" />
+                                        <span class="left typeTitle">הוראת קבע</span>
+                                    </label>
+
+                                    <label class="input-field col s4">
+                                        <input name="group3" id="bitType" type="radio" />
+                                        <span class="left typeTitle">ביט</span>
+                                    </label>
+
+                                </p>
+
+                            </div>
+
+
+                            <div class="input-field col s6">
+                                <input id="infoIncoimg" type="text" class="validate">
+                                <label for="infoIncoimg">פירוט</label>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="input-field col s6">
+
+                                <div class="col s1" id="FlowBox">
+
+                                    <div>
+                                        <input id="flowin" type="number" class="validate" placeholder="0">
+                                        <label class="right typeTitle" for="flowin">שוטף +</label>
+                                    </div>
+
+                                </div>
+
+                                <div id="creditbox" class="col s1">
+
+                                    <div>
+                                        <input id="creditinput" type="number" class="validate" placeholder="0">
+                                        <label class="right typeTitle" for="creditinput">מס' תשלומים</label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="input-field col s6 ">
+
+                                <input id="totalIncoimg" type="number" class="validate">
+                                <label for="totalIncoimg">סכום</label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="input-field col s3 offset-s9">
+                                <input type="text" id="dateIncoimg" class="date">
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="divider"></div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col s12">
+
+                                <div class="col s12 m4 l2"></div>
+
+                                <div class="col s12 m4 l8">
+
+                                    <p>
+
+                                        <label class="input-field col s2">
+                                            <input name="group2" id="paymentIn" type="radio" />
+                                            <span class="right typeTitle">תשלומים</span>
+                                        </label>
+
+                                        <label class="input-field col s2">
+                                            <input name="group2" id="flowIn" type="radio" />
+                                            <span class="right typeTitle">שוטף</span>
+                                        </label>
+
+                                        <label class="input-field col s2">
+                                            <input name="group2" id="yearlyIn" type="radio" />
+                                            <span class="right typeTitle">שנתי</span>
+                                        </label>
+
+
+                                        <label class="input-field col s2">
+                                            <input name="group2" id="dusIn" type="radio" />
+                                            <span class="right typeTitle">דו חודשי</span>
+                                        </label>
+
+                                        <label class="input-field col s2">
+                                            <input name="group2" id="onceIn" type="radio" checked />
+                                            <span class="right typeTitle">חד פעמי</span>
+                                        </label>
+
+
+                                    </p>
+                                </div>
+
+                                <div class="col s12 m4 l2"></div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 center">
+                                <button class="btn waves-effect waves-light " type="submit" name="action" id="submit">
+                                    <i class="material-icons ">add</i>
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Modal Structure -->
+        <div id="modal2" class="modal">
+
+            <div class="modal-content">
+
+                <h3 class="center red-text">הוסף הוצאה</h3>
+
+                <div class="row right-align">
+
+                    <form class="col s12" id="outcomingForm">
+
+
+                        <div class="row">
+
+                            <div class="col s6">
+
+                                <p>
+
+                                <div class="row center">
+                                    <label class="center">אמצעי תשלום</label>
+                                </div>
+
+                                <label class=" input-field col s4">
+                                    <input name="group4" id="cashTypeOut" type="radio" checked />
+                                    <span class="left typeTitle">מזומן</span>
+                                </label>
+
+                                <label class="input-field col s4">
+                                    <input name="group4" id="cardTypeOut" type="radio" />
+                                    <span class="left typeTitle">אשראי</span>
+                                </label>
+
+                                <label class="input-field col s4">
+                                    <input name="group4" id="cheqTypeOut" type="radio" />
+                                    <span class="left typeTitle">צ'ק</span>
+                                </label>
+
+
+                                </p>
+
+                            </div>
+
+                            <div class=" input-field col s6">
+
+
+                                <a id="newExpend" class="btn-floating btn-small waves-effect waves-light red">
+                                    <i class="material-icons">add</i>
+                                </a>
+                                <input id="typeOut" type="text" class="validate">
+                                <label for="typeOut"> הוסף הוצאה חדשה</label>
+
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+
+                            <div class="col s6">
+
+                                <p>
+
+                                    <label class="input-field col s4">
+                                        <input name="group4" id="transeTypeOut" type="radio" />
+                                        <span class="left typeTitle">העברה בנקאית</span>
+                                    </label>
+
+                                    <label class="input-field col s4">
+                                        <input name="group4" id="directDebitTypeOut" type="radio" />
+                                        <span class="left typeTitle">הוראת קבע</span>
+                                    </label>
+
+                                    <label class="input-field col s4">
+                                        <input name="group4" id="bitTypeOut" type="radio" />
+                                        <span class="left typeTitle">ביט</span>
+                                    </label>
+
+                                </p>
+
+
+                            </div>
+
+                            <div class="input-field col s6 ">
+
+                                <input id="infoOut" type="text" class="validate">
+                                <label for="infoOut">פירוט הוצאה</label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="input-field col s6">
+
+                                <div class="col s1" id="FlowBoxOut">
+
+                                    <div>
+                                        <input id="flowOut" type="number" class="validate" placeholder="0">
+                                        <label class="right typeTitle" for="flowOut">שוטף +</label>
+                                    </div>
+
+                                </div>
+
+                                <div id="creditboxOut" class="col s1">
+
+                                    <div>
+                                        <input id="creditinputOut" type="number" class="validate" placeholder="0">
+                                        <label class="right typeTitle" for="creditinputOut">מס' תשלומים</label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row col s6">
+                                <input id="totalOut" type="number" class="validate" placeholder="0">
+                                <label for="totalOut">סכום</label>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="row col s3 offset-s9">
+
+                                <input id="dateOut" type="text" class="datepicker">
+                                <label for="dateOut"> בחר תאריך</label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="divider"></div>
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col s12 m4 l2"></div>
+
+                            <div class="col s12 m4 l8">
+
+
+                                <p>
+
+                                    <label class="input-field col s2">
+                                        <input name="group1" id="payment" type="radio" />
+                                        <span class="right typeTitle">תשלומים</span>
+                                    </label>
+
+                                    <label class="input-field col s2">
+                                        <input name="group1" id="flow" type="radio" />
+                                        <span class="right typeTitle">שוטף</span>
+                                    </label>
+
+                                    <label class="input-field col s2">
+                                        <input name="group1" id="yearly" type="radio" />
+                                        <span class="right typeTitle">שנתי</span>
+                                    </label>
+
+                                    <label class="input-field col s2">
+                                        <input name="group1" id="dus" type="radio" />
+                                        <span class="right typeTitle">דו חודשי</span>
+                                    </label>
+
+                                    <label class="input-field col s2">
+                                        <input name="group1" id="once" type="radio" checked />
+                                        <span class="right typeTitle">חד פעמי</span>
+                                    </label>
+
+                                </p>
+                            </div>
+
+                            <div class="col s12 m4 l2"></div>
+                        </div>
+
+                </div>
+
+
+                <div class="row center">
+
+                    <button class="btn waves-effect waves-light red center" type="submit" name="action" id="submitOut">
+                        <i id="addExpandBtn" class="material-icons">remove</i>
+                    </button>
+
+                </div>
+
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="modal3" class="modal">
+
+        <div class="modal-content container">
+
+            <form id="addInOut">
+
+                <h3 class="center blue-grey-darken-4-text">הגדרות</h3>
+
+                <div class="row">
+
+                    <div class="col s6">
+                        <label for="startDate">ת.התחלה</label>
+                        <input id="startDate" type="text" class="datepicker">
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input id="statusStart" type="number" class="validate">
+                        <label for="statusStart">מצב חשבון התחלתי</label>
+                    </div>
+
+                    <div class="row">
+
+                        <label>
+                            <input name="group1" type="radio" checked />
+                            <span>הוצאה</span>
+                        </label>
+
+                        <label>
+                            <input name="group1" type="radio" />
+                            <span>הכנסה</span>
+                        </label>
+
+                    </div>
+
+                    <div class="row">
+                        <button class="btn waves-effect waves-light" type="submit" name="action">save
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+            <form class="col s6 offset-s6" id="settingForm">
+
+                <div class="row">
+
+                    <div class="col s12">
+                        <label for="startDate">ת.התחלה</label>
+                        <input id="startDate" type="text" class="datepicker">
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input id="statusStart" type="number" class="validate">
+                        <label for="statusStart">מצב חשבון התחלתי</label>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="input-field col s12">
+                        <input id="creditLine" type="number" class="validate">
+                        <label for="creditLine">מסגרת אשראי</label>
+                    </div>
+
+                </div>
+
+                <div class="input-field col s12">
+                    <input id="creditBank" type="number" class="validate">
+                    <label for="creditBank">מסגרת חשבון</label>
+                </div>
+
+
+                <button class="btn waves-effect waves-light blue-grey darken-4 " type="submit" name="action"
+                    id="settingbtn">עדכן
+                    <i class="material-icons blue-grey darken-4">send</i>
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+        // Your web app's Firebase configurationfucntio
+
+
+        var firebaseConfig = {
+            apiKey: "AIzaSyB6SgCIap2pUYqSmwpGo30GR3LBj8wZKHg",
+            authDomain: "cash-flow-app-236ed.firebaseapp.com",
+            databaseURL: "https://cash-flow-app-236ed.firebaseio.com",
+            projectId: "cash-flow-app-236ed",
+            storageBucket: "cash-flow-app-236ed.appspot.com",
+            messagingSenderId: "897825428960",
+            appId: "1:897825428960:web:13e76cb018e62da56f0785",
+            measurementId: "G-L1DXJG8LED"
+        };
+        // Initialize Firebase
+
+        firebase.initializeApp(firebaseConfig);
+
+
+        let db = firebase.firestore();
+        // firebase.analytics();
+        // db.setting({ timestampsInSnapshots: true });
+
+    </script>
+    <script src="index.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawStuff);
+        // const database = firebase.database();
+        function drawStuff() {
+            // console.log();
+
+
+            var datac = new google.visualization.DataTable();
+            datac.addColumn('string', 'Topping');
+            datac.addColumn('number', 'Slices');
+
+
+            var datayear = google.visualization.arrayToDataTable([
+                ['Month', '', ''],
+                ['Jan', 0, 0],
+                ['Feb', 0, 0],
+                ['Mar', 0, 0],
+                ['Apr', 0, 0],
+                ['May', 0, 0],
+                ['Jun', 0, 0],
+                ['Jul', 0, 0],
+                ['Aug', 0, 0],
+                ['Sep', 0, 0],
+                ['Oct', 0, 0],
+                ['Nov', 0, 0],
+                ['Dec', 0, 0]
+            ]);
+
+            var data = google.visualization.arrayToDataTable([
+                ['Month', ''],
+                ['Jan', 0],
+                ['Feb', 0],
+                ['Mar', 0],
+                ['Apr', 0],
+                ['May', 0],
+                ['Jun', 0],
+                ['Jul', 0],
+                ['Aug', 0],
+                ['Sep', 0],
+                ['Oct', 0],
+                ['Nov', 0],
+                ['Dec', 0]
+            ]);
+
+            var datab = google.visualization.arrayToDataTable([
+                ['month', '', ''],
+                ['Jan', 1000, 400]
+            ]);
+
+            let MainArray = [[]];
+
+
+            database.ref('/monthly/').on('value', function (snapshot) {
+
+                let postArray = snapshot.val();
+                let keys = Object.keys(postArray);
+                let final = [];
+                let chartmap = [];
+                var newdate = new Date();
+                var splitmonth = newdate.toString().split(" ");
+                var month = splitmonth[1];
+
+                for (var i = 0; i < keys.length; i++) {
+
+                    var id = keys[i];
+
+                    database.ref('/monthly/').child(id).on('value', function (snapshot) {
+
+                        let postArray = snapshot.val();
+                        let keys = Object.keys(postArray);
+
+                        let cIn = [];
+                        let Cout = [];
+                        var countin = 0;
+                        var countout = 0;
+                        for (var i = 0; i < keys.length; i++) {
+
+                            var type = keys[i];
+
+                            database.ref('/monthly/').child(id).child(type).on('value', function (snapshot) {
+                                let postArray = snapshot.val();
+                                let keys = Object.keys(postArray);
+
+                                for (var i = 0; i < keys.length; i++) {
+
+                                    var obg = postArray[keys[i]];
+
+                                    if (type == 'in') {
+                                        if (month == id) {
+                                            countin += obg.totalCash;
+                                            IncomingCash.textContent = formatNumber(countin);
+                                        }
+                                        // console.log(obg.totalCash, countin);
+
+
+                                        cIn.push(obg.totalCash);
+                                    } else if (type == 'out') {
+                                        if (month == id) {
+                                            countout += obg.totalCash;
+                                            outcomingCash.textContent = formatNumber(countout);
+                                        }
+
+                                        Cout.push(obg.totalCash);
+                                    }
+                                    final = [id, Cout, cIn];
+                                }
+                            });
+                        }
+
+                        let incomingB = 0;
+                        let outcomngB = 0;
+
+                        if (final[1].length !== undefined) {
+                            for (var j = 0; j < final[1].length; j++) {
+                                incomingB += final[1][j];
+                            }
+                        }
+
+                        if (final[2].length !== undefined) {
+
+                            for (var h = 0; h < final[2].length; h++) {
+                                outcomngB += final[2][h];
+                            }
+                        }
+
+                        chartmap.push([final[0], incomingB, outcomngB]);
+
+
+
+
+
+
+                    });
+
+                    // IncomingCash.textContent = formatNumber(incomingB);
+                    // outcomingCash.textContent = formatNumber(outcomngB);
+                }
+                console.log(chartmap);
+
+                montharr = chartmap;
+                loadIncomingOut(chartmap);
+                datayear.hg.forEach(function (x) {
+
+
+                    chartmap.forEach(function (y) {
+                        console.log(y);
+
+                        var month = y[0];
+                        if (month == x.c[0].v) {
+                            x.c[1].v = Math.abs(y[1]);
+                            x.c[2].v = Math.abs(y[2]);
+                        }
+                    });
+
+                });
+
+
+                data.hg.forEach(function (x) {
+
+
+                    chartmap.forEach(function (y) {
+                        console.log(y);
+
+                        var month = y[0];
+                        if (month == x.c[0].v) {
+                            x.c[1].v = y[1] + y[2];
+                            // x.c[2].v = Math.abs(y[2]);
+                        }
+                    });
+
+                });
+                var newdate = new Date();
+                var splitmonth = newdate.toString().split(" ");
+                var month = splitmonth[1];
+                console.log(chartmap.length)
+
+                for (var j = 0; j < chartmap.length; j++) {
+                    var currectmonth = chartmap[j][0];
+                    console.log(currectmonth, month);
+
+
+
+                    if (month == currectmonth) {
+                        datab.hg.forEach(function (row) {
+                            row.c[0].v = chartmap[j][0];
+                            row.c[1].v = Math.abs(chartmap[j][1]);
+                            row.c[2].v = chartmap[j][2];
+                        });
+                    }
+                }
+
+
+
+
+
+                console.log(datab);
+
+
+            });
+
+
+            var view = new google.visualization.DataView(datab);
+            view.setColumns([0, 1,
+                {
+                    calc: "stringify",
+                    sourceColumn: 1,
+                    type: "string",
+                    role: "annotation"
+                },
+                2]);
+            var optionsf = {
+                width: 1270,
+                vAxis: { viewWindow: { max: 1000 } },
+                hAxis: { title: 'Month' },
+                seriesType: 'bars',
+                series: { 0: { color: 'red' }, 1: { color: '#00cc00' } }
+            };
+
+            database.ref('/cashflow/').orderByChild('number').on('value', function (snapshot) {
+
+                // mainTable.innerHTML = "";
+                let postArray = snapshot.val();
+                let keys = Object.keys(postArray);
+
+                // let totalOut = [];
+                function getMonth(x) {
+
+                    var splitDate = x.split(" ");
+                    var currectDate = splitDate[0];
+                    // console.log(currectDate);
+
+                    return currectDate;
+                }
+
+                for (var i = 0; i < keys.length; i++) {
+
+                    var id = keys[i];
+                    var currentObject = postArray[id];
+                    var new_date = currentObject.date;
+                    var y = getMonth(new_date);
+                    var title = currentObject.title;
+                    var trimTitle = title.trim();
+                    var typePay = currentObject.wayPay;
+                    var in_out = currentObject.type;
+                    var cash = currentObject.totalCash;
+
+                    MainArray.push([y, trimTitle, in_out, typePay, cash]);
+
+                    if (title == "פעילות מרובה") {
+
+                        database.ref('/cashflow/').child(id).child('/chashFlow/').on('value', function (newsnapshot) {
+
+                            let newpostArray = newsnapshot.val();
+                            let newkeys = Object.keys(newpostArray);
+
+                            for (var j = 0; j < newkeys.length; j++) {
+                                var newid = newkeys[j];
+                                database.ref('/cashflow/').child(id).child('/chashFlow/').child(newid).on('value', function (snap) {
+
+                                    var val = snap.val();
+                                    var date_new = val.date;
+                                    var z = getMonth(date_new);
+                                    var type = val.wayPay;
+                                    var totalcash = val.totalCash;
+                                    var inOrOut = val.type;
+                                    var titleSub = val.title;
+                                    MainArray.push([z, titleSub, inOrOut, type, totalcash]);
+
+                                });
+
+
+                            }
+
+
+                        });
+
+
+                    }
+
+                }
+
+                var checkarray = [];
+                var sumArray = [];
+                for (var i = 1; i < MainArray.length; i++) {
+
+                    var date = MainArray[i][0];
+                    var title = MainArray[i][1].trim();
+
+
+                    var in_out = MainArray[i][2];
+                    var payWay = MainArray[i][3];
+                    var cash = MainArray[i][4];
+
+                    var sum = 0;
+                    // console.log(MainArray[i]);
+                    if (sum == 0) {
+                        sum += MainArray[i][4];
+                    }
+
+                    for (var j = 1; j < MainArray.length; j++) {
+                        var title2 = MainArray[j][1].trim();
+                        if (title == title2 && i !== j) {
+
+                            sum += MainArray[j][4];
+
+                        }
+
+
+                    }
+
+                    if (checkarray.indexOf(title) == -1) {
+
+                        checkarray.push(title);
+                        sumArray.push([title, sum]);
+
+
+                    }
+
+                }
+
+                // datadonat.push(a)
+                datac.addRows(sumArray);
+                console.log(datac);
+
+
+            });
+
+            var optionsb = {
+                width: 340,
+                vAxis: { viewWindow: { max: 1000 } },
+                hAxis: { title: 'Month' },
+                seriesType: 'bars',
+                series: { 0: { color: 'red' }, 1: { color: '#00cc00' } }
+            };
+            // var chart = new google.charts.Bar(document.getElementById('dual_x_div'));
+            var optionspie = {
+
+                legend: 'none',
+                pieSliceText: 'label',
+                pieHole: 0.2,
+            };
+
+            var chartc = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chartc.draw(datac, optionspie);
+            // chart.draw(data, google.charts.Bar.convertOptions(options));
+            var chartd = new google.visualization.ComboChart(document.getElementById('dual_x_div'));
+            chartd.draw(datayear, optionsf);
+
+            var options = {
+                title: 'Company Performance',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+            var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+            // var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+            chart.draw(data, optionsf);
+            // var chartb = new google.visualization.ComboChart(document.getElementById('chart_div'));
+            // chartb.draw(data, options);
+
+            var chartc = new google.visualization.ComboChart(document.getElementById('barchart_material'));
+            chartc.draw(view, optionsb);
+
+        };
+
+    </script> -->
+    <script>
+
+        var labelx = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var labely = [[0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0], [0]];
+        var in_out = [];
+        var obj = { arr: [] };
+        // chart();
+        charttype();
+        chartTable();
+        chartThisMonth();
+        // async function chart() {
+        //     var a = [];
+        //     callData().then(Respon => {
+        //         console.log(Respon);
+
+        //         // console.log("arr", JSON.stringify(labely, null, 12));
+        //         console.log(a);
+
+        //         // var obj = { arr: [labely] }
+
+
+
+
+        //         var ctx = document.getElementById('chart_div');
+        //         // console.log(newlabel[0]);
+
+
+        //         var myChart = new Chart(ctx, {
+        //             type: 'line',
+        //             data: {
+        //                 labels: labelx,
+        //                 datasets: [{
+        //                     label: 'שנתי',
+        //                     data: Respon,
+        //                     backgroundColor: [
+        //                         'rgba(255, 99, 132, 0.2)',
+        //                         'rgba(255, 99, 132, 0.2)',
+        //                         'rgba(255, 99, 132, 0.2)',
+        //                         'rgba(255, 99, 132, 0.2)',
+        //                         'rgba(255, 99, 132, 0.2)',
+        //                         'rgba(255, 99, 132, 0.2)',
+        //                         'rgba(255, 99, 132, 0.2)',
+        //                         'rgba(255, 99, 132, 0.2)',
+        //                         'rgba(255, 99, 132, 0.2)',
+        //                         'rgba(255, 99, 132, 0.2)',
+        //                         'rgba(255, 99, 132, 0.2)',
+        //                         'rgba(255, 99, 132, 0.2)',
+
+
+
+        //                     ],
+        //                     borderColor: [
+        //                         'rgba(255, 99, 132, 1)',
+        //                         'rgba(255, 99, 132, 1)',
+        //                         'rgba(255, 99, 132, 1)',
+        //                         'rgba(255, 99, 132, 1)',
+        //                         'rgba(255, 99, 132, 1)',
+        //                         'rgba(255, 99, 132, 1)',
+        //                         'rgba(255, 99, 132, 1)',
+        //                         'rgba(255, 99, 132, 1)',
+        //                         'rgba(255, 99, 132, 1)',
+        //                         'rgba(255, 99, 132, 1)',
+        //                         'rgba(255, 99, 132, 1)',
+        //                         'rgba(255, 99, 132, 1)',
+        //                         'rgba(255, 99, 132, 1)',
+        //                         'rgba(255, 99, 132, 1)',
+
+
+
+        //                     ],
+        //                     borderWidth: 1
+        //                 }]
+        //             },
+        //             options: {
+        //                 scales: {
+        //                     yAxes: [{
+        //                         ticks: {
+        //                             beginAtZero: true
+        //                         }
+        //                     }]
+        //                 }
+        //             }
+        //         });
+        //     });
+
+
+        // }
+        async function charttype() {
+            callDatatype().then(snaps => {
+                console.log(snaps[1]);
+                var nametype = snaps[0];
+                var total = snaps[1];
+                var donutchart = document.getElementById('donutchart');
+                var nameArray = [];
+                var totalArray = [];
+                snaps.forEach(element => {
+                    console.log(element)
+                    if (element[0] !== "") {
+                        nameArray.push(element[0]);
+                        totalArray.push(element[1]);
+                    }
+                });
+                console.log(totalArray, nameArray);
+                // Chart.defaults.global.maintainAspectRatio = false;
+                var optionspei = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    padding: 2,
+                    aspectRatio: 2,
+                    layout: {
+                        padding: {
+                            left: 20,
+                            right: 20,
+                            top: 20,
+                            bottom: 20
+                        }
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            ticks: {
+                                suggestedMin: 0,    // minimum will be 0, unless there is a lower value.
+                                // OR //
+                                beginAtZero: true   // minimum value will be 0.
+                            }
+                        }]
+                    },
+                    "animation": {
+                        "duration": 1,
+                        "onComplete": function () {
+                            var chartInstance = this.chart,
+                                ctx = chartInstance.ctx;
+
+                            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                            ctx.textAlign = 'right';
+                            ctx.textBaseline = 'bottom';
+
+                            this.data.datasets.forEach(function (dataset, i) {
+                                var meta = chartInstance.controller.getDatasetMeta(i);
+                                meta.data.forEach(function (bar, index) {
+                                    var data = dataset.data[index];
+                                    ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                                });
+                            });
+                        }
+                    },
+
+
+                }
+                data = {
+                    datasets: [{
+                        data: totalArray,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }],
+
+                    // These labels appear in the legend and in the tooltips when hovering different arcs
+                    labels: nameArray
+
+                };
+                var myDoughnutChart = new Chart(donutchart, {
+                    type: 'horizontalBar',
+                    data: data,
+                    options: optionspei
+                });
+
+            })
+        }
+        async function chartTable() {
+            callTableChart().then(snap => {
+
+                console.log(snap);
+
+                var ctxca = document.getElementById('chart_div');
+                var ctxc = document.getElementById('dual_x_div');
+
+                // console.log(newlabel[0]);
+                var myChart2 = new Chart(ctxc, {
+                    type: 'bar',
+                    data: {
+                        labels: labelx,
+                        datasets: [{
+                            label: 'הכנסות',
+                            data: snap[1],
+                            backgroundColor: [
+
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)'
+
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)'
+
+
+
+                            ],
+                            borderWidth: 1
+
+                        }, {
+
+
+                            label: 'הוצאות',
+                            data: snap[0],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)'
+
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        "animation": {
+                            "duration": 1,
+                            "onComplete": function () {
+                                var chartInstance = this.chart,
+                                    ctx = chartInstance.ctx;
+
+                                ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                                ctx.display = 'inline';
+                                ctx.textBaseline = 'bottom';
+
+                                this.data.datasets.forEach(function (dataset, i) {
+                                    var meta = chartInstance.controller.getDatasetMeta(i);
+                                    meta.data.forEach(function (bar, index) {
+                                        var data = dataset.data[index];
+                                        ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                                    });
+                                });
+                            }
+                        },
+                    }
+
+                });
+
+                var myChart = new Chart(ctxca, {
+                    type: 'line',
+                    data: {
+                        labels: labelx,
+                        datasets: [{
+                            label: 'הכנסות',
+                            data: snap[1],
+                            backgroundColor: [
+
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)'
+
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(75, 192, 192, 1)'
+
+
+
+                            ],
+                            borderWidth: 1
+
+                        }, {
+
+
+                            label: 'הוצאות',
+                            data: snap[0],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 99, 132, 1)'
+
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    // options: {
+                    //     scales: {
+                    //         yAxes: [{
+                    //             ticks: {
+                    //                 beginAtZero: true
+                    //             }
+                    //         }]
+                    //     }
+                    // }
+
+                });
+            })
+        }
+        async function chartThisMonth() {
+            callTableChart().then(re => {
+                console.log(re);
+                var m = re[2][0]
+                var e = re[2][1];
+                var i = re[2][2];
+                console.log(m, e, i);
+
+                var ct = document.getElementById('barchart_material');
+                var mycha = new Chart(ct, {
+                    // responsive: false,
+                    type: 'bar',
+                    data: {
+                        labels: [m],
+                        datasets: [{
+                            label: 'הכנסות',
+                            data: [i],
+                            backgroundColor: [
+
+                                'rgba(75, 192, 192, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+
+                            ],
+                            borderWidth: 1
+
+                        }, {
+
+
+                            label: 'הוצאות',
+                            data: [e],
+                            backgroundColor: [
+
+                                'rgba(255, 99, 132, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+
+                            ],
+                            borderWidth: 1
+
+
+
+                        }],
+                    }, options: {
+                        "animation": {
+                            "duration": 2,
+                            "onComplete": function () {
+                                var chartInstance = this.chart,
+                                    ctx = chartInstance.ctx;
+
+                                ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                                ctx.display = 'inline';
+                                ctx.textBaseline = 'bottom';
+
+                                this.data.datasets.forEach(function (dataset, i) {
+                                    var meta = chartInstance.controller.getDatasetMeta(i);
+                                    meta.data.forEach(function (bar, index) {
+                                        var data = dataset.data[index];
+                                        ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                                    });
+                                });
+                            }
+                        }, scales: {
+                            yAxes: [{
+                                display: true,
+                                ticks: {
+                                    suggestedMin: 0,    // minimum will be 0, unless there is a lower value.
+                                    // OR //
+                                    beginAtZero: true   // minimum value will be 0.
+                                }
+                            }]
+                        }
+                    }
+
+                });
+
+            });
+        }
+
+        function callTableChart() {
+
+            return database.ref('/monthly/').once('value').then(snapshot => {
+                var dataMonth = [
+                    ['Jan', 0],
+                    ['Feb', 0],
+                    ['Mar', 0],
+                    ['Apr', 0],
+                    ['May', 0],
+                    ['Jun', 0],
+                    ['Jul', 0],
+                    ['Aug', 0],
+                    ['Sep', 0],
+                    ['Oct', 0],
+                    ['Nov', 0],
+                    ['Dec', 0]
+                ];
+                let postArray = snapshot.val();
+                let keys = Object.keys(postArray);
+                let final = [];
+                let chartmap = [];
+                var newdate = new Date();
+                var splitmonth = newdate.toString().split(" ");
+                var month = splitmonth[1];
+
+                for (var i = 0; i < keys.length; i++) {
+
+                    var id = keys[i];
+
+                    database.ref('/monthly/').child(id).on('value', function (snapshot) {
+
+                        let postArray = snapshot.val();
+                        let keys = Object.keys(postArray);
+
+                        let cIn = [];
+                        let Cout = [];
+                        var countin = 0;
+                        var countout = 0;
+                        for (var i = 0; i < keys.length; i++) {
+
+                            var type = keys[i];
+
+                            database.ref('/monthly/').child(id).child(type).on('value', function (snapshot) {
+                                let postArray = snapshot.val();
+                                let keys = Object.keys(postArray);
+
+                                for (var i = 0; i < keys.length; i++) {
+
+                                    var obg = postArray[keys[i]];
+
+                                    if (type == 'in') {
+                                        if (month == id) {
+                                            countin += obg.totalCash;
+                                            IncomingCash.textContent = formatNumber(countin);
+                                        }
+                                        // console.log(obg.totalCash, countin);
+
+
+                                        cIn.push(obg.totalCash);
+                                    } else if (type == 'out') {
+                                        if (month == id) {
+                                            countout += obg.totalCash;
+                                            outcomingCash.textContent = formatNumber(countout);
+                                        }
+
+                                        Cout.push(obg.totalCash);
+                                    }
+                                    final = [id, Cout, cIn];
+                                }
+                            });
+                        }
+
+                        let incomingB = 0;
+                        let outcomngB = 0;
+
+                        if (final[1].length !== undefined) {
+                            for (var j = 0; j < final[1].length; j++) {
+                                incomingB += final[1][j];
+                            }
+                        }
+
+                        if (final[2].length !== undefined) {
+
+                            for (var h = 0; h < final[2].length; h++) {
+                                outcomngB += final[2][h];
+                            }
+                        }
+
+                        chartmap.push([final[0], incomingB, outcomngB]);
+
+
+
+
+
+
+                    });
+
+                    // IncomingCash.textContent = formatNumber(incomingB);
+                    // outcomingCash.textContent = formatNumber(outcomngB);
+                }
+
+                montharr = chartmap;
+                loadIncomingOut(chartmap);
+                var finalArray = [];
+                var finalIn = [];
+                var finalOut = [];
+
+                for (var i = 0; i < chartmap.length; i++) {
+
+                    for (var j = 0; j < dataMonth.length; j++) {
+                        if (dataMonth[i][0] == chartmap[j][0]) {
+                            finalArray.push([chartmap[j][0], Math.abs(chartmap[j][1]), chartmap[j][2]]);
+                            finalOut.push(Math.abs(chartmap[j][1]));
+                            finalIn.push(chartmap[j][2]);
+                        }
+                    }
+                }
+                console.log(finalArray);
+
+                let newDate = new Date();
+                var datestring = newDate.toString();
+                var splitdate = datestring.split(" ");
+                var Thismonth = splitdate[1];
+                var correctdate = [];
+                for (var j = 0; j < finalArray.length; j++) {
+                    if (Thismonth == finalArray[j][0]) {
+                        correctdate.push(finalArray[j][0], finalArray[j][1], finalArray[j][2])
+                    }
+                }
+
+
+                return [finalOut, finalIn, correctdate];
+            });
+        }
+
+        function callData() {
+
+            return database.ref('/monthly/').once('value').then(snapshot => {
+
+                let postArray = snapshot.val();
+                let keys = Object.keys(postArray);
+                let final = [];
+                let chartmap = [];
+                var newdate = new Date();
+                var splitmonth = newdate.toString().split(" ");
+                var month = splitmonth[1];
+
+                for (var i = 0; i < keys.length; i++) {
+
+                    var id = keys[i];
+
+                    database.ref('/monthly/').child(id).on('value', function (snapshot) {
+
+                        let postArray = snapshot.val();
+                        let keys = Object.keys(postArray);
+
+                        let cIn = [];
+                        let Cout = [];
+                        var countin = 0;
+                        var countout = 0;
+                        for (var i = 0; i < keys.length; i++) {
+
+                            var type = keys[i];
+
+                            database.ref('/monthly/').child(id).child(type).on('value', function (snapshot) {
+                                let postArray = snapshot.val();
+                                let keys = Object.keys(postArray);
+
+                                for (var i = 0; i < keys.length; i++) {
+
+                                    var obg = postArray[keys[i]];
+
+                                    if (type == 'in') {
+                                        if (month == id) {
+                                            countin += obg.totalCash;
+                                            IncomingCash.textContent = formatNumber(countin);
+                                        }
+                                        // console.log(obg.totalCash, countin);
+
+
+                                        cIn.push(obg.totalCash);
+                                    } else if (type == 'out') {
+                                        if (month == id) {
+                                            countout += obg.totalCash;
+                                            outcomingCash.textContent = formatNumber(countout);
+                                        }
+
+                                        Cout.push(obg.totalCash);
+                                    }
+                                    final = [id, Cout, cIn];
+                                }
+                            });
+                        }
+
+                        let incomingB = 0;
+                        let outcomngB = 0;
+
+                        if (final[1].length !== undefined) {
+                            for (var j = 0; j < final[1].length; j++) {
+                                incomingB += final[1][j];
+                            }
+                        }
+
+                        if (final[2].length !== undefined) {
+
+                            for (var h = 0; h < final[2].length; h++) {
+                                outcomngB += final[2][h];
+                            }
+                        }
+
+                        chartmap.push([final[0], incomingB, outcomngB]);
+
+
+
+
+
+
+                    });
+
+                    // IncomingCash.textContent = formatNumber(incomingB);
+                    // outcomingCash.textContent = formatNumber(outcomngB);
+                }
+                console.log(labely);
+
+                montharr = chartmap;
+                loadIncomingOut(chartmap);
+
+
+                for (var i = 0; i < chartmap.length; i++) {
+                    console.log();
+                    for (var j = 0; j < labelx.length; j++) {
+                        if (chartmap[i][0] == labelx[j]) {
+
+
+                            var u = chartmap[i][1] + chartmap[i][2];
+                            labely[j] = u.toString();
+                        }
+
+                    }
+                }
+                console.log(labely);
+                // newlabel.push(labely);
+                return labely;
+            });
+
+        }
+
+        function callDatatype() {
+            return database.ref('/cashflow/').orderByChild('number').once('value').then(snapshot => {
+
+                // mainTable.innerHTML = "";
+                let postArray = snapshot.val();
+                let keys = Object.keys(postArray);
+
+                // let totalOut = [];
+                function getMonth(x) {
+
+                    var splitDate = x.split(" ");
+                    var currectDate = splitDate[0];
+                    // console.log(currectDate);
+
+                    return currectDate;
+                }
+
+                for (var i = 0; i < keys.length; i++) {
+                    console.log(i);
+
+
+                    var id = keys[i];
+                    var currentObject = postArray[id];
+                    var new_date = currentObject.date;
+                    var y = getMonth(new_date);
+                    var title = currentObject.title;
+                    var trimTitle = title.trim();
+                    var typePay = currentObject.wayPay;
+                    var in_out = currentObject.type;
+                    var cash = currentObject.totalCash;
+                    console.log(y, trimTitle, in_out, typePay, cash, new_date);
+
+                    MainArray.push([y, trimTitle, in_out, typePay, cash, new_date]);
+
+                    if (title == "פעילות מרובה") {
+
+                        database.ref('/cashflow/').child(id).child('/chashFlow/').on('value', function (newsnapshot) {
+
+                            let newpostArray = newsnapshot.val();
+                            let newkeys = Object.keys(newpostArray);
+
+                            for (var j = 0; j < newkeys.length; j++) {
+                                console.log(j);
+
+                                var newid = newkeys[j];
+                                database.ref('/cashflow/').child(id).child('/chashFlow/').child(newid).on('value', function (snap) {
+
+                                    var val = snap.val();
+                                    var date_new = val.date;
+                                    var z = getMonth(date_new);
+                                    var type = val.wayPay;
+                                    var totalcash = val.totalCash;
+                                    var inOrOut = val.type;
+                                    var titleSub = val.title;
+                                    console.log(z, titleSub, inOrOut, type, totalcash, date_new);
+
+                                    MainArray.push([z, titleSub, inOrOut, type, totalcash, date_new]);
+
+                                });
+
+
+                            }
+
+
+                        });
+
+
+                    }
+
+                }
+
+                var checkarray = [];
+                var sumArray = [];
+                var newDate = new Date();
+
+                console.log(MainArray);
+
+                for (var i = 1; i < MainArray.length; i++) {
+
+                    var date = MainArray[i][0].trim();
+                    var title = MainArray[i][1].trim();
+
+
+                    var in_out = MainArray[i][2];
+                    var payWay = MainArray[i][3].trim();
+                    var cash = MainArray[i][4];
+
+                    var sum = 0;
+                    // console.log(MainArray[i]);
+                    if (sum == 0) {
+                        sum += MainArray[i][4];
+                    }
+                    console.log(MainArray);
+
+                    var dateString = newDate.toString();
+                    var splitDate = dateString.split(" ");
+                    var month = splitDate[1];
+                    for (var j = 1; j < MainArray.length; j++) {
+                        var title2 = MainArray[j][3].trim();
+                        if (payWay == title2 && i !== j) {
+
+                            sum += MainArray[j][4];
+
+                        }
+
+
+                    }
+
+                    if (checkarray.indexOf(payWay) == -1 && date == month) {
+
+                        checkarray.push(payWay);
+                        sumArray.push([payWay, sum]);
+
+
+                    }
+
+                    console.log(sumArray);
+
+
+                }
+
+                // datadonat.push(a)
+                return sumArray;
+
+
+            });
+        }
+
+    </script>
+</body>
+
+</html>

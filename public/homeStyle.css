@@ -1,0 +1,1096 @@
+
+#containertop{
+    display: none;
+}
+
+#teb-content{
+    background-color: rgb(250, 250, 250) !important;
+}
+
+/******************** container Top *************************/
+#topViewCash{
+    /* position: relative; */
+    display: inline-block;
+    margin-top:20px;
+    display: grid;
+    width: 100%;
+    grid-template-columns: 22% 22% 22% 22%;
+    grid-gap: 4%;
+    grid-auto-rows: minmax(60px, auto);
+}
+
+
+#top{
+    display: grid;
+
+}
+.typeExpend{
+    font-size: 15px !important;
+
+}
+.grid{
+    display: grid;
+}
+.cash{
+    color: white;
+    font-size: 16pt;
+    font-weight: 600;
+
+    /* text-align: right; */
+}
+#expendTypeView{
+    /* position: relative;  */
+    /* display: inline-block; */
+    margin-top: 20px;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(6,15%);
+    grid-gap: 2%;
+    grid-auto-rows: minmax(60px, auto);
+}
+.box{
+background: rgb(241, 241, 241);
+}
+#currectStatusCash, #expendMonth, #incomingMonth
+,#balanceMonth, #transferBank,#bit,#directDebit,#cash,#paper, #credit{
+    grid-template-columns: 25% 75%;
+border-radius: 15px;
+padding: 20px;
+box-shadow: 0px 2px 7px -3px rgba(117, 117, 117, 0.568);
+color: white;
+text-align: right;
+}
+#currectStatusCash{
+    background-image: linear-gradient(to bottom right, #ffaa94, #ff643d);
+}
+
+#expendMonth{
+    background-image: linear-gradient(to bottom right, #ff98ae, #ff3d67);
+}
+.my-svg-alternate{
+    display: none;
+}
+#prices{
+    margin-top:20px;
+    grid-template-columns: 30% 30% 30%;
+    column-gap: 5%;
+}
+
+#basic, #puplar, #pro
+{
+    margin-top:30px;
+    height: 540px;
+    background: white;
+    border-radius: 25px;
+}
+
+.groupSvg{
+    position: relative;
+    width: 25px;
+    height: 25px;
+    float: left;
+    left: 10px;
+    top:5px;
+    /* color:rgb(239, 239, 239); ; */
+    fill:rgb(199, 199, 199); 
+    cursor: pointer;
+}
+
+.groupSvg:hover{
+    fill:#9e9e9e
+}
+#chooseDates img{
+    position: relative;
+    width: 25px;
+    height: 25px;
+    float: left;
+    left: 10px;
+    top:5px;
+    color:rgb(239, 239, 239); ;
+}
+#incomingMonth{
+    background-image: linear-gradient(to bottom right, #a6fda6, #50dd50);
+}
+.subrowYearlyin{
+   color:  #50dd50;
+   background: rgb(252, 252, 252);
+   font-weight: bold;
+
+}
+.subrowYearlyout{
+   color:  #ff3d67;
+   background: rgb(252, 252, 252);
+   font-weight: bold;
+
+
+}
+#settingPage{
+    display: none;
+    grid-template-columns: 15% 70% 15%;
+    /* float: right; */
+}
+#userInfoText{
+    padding: 20px;
+}
+.span_input{
+    position: relative;
+    display: grid;
+    min-width: 200px !important;
+    width:200px !important;
+    height: 40px !important;
+    stroke: black;
+    border: 1px  solid black !important;
+    text-align: center;
+    left: 50%;   
+    /* vertical-align: middle; */
+    /* margin-left: 80%; */
+}
+.heb{
+    float: right !important;
+    text-align: right;
+   
+    display: grid;
+}
+.input_right{
+
+    grid-template-columns:  80% 20%;
+    grid-template-rows: 40px;
+}
+.exitChip{
+    /* grid-template-columns: 80% 20%; */
+    position: relative;
+float: left;
+
+    top:25%;
+ 
+
+}
+#chipsOut{
+    border-right: 2px solid black;
+}
+#chipsOutOption, #chipsInOption{
+    grid-template-rows: repeat(10, auto);
+margin-left:29px;
+}
+#chipsBoxDataBase{
+    grid-template-columns: 50% 50%;
+}
+.chipsBox, #chipsIn,#chipsOut{
+    grid-template-columns: repeat(2, 50%);
+    grid-template-rows: repeat(10, auto);
+    
+    grid-gap: 5px;
+}
+.chip {
+    display:grid;
+    padding: 0 25px;
+   width: 120px;
+    max-width: 300px;
+    height: 50px;
+    font-size: 18px;
+    line-height: 50px;
+    border-radius: 25px;
+    background-color: #f1f1f1;
+    float: right;
+  }
+.titleWord{
+    grid-template-columns:50% 50%;
+}
+.chooseInOrOut{
+    grid-template-columns: 50% 50%;
+
+}
+.titleWord div{
+    text-align: center;
+}
+  #chipsOut div,#chipsOutOption div{
+    background: #ffd2dc;
+
+  }
+  .exitChip{
+      cursor: pointer;
+  }
+  #chipsIn div, #chipsInOption div{
+background: #ddffdd;
+
+  }
+  #chipsOut div:hover{
+   color: white;
+   background-image: linear-gradient(to bottom right, #ff98ae, rgb(255, 61, 103));
+
+  }
+  #chipsIn div:hover{
+    color: white;
+    background-image: linear-gradient(to bottom right, #a6fda6, #50dd50);
+
+ 
+   }
+   .temporaryRow{
+       background: #ffe2db4d !important;
+       /* border-bottom: 2px solid #ff643d; */
+       border-top: 3px solid #ff643d;
+border-radius: 25px !important;
+   }
+   .lever{
+       background-color:#ff643d !important ;
+   }
+   .switch label input[type=checkbox]:checked+.lever:after {
+    background-color: #ff643d !important;
+}
+.imgIls{
+    width:10px;
+    height: 10px;
+}
+#balanceMonth{
+
+    background-image: linear-gradient(to bottom right, rgb(154, 206, 255), rgb(61, 161, 255));
+}
+.switch{
+    margin-top:30px !important;
+}
+#btnPopalr .buttonPrice{
+    background-image: linear-gradient(to bottom right, #ffaa94, #ff643d);
+}
+.boxRow{
+    padding-top: 20px;
+    grid-template-columns:50% 50%;
+    grid-gap: 10px;
+}
+.chipsOut{
+    d
+}
+#middleSetting{
+    grid-template-columns: 50% 50%;
+    /* height: 600px; */
+}
+#topSettingBox ,#middleSettingBox{
+    border-radius: 25px;;
+    margin-top: 20px;;
+    background: white;
+    padding: 50px;
+    box-shadow: 0px 2px 7px -3px rgba(117, 117, 117, 0.568);
+
+}
+#basic{
+    /* grid-template-columns: 40% 60%; */
+}
+.priceNum{
+    /* position: absolute; */
+    font-size:50pt;
+    font-weight: 800;
+    text-align: center;
+    color:rgb(61, 161, 255);
+}
+#popularPay{
+color: #ff643d;
+}
+
+#flowText{
+   color:rgb(61, 161, 255);
+   
+}
+.ulCompare{
+    margin-left:50px;
+}
+/* .comapreInsideBox{
+    width: 70%;
+    height: 70%;
+} */
+.compareRowText{
+    margin-left: 20px;
+}
+.checkCompar{
+    color: #50dd50;
+}
+.comparebox{
+    padding: 20px;
+    /* background: red; */
+}
+.textpermonth{
+    font-size: 16pt;
+    font-weight: 400;
+   color:rgb(24, 24, 24);
+
+}
+.buttonPrice{
+    position: relative;
+    width: 60%;
+    height: 37px;
+    background-image: linear-gradient(to bottom right, rgb(154, 206, 255), rgb(61, 161, 255));
+text-align: center;
+border: none;
+font-weight: 700;
+color: white;
+bottom: 0;
+left: 20%;
+right: 20%;
+border-radius: 50px;
+margin-bottom: 0;
+}
+.btnWord{
+    top:20px;
+}
+.buttonWord{
+    position: relative;
+    width: 40%;
+    height: 37px;
+    background-image: linear-gradient(to bottom right, rgb(154, 206, 255), rgb(61, 161, 255));
+text-align: center;
+border: none;
+font-weight: 700;
+color: white;
+bottom: 0;
+left: 30%;
+right: 30%;
+border-radius: 50px;
+margin-bottom: 0;
+}
+
+.buttonSettingFirst{
+    position: relative;
+    width: 200px;
+    height: 37px;
+    background-image: linear-gradient(to bottom right, rgb(154, 206, 255), rgb(61, 161, 255));
+text-align: center;
+border: none;
+font-weight: 700;
+color: white;
+margin-top: 50px;
+bottom: 0;
+left: 70%;
+right: 20%;
+border-radius: 50px;
+margin-bottom: 0;
+}
+#prices h5{
+    margin-top:50px ;
+}
+#titles{
+    height: 50px;
+    top:20px;
+}
+#search i{
+    position: relative;
+    top:7px;
+    color: rgb(36, 36, 36) !important;
+}
+i{
+    cursor: default;
+}
+.decimel{
+    font-size: 9pt;
+}
+.box_in_out{
+    z-index: 1010;
+    border-radius: 10px 10px 10px 0  !important;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* display:grid; */
+    color: rgb(39, 39, 39);
+    margin-top:-130px;
+    margin-right:-200px;
+display: none;
+    width: 160px;
+    max-width: 300px;
+    height: 90px;
+    /* background: rgb(250, 250, 250); */
+    padding: 10px;
+    background: rgba(29, 29, 29, 0.884);
+    box-shadow: 0px 2px 7px -3px rgba(117, 117, 117, 0.568);
+
+}
+.box_in_out span{
+    
+}
+
+
+td{
+    font-size: 11pt !important;
+}
+/******************** container chart_info *************************/
+.title_all{
+   color: black ;
+   /* font: 400; */
+   text-align: center;
+}
+#chart_info{
+    margin-top:20px;
+    display: grid;
+    width: 100%;
+    grid-template-columns: 30% 70%;
+    grid-gap: 1em;
+    grid-auto-rows: minmax(200px, auto);
+}
+.chooseViewHome{
+    grid-template-columns: 50% 50%;
+}
+.chooseBtns{
+    position: relative;
+    /* grid-template-columns: 30%3 30% 30%; */
+    display: inline-block;
+
+}
+#Home{
+ 
+    /* overflow-y: scroll; */
+    /* margin-left: calc(100vw - 100%); */
+display: block;
+}
+.today{
+   color: white !important;
+   background-image: linear-gradient(to bottom right, #ffaa94, #ff643d) !important;
+    /* background-image: linear-gradient(to bottom right, #ff98ae, rgb(255, 61, 103)) ; */
+}
+.importantday{
+   color: white !important;
+
+    background-image: linear-gradient(to bottom right, #ff98ae, rgb(255, 61, 103)) !important ;
+}
+#addSave{
+    position: relative;
+    display: inline-block;
+    left: 0;
+    height: 30px;
+    width: 30px;
+    left: 20px;
+    /* bottom: 7px;
+}
+#homeChartChoose{
+    position: relative;
+    /* grid-template-columns: 30%3 30% 30%; */
+    display: inline-block;
+    margin-right: 20px;
+}
+#yearChart{
+    display: grid;
+    /* grid-template-columns: 20% 80%; */
+ 
+
+
+}
+#tab-content{
+    min-height: 800px !important;
+
+}
+html {  }
+#info{
+    grid-template-rows: (200px,auto);
+}
+.yearChart{
+    grid-template-columns: 30% 70%;
+    grid-auto-rows: minmax(200px, auto);
+    grid-gap: 1em;
+    padding: 20px;;
+}
+#infoYearly{
+    /* grid-auto-rows: 20px; */
+ background: white;
+    /* grid-gap: 1em; */
+    border-radius: 25px;
+    padding: 10px;
+/* box-shadow: 0px 2px 7px -3px rgba(117, 117, 117, 0.568); */
+
+}
+#info, #yearChart,#yearly_Chart{
+    /* position: relative; */
+background: rgb(255, 255, 255);
+border-radius: 25px;
+box-shadow: 0px 2px 7px -3px rgba(117, 117, 117, 0.568);
+
+}
+
+#outyearHome{
+    color: red;
+}
+#blanceyearHome{
+    color:rgb(61, 161, 255);
+}
+#inyearHome{
+    color: #50dd50;
+}
+#openpage{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+
+
+}
+#boximg ul{
+grid-template-columns: 50% 50%;
+}
+#search{
+    position: relative;
+    display: inline-block;
+    /* justify-content: center;
+    align-items: center; */
+}
+#btnSignUp{
+    margin-top: 100px;
+    width: 200px;
+    height: 50px;
+    border-radius: 25px;
+    background-image: linear-gradient(to bottom right, rgb(154, 206, 255), rgb(61, 161, 255));
+   
+
+}
+#bannermiddle{
+    position: relative;
+    display: inline-block;
+    background :rgb(239, 239, 239);
+width: 100%;
+height: 100%;
+top:50px;
+}
+#imgOpen{
+    position: relative;
+    display: inline-block;
+    width: 80%;
+    height: 80%;
+    float: right;
+   object-fit: contain; 
+   border-radius: 25px;
+box-shadow: 0px 2px 7px -3px rgba(117, 117, 117, 0.568);
+
+   top:20px;
+}
+.Loan{
+    display: none;
+}
+#loanOpenInfo{
+    cursor: pointer;
+}
+#topBanner{
+    grid-template-columns: 30% 70%;
+    /* grid-template-rows: 30%; */
+}
+.page-footer{
+    top:150px !important;
+    z-index: 1115 !important;
+    
+}
+.HomeYearlyChartInfo{
+    /* display: grid; */
+   
+    font-weight: 600;
+    /* display: grid;
+    grid-template-columns: 20% 80%; */
+    justify-content: center;
+    align-items: center;
+
+}
+#yearly_Chart{
+    margin-top:20px;
+}
+#expendYear, #incomingYear, #balanceYear,#titleYear{
+    /* font-weight: 700; */
+    text-align: center;
+    /* background-color: red; */
+
+    padding: 5px;
+}
+#num_incomingYear{
+ color:#50dd50 ;   
+}
+
+#num_expnendYear{
+    color:#ff3d67 ;   
+}
+
+#num_balanceYear{
+    color:rgb(61, 161, 255);
+    ;   
+}
+
+   
+#num_balanceYear,#num_incomingYear,#num_expnendYear{
+    font-weight: 700 !important;
+    font-size: 14pt;
+}
+/******************** container Top *************************/
+
+#containertop{
+    position: relative;
+     width: 100%;
+    height: 300px; 
+    top:-15px;
+}
+
+#userData{
+    height: 100%;
+}
+
+
+#details{
+    background: white;
+}
+
+#detailsCash{
+    margin-top: 30px;
+}
+
+#massageBox{
+    left:0;
+    position: absolute;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    height: 100px;
+    bottom: 0px;
+    background: rgb(250, 250, 250);
+}
+
+#massage{
+    position: relative;
+    font-size: large;
+    font-weight: 600;
+    top:30px;
+}
+
+#details {
+    position: absolute;
+    display: inline-block;
+    width: 30%;
+    height: 300px;
+}
+
+/******************** Container Weekly *************************/
+
+#container_weekly{
+    position: relative;
+    display: inline-block;
+    padding: 20px;
+}
+
+#weeklyTitle{
+    display: inline;
+     /* background: #ff3d67; */
+     border-radius: 25px 25px 0 0;
+     height: 40px;
+
+}
+
+
+#titleWeekly{
+    position: relative;
+    display: inline-block;
+    top:10px;
+    color: rgb(46, 46, 46)8, 56, 56;
+    width: 100%;
+    text-align: center;
+    /* font-size: large; */
+}
+table{
+    
+    /* margin-top:20px; */
+    background: white;
+    /* box-shadow: 0px 2px 7px -3px rgba(117, 117, 117, 0.568); */
+}
+#table_week{
+
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    background: white !important;
+    border-radius: 25px;
+    max-height: 300px;
+
+}
+tbody {
+    position: relative;
+     line-height: 1;   
+}
+
+#thead{
+    left:15px;
+}
+
+#arrow_upward,#upArrow{
+    color:#50dd50 !important;
+    top:10px;
+}
+
+#arrow_downward,  #downArrow{
+    color:#ff3d67 !important;
+    top:10px;
+}
+
+
+/******************** loan_monthly_expendType *************************/
+
+#loan_expendType_Monthly{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-auto-rows: minmax(200px, auto);
+    grid-gap: 1em;
+    /* padding: 20px;; */
+
+}
+
+
+#monthlyCahrt,#expendTypeChart,#laon{
+background: red;
+border-radius: 25px;
+background: rgb(255, 255, 255);
+    box-shadow: 0px 2px 7px -3px rgba(117, 117, 117, 0.568);
+
+padding: 20px;
+}
+
+/******************** Chart  Yearly *************************/
+
+#chartYearly{
+    /* display:  inline-block; */
+
+    position: relative;
+    width: 100%; 
+    padding: 10px;
+    height: 100%;
+    padding: 10px;
+}
+#chart_div{
+    position: relative;
+    display: inline-block;
+    width: 100% !important; 
+    height: 100% !important;
+}
+
+
+
+
+/******************** Loans *************************/
+
+.containerb {
+    position: relative;
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    /* background: #fff; */
+    border-radius: 25px;
+    padding: 20px;
+    /* top:30px; */
+    float:right;
+}
+
+#titleLoanMain{
+    /* background: #ebebeb; */
+    padding: 3px;
+    text-align: center;
+}
+
+#loan{
+    position: relative; 
+    height: 20%;
+}
+
+.horizontal .progress-bar {
+    float: right;
+    height: 45px;
+    width: 100%;
+    padding: 12px 0;
+}
+
+.horizontal .progress-track {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    background: #ebebeb;
+}
+
+.horizontal .progress-fill {
+    position: relative;
+    background: #ff3d67;
+    height: 20px;
+    width: 50%;
+    color: #fff;
+    text-align: center;
+    font-family: "Lato","Verdana",sans-serif;
+    font-size: 12px;
+    line-height: 20px;
+    float: right;
+}
+
+#titleProgreescash,#titleProgreesLeftcash,#monthleft{
+    position: relative;
+      font-size: 12pt !important;
+}
+
+#totalCashLoan,#totalMonthLoan{
+    position: relative;
+    font-size: 9pt !important;
+}
+
+#in_out_monthly{
+height: 100%;
+
+}
+
+/******************** sahdow *************************/
+
+#weeklydata, #details{
+    box-shadow: 0px 2px 7px -3px rgba(117, 117, 117, 0.568);
+}
+#donutchart{
+    /* position: relative; */
+    /* display: inline-block; */
+    /* width: 100%;
+    height: 200px; */
+}
+
+#barchart_material{
+    width: 100%;
+    height: 100%;
+}
+
+
+/***********************************************************/
+
+#signIn , #signUp{
+    color: #22242A;
+    /* background-color:  #50dd50 !important; */
+ }
+
+ #signIn:hover{
+    rgb(61, 161, 255) !important;
+ }
+
+ #signUp:hover{
+    rgb(61, 161, 255) !important;
+}
+#addloan{
+    color:#22242A !important ;
+}
+#flag{
+    /* color: #ff643d !important; */
+    height: 30px;
+    width: 30px;
+    left: 20px;
+    
+}
+
+#iconaddbtn{
+    color: rgba(29, 29, 29, 0.884) !important;
+}
+body{
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+    background: rgb(250, 250, 250) !important;
+
+  }
+  
+  header{
+    position: relative;
+    display: grid;
+    grid-template-columns: 15% 35% 35% 15%;
+    /* grid-auto-rows: minmax(70px, auto); */
+    grid-gap: 1em;
+    background: rgb(250, 250, 250);
+    /* padding: 20px; */
+    width: 100%;
+    /* height: 70px; */
+  }
+  #leftNav{
+    grid-template-columns: 10% 90%;
+
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+  }
+  .left_area h3{
+      /* top:25%; */
+    color: rgb(36, 36, 36);
+    margin: 0;
+    /* text-transform: uppercase; */
+    font-size: 22px;
+    font-weight: 900;
+    text-align: center;
+  }
+  
+  .left_area span{
+    color:  rgb(61, 161, 255);
+  }
+  .left_area{
+      text-align: center;
+  }
+  
+  .logout_btn{
+    padding: 5px;
+    background:  rgb(61, 161, 255);
+    text-decoration: none;
+    float: right;
+    /* margin-top: -30px; */
+    margin-right: 40px;
+    border-radius: 2px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    transition: 0.5s;
+    transition-property: background;
+  }
+  
+  .logout_btn:hover{
+    background:  rgb(61, 161, 255);
+  }
+  
+  .sidebar {
+    background: #2f323a;
+    border-radius: 0 25px 0 0 ;
+    z-index: 1001;
+    /* margin-top: 70px; */
+    padding-top: 30px;
+    position: fixed;
+    left: -190px;
+    width: 250px;
+    height: 100%;
+    transition: 0.5s;
+    transition-property: left;
+  }
+  
+  .sidebar .profile_image{
+   padding: 2px;
+      position: relative;
+      display: inline-block;
+      left:30%;
+      right: 30%;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    background: white;
+
+  }
+ .inlineNav{
+    margin-right: 15px;
+      position: relative;
+      display: inline-block;
+      /* width: 70px; */
+      height: 100%;
+      background: none;
+      color: white;
+  }
+#logOut, #signUp,#signIn{
+ cursor: pointer;
+    font-size: 14pt;
+
+}
+  #leftSide{
+      right:0;
+  }
+  .sidebar h4{
+    color: #ccc;
+    font-size: 16pt;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  .menuSidebarText{
+      padding-right: 50px;
+      position: relative;
+      display: none;
+      float: right;
+  }
+  #HomeRow{
+      background: rgba(61, 161, 255, 0.5)
+  }
+  .sidebar a{
+    color: #fff;
+    display: block;
+    margin-left: 170px;
+    width: 80px;
+    font-size: 15px;
+
+    line-height: 60px;
+    text-decoration: none;
+    padding-left: 40px;
+    box-sizing: border-box;
+    transition: 0.5s;
+    transition-property: background;
+    float: right;
+  }
+  
+
+
+
+/* after
+icons--
+  font-size: 20px;
+  margin-left: 170px;
+  width: 80px; 
+  
+  text---
+      display: none;
+
+    frmaemenu  
+  
+  */
+
+
+
+
+
+  
+  .sidebar a:hover{
+    background:rgba(61, 161, 255, 0.5);
+  }
+  
+  .sidebar i{
+    position: relative;
+    /* padding-right: 10px; */
+    top:5px;
+  }
+  
+  label #sidebar_btn{
+    z-index: 1;
+    /* color: #fff; */
+    color: #22242A;
+/* top:-1px; */
+    /* position: fixed; */
+    cursor: pointer;
+    left: 300px;
+    font-size: 30px;
+    /* margin: 5px 0; */
+    transition: 0.5s;
+    transition-property: color;
+  }
+  
+  label #sidebar_btn:hover{
+    color: rgb(61, 161, 255);
+  }
+  
+  #check:checked ~ .sidebar{
+    left: 0;
+  }
+  
+  #check:checked ~ .sidebar a span{
+    display: grid;
+  }
+  
+  #check:checked ~ .sidebar a{
+    margin-left: 0;
+    width: 100%;
+
+  }
+  
+  .content{
+    margin-left: 250px;
+    background: url(background.png) no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    transition: 0.5s;
+  }
+  
+  #check:checked ~ .content{
+    margin-left: 60px;
+  }
+  
+  #check{
+    display: none;
+  }
+       

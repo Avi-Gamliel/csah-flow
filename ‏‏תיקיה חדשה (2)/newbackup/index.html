@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://www.google.com/jsapi"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-auth.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-firestore.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="homeStyle.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+
+    <title>Cash Flow</title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <!-- <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-functions.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-database.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+</head>
+
+<body>
+
+    <input type="checkbox" id="check">
+
+    <div class="sidebar logged-in" id="side_bar">
+
+        <img src="1.png" class="profile_image" alt="" id="menuUserimg">
+        <h4 id="nameUser"></h4>
+
+        <ul>
+
+            <li class="grid" id="HomeRow">
+                <a href="#Home" id="HomeMenu"><i class="material-icons" id="iHomeMenu">desktop_windows</i><span
+                        class="menuSidebarText" id="Home_Menu">דף הבית</span></a>
+            </li>
+
+            <li class="grid" id="TableRow">
+
+                <a href="#TableviewMenu" id="TableviewMenu"><i class="material-icons"
+                        id="iTableView">event_note</i><span id="Tableview_Menu" class="menuSidebarText">דוחות</span></a>
+
+            </li>
+
+            <li class="grid" id="SettingRow">
+
+                <a href="#settingPage" id="SettingMenu" class=""><i class="material-icons" id="iSetting"> settings</i>
+                    <span class=" menuSidebarText" id="SettingTitle">הגדרות</span>
+                </a>
+
+            </li>
+        </ul>
+
+
+    </div>
+
+    <header class="grid">
+
+        <div class="left_area">
+            <div id="box_title_app">
+
+            </div>
+
+        </div>
+        <div id="leftNav" class="grid">
+            <label for="check">
+                <i class="material-icons " id="sidebar_btn">dehaze </i>
+            </label>
+            <div>
+                <a id="addbtn" style="display:none"
+                    class="logged-in btn-floating btn-small waves-effect waves-light green modal-trigger"
+                    data-target="modal1" class="btn modal-trigger"><i id="iconbtn" class="material-icons">add</i></a>
+
+                <a id="minusbtn" style="display:none;"
+                    class="logged-in btn-floating btn-small waves-effect waves-light modal-trigger" data-target="modal2"
+                    class="btn modal-trigger"><i id="iconminusbtn" class="material-icons">remove</i></a>
+
+                <a id="addloan" style="display:none;"
+                    class="logged-in btn-floating btn-small waves-effect waves-light  modal-trigger"
+                    data-target="modal4" class="btn modal-trigger"><i id="iconaddbtn"
+                        class="material-icons">control_point_duplicate</i></a>
+                <!-- <a id="addSave" style="display:none;"
+                    class="logged-in btn-floating btn-small waves-effect waves-light  modal-trigger"
+                    data-target="modalSave" class="btn modal-trigger"><i id="iconSavebtn"
+                        class="material-icons">how_to_vote</i></a> -->
+            </div>
+        </div>
+
+        <div>
+
+            <div id="boximg" class="right logged-in">
+                <img src="#" alt="" id="userUrl">
+                <span id="textUser"></span>
+            </div>
+
+            <ul class="right">
+
+                <li class="inlineNav">
+
+                    <a href="#" id="search" class="modal-trigger logged-in" data-target="modal-Search"
+                        style="display:none;"><i class="center material-icons">search</i></a>
+                </li>
+
+
+                <li class="inlineNav">
+
+                    <a id="signIn" style="display:none;" class="modal-trigger logged-out"
+                        data-target="modal-signIn">Login</a>
+                </li>
+
+                <li class="inlineNav">
+
+                    <a href="#" id="logOut" class="modal-trigger logged-in" data-target="" style="display:none;">log
+                        out</a>
+                </li>
+
+                <li class="inlineNav">
+
+                    <a href="#" id="signUp" class="modal-trigger logged-out" style="display:none;"
+                        data-target="modal-signUp">sign
+                        up</a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="right_area">
+
+
+        </div>
+    </header>
+
+    <div id="tab-content">
+
+        <div id="Home" style="display:none;" class="active container">
+
+            <div id="top">
+
+                <div id="topViewCash" class="center">
+
+                    <div id="balanceMonth" class="grid">
+
+                        <div><i class="medium material-icons">vertical_align_center</i></div>
+
+                        <div class="grid">
+
+                            <div>מאזן</div>
+
+                            <div>
+                                <img id="Ils" src="img/ils_white-01.png"></img>
+                                <span id="num_balanceMonth" class="cash">0</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="incomingMonth" class="grid">
+
+                        <div><i class="medium material-icons">arrow_upward</i></div>
+
+                        <div class="grid">
+
+                            <div id="inHome">הכנסות שבועיות</div>
+
+                            <div>
+                                <img id="Ils" src="img/ils_white-01.png"></img>
+                                <span id="num_incomingMonth" class="cash">0</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div id="expendMonth" class="grid">
+
+                        <div><i class="medium material-icons">arrow_downward</i></div>
+
+                        <div class="grid">
+                            <div id="outHome">הוצאות שבועיות</div>
+                            <div>
+                                <img id="Ils" src="img/ils_white-01.png"></img>
+                                <span id="num_expendMonth" class="cash">0</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="currectStatusCash" class="grid">
+
+                        <div><i class="medium material-icons">attach_money</i></div>
+
+                        <div class="grid">
+
+                            <div id="currectStatusCashTitle">מצב חשבון עדכני</div>
+
+                            <div id="num_currectStatusCash_box">
+                                <img id="Ils" src="img/ils_white-01.png"></img>
+                                <span id="num_currectStatusCash" class="cash">0</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <form action="#" class='right'>
+                <p id="homeChartChoose">
+
+                    <label>
+                        <input name="goupChartHome" id="weeklyChart" type="radio" checked />
+                        <span>שבועי</span>
+                    </label>
+
+
+                    <label>
+                        <input name="goupChartHome" id="monthlyChart" type="radio" />
+                        <span>חודשי</span>
+                    </label>
+
+                </p>
+            </form>
+            <div id="chart_info">
+
+                <div id="info" class="grid">
+
+                    <div class="calenderBox">
+
+                        <div class="month" class="grid">
+
+                            <i class="material-icons prev">chevron_left</i>
+
+                            <div class="datesbox">
+                                <span id="monthCalnder"></span>
+                            </div>
+
+                            <i class="material-icons next">chevron_right</i>
+
+                        </div>
+
+                        <div class="weekdays">
+
+                            <div>שבת</div>
+                            <div>שישי</div>
+                            <div>חמישי</div>
+                            <div>רביעי</div>
+                            <div>שלישי</div>
+                            <div>שני</div>
+                            <div>ראשון</div>
+
+                        </div>
+
+                        <div class="days" id="days"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- <div class="grid" id="yearChart"> -->
+
+
+
+                <div class="grid yearChart" id="yearChart">
+
+                    <div class="grid" id="infoYearly">
+
+                        <div id="titleYear">
+                            <div class="title_all">מבט שנתי</div>
+                        </div>
+
+                        <div id="expendYear" class="grid">
+
+                            <div>הוצאות</div>
+
+                            <div class="HomeYearlyChartInfo">
+
+
+                                <div id="num_expnendYear"></div>
+
+                            </div>
+
+                        </div>
+
+                        <div id="incomingYear" class="grid">
+
+                            <div>הכנסות </div>
+
+                            <div class="HomeYearlyChartInfo">
+
+
+                                <div id="num_incomingYear"></div>
+
+                            </div>
+
+                        </div>
+
+                        <div id="balanceYear" class="grid">
+
+                            <div>מאזן</div>
+
+                            <div class="HomeYearlyChartInfo">
+
+
+                                <div id="num_balanceYear"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="chartYearly" class="right">
+                        <canvas id="chart_div" style="height: 100%; width: 100%;"></canvas>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+
+
+
+            <!-- </div> -->
+
+
+
+            <div id="expendTypeRow">
+
+                <div id="expendTypeView" class="center">
+
+                    <div id="credit" class="grid box">
+
+                        <div><i class="small material-icons">call_to_action</i></div>
+
+                        <div class="grid">
+
+                            <div><span class='typeExpend'>כרטיס אשראי</span></div>
+
+                            <div>
+                                <img id="Ils" src="img/ils_white-01.png"></img>
+                                <span id="num_credit" class="cash">0</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="paper" class="grid box">
+
+                        <div><i class="small material-icons">local_atm</i></div>
+
+                        <div class="grid">
+
+                            <div> <span class='typeExpend'>צ'קים</span></div>
+
+                            <div>
+                                <img id="Ils" src="img/ils_white-01.png"></img>
+                                <span id="num_paper" class="cash">0</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="cash" class="grid box">
+
+                        <div><i class="small material-icons">account_balance_wallet</i></div>
+
+                        <div class="grid">
+
+                            <div><span class='typeExpend'>מזומן</span> </div>
+
+                            <div>
+                                <img id="Ils" src="img/ils_white-01.png"></img>
+                                <span id="num_cash" class="cash">0</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="directDebit" class="grid box">
+
+                        <div><i class="small material-icons">attach_money</i></div>
+
+                        <div class="grid">
+
+                            <div> <span class='typeExpend'>הוראת קבע</span></div>
+
+                            <div>
+                                <img id="Ils" src="img/ils_white-01.png"></img>
+                                <span id="num_directDebit" class="cash">0</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="bit" class="grid box">
+
+                        <div><i class="small material-icons">touch_app</i></div>
+
+                        <div class="grid">
+
+                            <div><span class='typeExpend'>ביט</span></div>
+
+                            <div id="numbit">
+                                <img id="Ils" src="img/ils_white-01.png"></img>
+                                <span id="num_bit" class="cash">0</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="transferBank" class="grid box">
+
+                        <div><i class="small material-icons">account_balance</i></div>
+
+                        <div class="grid">
+
+                            <div><span class='typeExpend'>העברה בנקאית</span> </div>
+
+                            <div>
+                                <img id="Ils" src="img/ils_white-01.png"></img>
+                                <span id="num_transferBank" class="cash">0</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div id="loan_expendType_Monthly">
+
+                <div id="laon">
+
+                    <div class="row">
+
+                        <div class="containerb horizontal flat" id="containerLoan">
+                            <h6 id="titleLoanMain">הלוואות</h6>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div id="expendTypeChart">
+
+                    <div id="userData">
+                        <canvas id="donutchart"></canvas>
+                    </div>
+
+                </div>
+
+                <div id="monthlyCahrt">
+                    <canvas id="barchart_material" style="height: 100%;"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="Tableview" style="display:none;" class=" container">
+
+
+            <div id="top">
+
+                <div id="topViewCash" class="grid">
+
+                    <div id="balanceMonth" class="grid">
+
+                        <div>
+                            <i class="medium material-icons">vertical_align_center</i>
+                        </div>
+
+                        <div class="grid">
+
+                            <div id="titleBoxTableBalance">
+                                מאזן שבועי
+                            </div>
+
+                            <div>
+                                <img id="Ils" src="img/ils_white-01.png"></img>
+                                <span id="balance" class="cash">0</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="incomingMonth" class="grid">
+
+                        <div>
+                            <i class="medium material-icons">arrow_upward</i>
+                        </div>
+
+                        <div class="grid">
+
+                            <div id="titleBoxTableIn">
+                                הכנסות שבועיות
+                            </div>
+
+                            <div>
+                                <img id="Ils" src="img/ils_white-01.png"></img>
+                                <span id="incoming" class="cash">0</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="expendMonth" class="grid">
+
+                        <div>
+                            <i class="medium material-icons">arrow_downward</i>
+                        </div>
+
+                        <div class="grid">
+
+                            <div id="titleBoxTableOut">
+                                הוצאות שבועיות
+                            </div>
+
+                            <div>
+                                <img id="Ils" src="img/ils_white-01.png"></img>
+                                <span id="outcoming" class="cash">0</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="currectStatusCash" class="grid">
+
+                        <div>
+                            <i class="medium material-icons">attach_money</i>
+                        </div>
+
+                        <div class="grid">
+
+                            <div id="currectStatusCashTitle">
+                                מצב חשבון עדכני
+                            </div>
+
+                            <div id="num_currectStatusCash_box">
+                                <img id="Ils" src="img/ils_white-01.png"></img>
+                                <span id="Status" class="cash">0</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="grid" id="yearly_Chart">
+                <canvas id="dual_x_div" width="1270" height="230"></canvas>
+            </div>
+
+            <div class="grid switch ">
+                <label>
+                    Off
+                    <input type="checkbox" id="changeToPlan" class="uncheck">
+                    <span class="lever"></span>
+                    On
+                </label>
+            </div>
+            <div class="grid">
+
+                <div id="chooseDates" class="center">
+                    <form action="#" class="right">
+                        <p id="chooseView">
+                            <label>
+                                <input name="groupView" id="choosWeekly" type="radio" checked />
+                                <span>שבועי</span>
+                            </label>
+                            <label>
+                                <input name="groupView" id="chooseMonthly" type="radio" />
+                                <span>חודשי</span>
+                            </label>
+                            <label>
+                                <input name="groupView" id="chooseYearly" type="radio" />
+                                <span>שנתי</span>
+                            </label>
+                            <label>
+                                <input name="groupView" id="chooseBitweenDates" type="radio" />
+                                <span>בין תאריכים</span>
+                            </label>
+                        </p>
+                    </form>
+                    <div title="הורד לאקסל">
+                        <svg class="groupSvg" id="export" version="1.1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;"
+                            xmlns:graph="&ns_graphs;" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 36 36"
+                            style="enable-background:new 0 0 36 36;" xml:space="preserve">
+
+                            <g class="svg">
+                                <path d="M21.04,2c0.37,0.16,0.52,0.43,0.52,0.84c-0.02,1.01-0.01,2.01-0.01,3.06c0.15,0,0.29,0,0.42,0c3.48,0,6.96,0,10.44,0
+                       c0.75,0,1.23,0.28,1.44,0.87c0.07,0.2,0.11,0.41,0.11,0.62c0.01,7.28,0.01,14.55,0,21.83c0,0.93-0.56,1.47-1.53,1.47
+                       c-3.48,0-6.96,0-10.44,0c-0.14,0-0.27,0-0.44,0c0,0.71,0,1.38,0,2.06c0,0.37,0,0.74,0,1.11c0,0.5-0.34,0.79-0.83,0.7
+                       c-1.58-0.29-3.15-0.59-4.73-0.89c-2.3-0.44-4.6-0.87-6.91-1.31c-2.14-0.41-4.27-0.81-6.41-1.22c-0.5-0.1-0.69-0.33-0.69-0.83
+                       c0-4.97,0-9.95,0-14.92c0-3,0-6,0-9c0-0.63,0.17-0.82,0.79-0.94c2.52-0.48,5.04-0.96,7.56-1.44c2.06-0.39,4.13-0.78,6.19-1.17
+                       c1.37-0.26,2.74-0.52,4.11-0.78c0.03-0.01,0.05-0.03,0.08-0.05C20.83,2,20.93,2,21.04,2z M3.31,6.67c0,7.76,0,15.49,0,23.25
+                       c5.65,1.07,11.29,2.15,16.94,3.22c0-9.93,0-19.79,0-29.7C14.6,4.52,8.97,5.59,3.31,6.67z M21.56,29.34c3.7,0,7.38,0,11.05,0
+                       c0-7.38,0-14.75,0-22.11c-3.69,0-7.36,0-11.04,0c0,1.08,0,2.14,0,3.24c0.87,0,1.73,0,2.57,0c0,0.45,0,0.87,0,1.31
+                       c-0.87,0-1.71,0-2.57,0c0,1.09,0,2.15,0,3.26c0.87,0,1.72,0,2.57,0c0,0.45,0,0.85,0,1.29c-0.87,0-1.71,0-2.57,0
+                       c0,1.09,0,2.16,0,3.25c0.86,0,1.71,0,2.57,0c0,0.45,0,0.88,0,1.33c-0.87,0-1.72,0-2.57,0c0,1.3,0,2.58,0,3.89c0.87,0,1.72,0,2.58,0
+                       c0,0.46,0,0.87,0,1.33c-0.87,0-1.73,0-2.59,0C21.56,27.21,21.56,28.26,21.56,29.34z" />
+                                <path class="svg" d="M6.03,24.4c0.5-0.78,0.96-1.51,1.42-2.23c0.74-1.17,1.48-2.34,2.24-3.49c0.18-0.27,0.18-0.46,0.01-0.73
+                       c-1.08-1.83-2.14-3.66-3.21-5.5c-0.04-0.06-0.07-0.13-0.12-0.23c0.48,0,0.92,0,1.37,0c0.33,0,0.67,0.05,0.99-0.01
+                       c0.77-0.14,1.14,0.19,1.42,0.89c0.42,1.07,0.96,2.09,1.44,3.13c0.09,0.2,0.15,0.42,0.22,0.62c0.3-0.63,0.58-1.27,0.89-1.88
+                       c0.44-0.85,0.9-1.7,1.37-2.54c0.05-0.09,0.16-0.19,0.24-0.2c0.96-0.01,1.92-0.01,2.92-0.01c-0.8,1.33-1.59,2.63-2.37,3.93
+                       c-0.37,0.61-0.72,1.22-1.11,1.81c-0.15,0.23-0.13,0.39,0.01,0.62c1.15,1.85,2.28,3.71,3.41,5.56c0.04,0.07,0.08,0.14,0.16,0.26
+                       c-0.22,0-0.39,0-0.56,0c-0.82,0-1.63,0-2.45,0c-0.16,0-0.26-0.03-0.35-0.19c-0.64-1.23-1.3-2.44-1.93-3.67
+                       c-0.14-0.27-0.21-0.57-0.32-0.87c-0.16,0.37-0.29,0.75-0.47,1.1c-0.6,1.15-1.22,2.29-1.84,3.43c-0.05,0.09-0.18,0.19-0.27,0.19
+                       C8.12,24.41,7.11,24.4,6.03,24.4z" />
+                                <path class="svg"
+                                    d="M25.49,11.75c0-0.43,0-0.84,0-1.27c1.74,0,3.46,0,5.2,0c0,0.42,0,0.83,0,1.27C28.96,11.75,27.24,11.75,25.49,11.75z" />
+                                <path class="svg"
+                                    d="M25.49,26.1c0-0.44,0-0.86,0-1.28c1.73,0,3.44,0,5.18,0c0,0.43,0,0.84,0,1.28C28.95,26.1,27.23,26.1,25.49,26.1z" />
+                                <path class="svg"
+                                    d="M25.49,20.88c0-0.44,0-0.85,0-1.28c1.73,0,3.45,0,5.19,0c0,0.42,0,0.84,0,1.28C28.95,20.88,27.23,20.88,25.49,20.88z" />
+                                <path class="svg"
+                                    d="M30.68,15.06c0,0.42,0,0.83,0,1.25c-1.73,0-3.45,0-5.18,0c0-0.42,0-0.83,0-1.25C27.22,15.06,28.94,15.06,30.68,15.06z" />
+                            </g>
+                        </svg>
+
+                        <img class="my-svg-alternate " src="img/excel-01.svg">
+                    </div>
+
+                    <!-- <i class=" left material-icons" id="export">save_alt</i> -->
+
+                </div>
+            </div>
+
+            <div class="grid">
+                <div id="bitweenDates">
+
+                    <div id="datesBox" class="grid">
+
+                        <div id="btnBitweenDates">
+                            <button class="btn small" id="btn_BitweenDates">הצג</button>
+                        </div>
+
+                        <div id="endBox">
+                            <input type="text" id="end_date" class="date">
+                            <span id="endDateTitle">ת. סיום</span>
+                        </div>
+
+                        <div id="startBox">
+                            <input type="text" id="start_date" class="date">
+                            <span id="startDateTitle">ת. התחלה</span>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="grid" id="table_Main">
+
+                <table class="centered" id="table_main">
+                    <thead>
+                        <tr>
+                            <th>כושר פרעון</th>
+                            <th>סכום</th>
+                            <th>מצב</th>
+                            <th>תנאי תשלום</th>
+                            <th>סוג תשלום</th>
+                            <th>פירוט</th>
+                            <th>תאריך</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="mainTable"> </tbody>
+                </table>
+            </div>
+
+
+
+        </div>
+
+        <div id="settingPage" style="display: none;">
+            <div></div>
+            <div class="heb grid">
+
+                <div class="heb ">
+                    <h5 class="heb">הגדרות ראשונות</h5>
+                    <div class="divider"></div>
+                </div>
+
+                <div class="grid heb" id="topSettingBox">
+
+
+                    <div class="grid boxRow">
+                        <div class="grid" id="userInfoText">
+                            <div id="start_db"></div>
+                            <div id="line_bank_db"></div>
+                            <div id="line_card_db"></div>
+                            <div id="day_db"></div>
+
+                        </div>
+                        <div class="grid boxRow">
+                            <div class="grid">
+
+                                <div>
+                                    <input class="span_input" contenteditable="true" id="startYear"
+                                        type="number"></input>
+                                </div>
+                            </div>
+
+                            <h6 class="">מצב החשבון בתחילת שנה</h6>
+
+
+                            <div class="grid">
+
+                                <div>
+                                    <input class="span_input" contenteditable="true" id="bankLine"
+                                        type="number"></input>
+                                </div>
+                            </div>
+
+                            <h6 class="">מסגרת עו"ש</h6>
+
+
+                            <div class="grid">
+
+                                <div>
+                                    <input class="span_input" id="creditLine" contenteditable="true"
+                                        type="number"></input>
+                                </div>
+                            </div>
+
+                            <h6 class="">מסגרת אשראי</h6>
+
+
+                            <div class="grid">
+
+                                <div>
+                                    <input id="imporatntDate" type="text" id="dateExpend" class="datepicker span_input">
+                                </div>
+                            </div>
+
+                            <h6 class=""> תאריך הורדות קבוע</h6>
+                        </div>
+
+                    </div>
+                    <button class="buttonSettingFirst" id="buttonSettingFirst">שמור</button>
+
+                </div>
+
+                <div class="heb ">
+                    <h5 class="heb">מילות חיפוש</h5>
+                    <div class="divider"></div>
+                </div>
+
+                <div class="grid" id="middleSettingBox">
+                    <div class="grid boxRow">
+
+                        <div class="grid">
+
+                        </div>
+                        <div class="grid boxRow">
+                            <input class="span_input" id="searchKeyWord" contenteditable="true"></input>
+                            <h6 class="">הוסף מילת חיפוש</h6>
+                        </div>
+
+
+                    </div>
+                    <br>
+                    <div class="grid heb" id="middleSetting">
+
+                        <div class="grid">
+                            <div class="grid chipsBox">
+                                <div class="center grid">הוצאות</div>
+                                <div class="center grid">הכנסות</div>
+
+                            </div>
+                            <div class="grid chipsBox heb" id="chipsBoxDataBase">
+                                <div class="grid" id="chipsIn">
+
+                                </div>
+                                <div class="grid" id="chipsOut">
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid  heb" id="chipsBox">
+                            <div class="grid chooseInOrOut heb">
+
+                                <div class="grid ">
+
+                                </div>
+                                <div class="grid chooseInOrOut">
+                                    <label class="input-field">
+                                        <input name="groupInOutSetting" id="outChoise" type="radio" checked="check" />
+                                        <span class="heb">הוצאה</span>
+                                    </label>
+
+                                    <label class="input-field">
+                                        <input name="groupInOutSetting" id="inChoise" type="radio" />
+                                        <span class="heb">הכנסה</span>
+                                    </label>
+
+                                </div>
+
+                            </div>
+                            <div class="grid chooseInOrOut">
+                                <div class="grid  chooseInOrOut" id="chipsInOption">
+
+                                </div>
+                                <div class="grid  chooseInOrOut" id="chipsOutOption">
+
+
+                                </div>
+                            </div>
+                            <div class="grid btnWord">
+
+                                <div class="grid"> <button class="buttonWord" id="settingBtn"> הוסף</button></div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div></div>
+
+        </div>
+
+        <div class="logged-out" id="openpage" style="display: none;">
+
+            <div id=" mainLogOut" class="container">
+
+                <div class="grid" id="topBanner">
+
+                    <div>
+
+                        <h1>Cash<sapn id="flowText">Flow</sapn>
+                        </h1>
+                        <h4>New way to track your Cash Flow</h4>
+                        <button id="btnSignUp" class="btn">Sign Up</button>
+
+                    </div>
+
+                    <div><img id="imgOpen" src="img/mainIMage.png" alt=""></div>
+
+                </div>
+
+            </div>
+
+            <div id="bannermiddle">
+
+                <div>
+                    <h3 class="center">Prices</h3>
+                </div>
+
+                <div class="grid container" id="prices">
+
+                    <div id="basic" class="grid">
+
+                        <div class="grid">
+
+                            <h5 class="center">BASIC</h5>
+
+                            <span id="BasicPay" class="priceNum center">9.90<span class="textpermonth">/month
+                                </span></span>
+                            <div class="divider"></div>
+
+                        </div>
+
+                        <div class="comparebox">
+                            <div class="left">
+                                <ul class="left ulCompare">
+
+                                    <li>
+                                        <i class="tiny material-icons checkCompar">check</i>
+                                        <span class="compareRowText">1 user</span>
+                                    </li>
+                                    <li>
+                                        <i class="tiny material-icons checkCompar">check</i>
+                                        <span class="compareRowText">Can write data from this year</span>
+                                    </li>
+
+                                </ul>
+
+
+                            </div>
+                        </div>
+
+                        <div id="btnBasic">
+                            <button class="buttonPrice">Try it</button>
+                        </div>
+
+                    </div>
+
+                    <div id="puplar" class="grid">
+
+                        <div class="grid">
+
+                            <h5 class="center">POPULAR</h5>
+
+                            <span id="popularPay" class="priceNum center">19.90<span class="textpermonth">
+                                    /month
+                                </span></span>
+
+                            <div class="divider"></div>
+
+                        </div>
+
+                        <div class="comparebox">
+
+                            <div class="left">
+
+                                <ul class="left ulCompare">
+
+                                    <li>
+                                        <i class="tiny material-icons checkCompar">check</i>
+                                        <span class="compareRowText">1 User</span>
+                                    </li>
+
+                                    <li>
+                                        <i class="tiny material-icons checkCompar">check</i>
+                                        <span class="compareRowText">3 Year</span>
+                                    </li>
+
+                                    <li>
+                                        <i class="tiny material-icons checkCompar">check</i>
+                                        <span class="compareRowText">Export & import excel sheet</span>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                        <div id="btnPopalr">
+                            <button class="buttonPrice">But It</button>
+                        </div>
+
+                    </div>
+
+                    <div id="pro" class="grid">
+
+                        <div class="grid">
+
+                            <h5 class="center">PRO</h5>
+
+                            <span id="ProPay" class="priceNum center">29.90<span class="textpermonth">
+                                    /month
+                                </span> </span>
+
+                            <div class="divider"></div>
+
+                        </div>
+
+                        <div class="comparebox">
+                            <div class="left">
+                                <ul class="left ulCompare">
+
+                                    <li>
+                                        <i class="tiny material-icons checkCompar">check</i>
+                                        <span class="compareRowText">3 user</span>
+                                    </li>
+
+                                    <li>
+                                        <i class="tiny material-icons checkCompar">check</i>
+                                        <span class="compareRowText">Can write data from any year</span>
+                                    </li>
+                                    <li>
+                                        <i class="tiny material-icons checkCompar">check</i>
+
+                                        <span class="compareRowText">Export & import excel sheet</span>
+
+                                    </li>
+                                </ul>
+                            </div>
+
+
+                        </div>
+
+                        <div id="btnPro">
+                            <button class="buttonPrice">But It</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div id="dashboardView" class="logged-in"></div>
+
+    </div>
+
+    <div class="modelsBox">
+
+
+        <div id="modal1" class="modal">
+
+            <div class="modal-content">
+
+                <h3 class="center green-text">הוסף הכנסה</h3>
+
+                <div class="row right-align">
+
+                    <form class="col s12" id="incomingForm">
+
+                        <div class="row">
+
+                            <div class="col s6">
+
+                                <p>
+
+                                <div class="row center">
+                                    <label class="center">אמצעי תשלום</label>
+                                </div>
+
+                                <label class=" input-field col s4">
+                                    <input name="group3" id="cashType" type="radio" checked />
+                                    <span class="left typeTitle">מזומן</span>
+                                </label>
+
+                                <label class="input-field col s4">
+                                    <input name="group3" id="cardType" type="radio" />
+                                    <span class="left typeTitle">אשראי</span>
+                                </label>
+
+                                <label class="input-field col s4">
+                                    <input name="group3" id="cheqType" type="radio" />
+                                    <span class="left typeTitle">צ'ק</span>
+                                </label>
+
+
+                                </p>
+
+                            </div>
+
+                            <div class="input-field  col s6">
+                                <a id="btnaddsetting" class="btn-floating btn-tiny waves-effect waves-light green"><i
+                                        id="iconaddSetting" class="material-icons">add</i></a>
+                                <input id="typeIncoimg" type="text" class="autocomplete">
+                                <label for="typeIncoimg">הוסף הכנסה</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col s6">
+
+                                <p>
+
+                                    <label class="input-field col s4">
+                                        <input name="group3" id="transeType" type="radio" />
+                                        <span class="left typeTitle">העברה בנקאית</span>
+                                    </label>
+
+                                    <label class="input-field col s4">
+                                        <input name="group3" id="directDebitType" type="radio" />
+                                        <span class="left typeTitle">הוראת קבע</span>
+                                    </label>
+
+                                    <label class="input-field col s4">
+                                        <input name="group3" id="bitType" type="radio" />
+                                        <span class="left typeTitle">ביט</span>
+                                    </label>
+
+                                </p>
+
+                            </div>
+
+                            <div class="input-field col s6">
+                                <input id="infoIncoimg" type="text" class="validate">
+                                <label for="infoIncoimg">פירוט</label>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="input-field col s6">
+
+                                <div class="col s1" id="FlowBox">
+
+                                    <div>
+                                        <input id="flowin" type="number" class="validate" placeholder="0">
+                                        <label class="right typeTitle" for="flowin">שוטף +</label>
+                                    </div>
+
+                                </div>
+
+                                <div id="creditbox" class="col s1">
+
+                                    <div>
+                                        <input id="creditinput" type="number" class="validate" placeholder="0">
+                                        <label class="right typeTitle" for="creditinput">מס' תשלומים</label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="input-field col s6 ">
+
+                                <input id="totalIncoimg" type="number" class="validate" step=".01">
+                                <label for="totalIncoimg">סכום</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="input-field col s3 offset-s6">
+
+
+
+                                <label>
+
+                                    <i class="small material-icons Flag" id="flag"> flag</i>
+
+                                </label>
+
+
+                            </div>
+
+                            <div class="input-field col s3 offset-s9">
+                                <input type="text" id="dateIncoimg" class="date">
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="divider"></div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col s12">
+
+                                <div class="col s12 m4 l2"></div>
+
+                                <div class="col s12 m4 l8">
+
+                                    <p>
+
+                                        <label class="input-field col s2">
+                                            <input name="group2" id="paymentIn" type="radio" />
+                                            <span class="right typeTitle">תשלומים</span>
+                                        </label>
+
+                                        <label class="input-field col s2">
+                                            <input name="group2" id="flowIn" type="radio" />
+                                            <span class="right typeTitle">שוטף</span>
+                                        </label>
+
+                                        <label class="input-field col s2">
+                                            <input name="group2" id="yearlyIn" type="radio" />
+                                            <span class="right typeTitle">שנתי</span>
+                                        </label>
+
+
+                                        <label class="input-field col s2">
+                                            <input name="group2" id="dusIn" type="radio" />
+                                            <span class="right typeTitle">דו חודשי</span>
+                                        </label>
+
+                                        <label class="input-field col s2">
+                                            <input name="group2" id="onceIn" type="radio" checked />
+                                            <span class="right typeTitle">חד פעמי</span>
+                                        </label>
+
+
+                                    </p>
+                                </div>
+
+                                <div class="col s12 m4 l2"></div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 center">
+                                <button class="btn waves-effect waves-light " type="submit" name="action" id="submit">
+                                    <i class="material-icons ">add</i>
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="modal2" class="modal">
+
+            <div class="modal-content">
+
+                <h3 class="center red-text">הוסף הוצאה</h3>
+
+                <div class="row right-align">
+
+                    <form class="col s12" id="outcomingForm">
+
+                        <div class="row">
+
+                            <div class="col s6">
+
+                                <p>
+
+                                <div class="row center">
+                                    <label class="center">אמצעי תשלום</label>
+                                </div>
+
+                                <label class=" input-field col s4">
+                                    <input name="group4" id="cashTypeOut" type="radio" checked />
+                                    <span class="left typeTitle">מזומן</span>
+                                </label>
+
+                                <label class="input-field col s4">
+                                    <input name="group4" id="cardTypeOut" type="radio" />
+                                    <span class="left typeTitle">אשראי</span>
+                                </label>
+
+                                <label class="input-field col s4">
+                                    <input name="group4" id="cheqTypeOut" type="radio" />
+                                    <span class="left typeTitle">צ'ק</span>
+                                </label>
+
+
+                                </p>
+
+                            </div>
+
+                            <div class=" input-field col s6">
+
+
+                                <a id="newExpend" class="btn-floating btn-small waves-effect waves-light red">
+                                    <i class="material-icons">add</i>
+                                </a>
+                                <input id="typeOut" type="text" class="validate">
+                                <label for="typeOut"> הוסף הוצאה חדשה</label>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col s6">
+
+                                <p>
+
+                                    <label class="input-field col s4">
+                                        <input name="group4" id="transeTypeOut" type="radio" />
+                                        <span class="left typeTitle">העברה בנקאית</span>
+                                    </label>
+
+                                    <label class="input-field col s4">
+                                        <input name="group4" id="directDebitTypeOut" type="radio" />
+                                        <span class="left typeTitle">הוראת קבע</span>
+                                    </label>
+
+                                    <label class="input-field col s4">
+                                        <input name="group4" id="bitTypeOut" type="radio" />
+                                        <span class="left typeTitle">ביט</span>
+                                    </label>
+
+                                </p>
+
+
+                            </div>
+
+                            <div class="input-field col s6 ">
+
+                                <input id="infoOut" type="text" class="validate">
+                                <label for="infoOut">פירוט הוצאה</label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="input-field col s6">
+
+                                <div class="col s1" id="FlowBoxOut">
+
+                                    <div>
+                                        <input id="flowOut" type="number" class="validate" placeholder="0">
+                                        <label class="right typeTitle" for="flowOut">שוטף +</label>
+                                    </div>
+
+                                </div>
+
+                                <div id="creditboxOut" class="col s1">
+
+                                    <div>
+                                        <input id="creditinputOut" type="number" class="validate" placeholder="0">
+                                        <label class="right typeTitle" for="creditinputOut">מס' תשלומים</label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row col s6">
+                                <input id="totalOut" type="number" class="validate" placeholder="0" step=".01">
+                                <label for="totalOut">סכום</label>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="input-field col s3 offset-s6">
+
+
+
+                                <label>
+
+                                    <i class="small material-icons Flag" id="flagOut"> flag</i>
+
+                                </label>
+
+
+                            </div>
+                            <div class="row col s3 offset-s9">
+
+                                <input id="dateOut" type="text" class="datepicker">
+                                <label for="dateOut"> בחר תאריך</label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="divider"></div>
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col s12 m4 l2"></div>
+
+                            <div class="col s12 m4 l8">
+
+                                <p>
+
+                                    <label class="input-field col s2">
+                                        <input name="group1" id="payment" type="radio" />
+                                        <span class="right typeTitle">תשלומים</span>
+                                    </label>
+
+                                    <label class="input-field col s2">
+                                        <input name="group1" id="flow" type="radio" />
+                                        <span class="right typeTitle">שוטף</span>
+                                    </label>
+
+                                    <label class="input-field col s2">
+                                        <input name="group1" id="yearly" type="radio" />
+                                        <span class="right typeTitle">שנתי</span>
+                                    </label>
+
+                                    <label class="input-field col s2">
+                                        <input name="group1" id="dus" type="radio" />
+                                        <span class="right typeTitle">דו חודשי</span>
+                                    </label>
+
+                                    <label class="input-field col s2">
+                                        <input name="group1" id="once" type="radio" checked />
+                                        <span class="right typeTitle">חד פעמי</span>
+                                    </label>
+
+                                </p>
+                            </div>
+
+                            <div class="col s12 m4 l2"></div>
+                        </div>
+
+                </div>
+
+
+                <div class="row center">
+
+                    <button class="btn waves-effect waves-light red center" type="submit" name="action" id="submitOut">
+                        <i id="addExpandBtn" class="material-icons">remove</i>
+                    </button>
+
+                </div>
+
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div id="modal-Search" class="modal">
+
+            <div class="modal-content">
+
+                <h3 class="center green-text">חיפוש</h3>
+
+                <div class="row right-align">
+
+                    <form class="col s12" id="SearchForm">
+
+
+                        <div class="row">
+
+
+                            <div class="row col s3">
+
+                                <input id="dateSearch" type="text" class="datepicker">
+                                <label for="dateSearch">לפי תאריך</label>
+
+                            </div>
+
+
+                            <div class="input-field col s3">
+
+                                <input id="highSearch" type="number" class="validate" placeholder="0">
+                                <label for="highSearch">סכום מעל</label>
+
+                            </div>
+
+                            <div class="input-field col s3">
+
+                                <input id="lowSearch" type="number" class="validate" placeholder="0">
+                                <label for="lowSearch">סכום מתחת</label>
+
+                            </div>
+
+                            <div class=" input-field col s3 ">
+
+                                <input id="nameSearch" type="text" class="validate">
+                                <label for="nameSearch">חיפוש לפי שם </label>
+
+                            </div>
+                            <div class=" right input-field col s3  ">
+
+                                <input id="typeCashSearch" type="text" class="validate">
+                                <label for="typeCashSearch"> חיפוש לפי תנאי תשלום </label>
+
+                            </div>
+
+
+                            <div class="left right input-field col s3  ">
+
+                                <button class="btn waves-effect waves-light center" type="submit" name="action"
+                                    id="SearchBtn">חפש
+                                    <i id="SearchIcon" class="material-icons"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="divider"></div>
+                </div>
+
+                <div class="row">
+                    <table class="centered" id="tableSearch">
+                        <thead>
+                            <tr>
+                                <!-- <th>כושר פרעון</th> -->
+                                <th>סכום</th>
+                                <th>תנאי תשלום</th>
+                                <th>סוג תשלום</th>
+                                <th>תאריך</th>
+                                <th>פירוט</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableData"> </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+
+
+
+            </form>
+
+        </div>
+
+        <!-- <div id="modalSave" class="modal">
+
+            <div class="modal-content">
+
+                <h3 class="center green-text">הוסף חסכון</h3>
+
+                <div class="row right-align">
+
+                    <form class="col s12" id="SaveForm">
+
+                        <div class="row">
+
+                            <div class="col s6"></div>
+
+                            <div class=" input-field col s12">
+
+                                <input id="nameSave" type="text" class="validate">
+                                <label for="nameSave">שם ההלואה</label>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col s6">
+
+                                <p>
+
+                                <div class="row center">
+                                    <label class="center">אמצעי תשלום</label>
+                                </div>
+
+                                <label class=" input-field col s4">
+                                    <input name="groupSave" id="monthlySave" type="radio" checked />
+                                    <span class="left typeTitle">חודשי</span>
+                                </label>
+
+                                <label class="input-field col s4">
+                                    <input name="groupSave" id="onceSave" type="radio" />
+                                    <span class="left typeTitle">חד פעמי</span>
+                                </label>
+
+
+                                </p>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="input-field col s6 offset-s6">
+
+                                    <input id="sumSave" type="number" class="validate" placeholder="0">
+                                    <label for="sumSave">סכום החסכון</label>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="row col s3 offset-s9">
+                                    <input id="DesSum" type="number" class="validate" placeholder="0">
+                                    <label for="DesSum">יעד</label>
+                                </div>
+                                <div class="input-field col s3 offset-s6">
+
+                                    <label>
+
+                                        <i class="small material-icons Flag" id="flagSave"> flag</i>
+
+                                    </label>
+
+
+                                </div>
+                                <div class="row col s3 offset-s9">
+                                    <input id="startSave" type="text" class="datepicker">
+                                    <label for="startSave">תאריך התחלה</label>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="divider"></div>
+                            </div>
+
+                            <div class="row center">
+
+                                <button class="btn waves-effect waves-light green center" type="submit" name="action"
+                                    id="submitOut">
+                                    <i id="addNewSavebtn" class="material-icons">add</i>
+                                </button>
+
+                            </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div> -->
+
+        <div id="modal4" class="modal">
+
+            <div class="modal-content">
+
+                <h3 class="center red-text">הוסף הלוואה</h3>
+
+                <div class="row right-align">
+
+                    <form class="col s12" id="loanForm">
+
+                        <div class="row">
+
+                            <div class="col s6"></div>
+
+                            <div class=" input-field col s12">
+
+                                <input id="bankType" type="text" class="validate">
+                                <label for="bankType"> שם הבנק</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="input-field col s12 ">
+
+                                <input id="infoLoan" type="text" class="validate">
+                                <label for="infoLoan">סיבת ההלוואה</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="input-field col s6 offset-s6">
+
+                                <input id="CashLoan" type="number" class="validate" placeholder="0">
+                                <label for="CashLoan">סכום ההלואה</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="row col s3 offset-s9">
+                                <input id="totalYear" type="number" class="validate" placeholder="0">
+                                <label for="totalYear">מס' שנים</label>
+                            </div>
+                            <div class="input-field col s3 offset-s6">
+
+
+
+                                <label>
+
+                                    <i class="small material-icons Flag" id="flagloan"> flag</i>
+
+                                </label>
+
+
+                            </div>
+                            <div class="row col s3 offset-s9">
+                                <input id="startLoan" type="text" class="datepicker">
+                                <label for="startLoan">תאריך התחלה</label>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="divider"></div>
+                        </div>
+
+                        <div class="row center">
+
+                            <button class="btn waves-effect waves-light red center" type="submit" name="action"
+                                id="submitOut">
+                                <i id="addNewLoanBtn" class="material-icons">remove</i>
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div id="modal-signIn" class="modal  modal-fixed-footer">
+
+            <div class="modal-content">
+
+                <form class="formSignIn" id="loginform">
+
+                    <h2 class="center">Login</h2>
+
+                    <div class="row">
+
+                        <div class="input-field col s12">
+                            <input id="Email" type="text" class="validate">
+                            <label class="active" for="Email">Email</label>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="input-field col s12">
+
+                            <input id="password" type="password" class="validate">
+                            <label class="active" for="password">Password</label>
+
+                        </div>
+
+                    </div>
+
+                    <button class="waves-effect waves-light btn" id="signinEmail">
+                        <i class="material-icons left" id="emailIcon">email</i>
+                        Sign in with email
+                    </button>
+
+                    <br>
+
+                    <button class="waves-effect waves-light btn" id="signinGoole">
+                        <img src="img/sign in.png" id="googleIcon">Sign in with Google</img>
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div id="modal-signUp" class="modal modal-fixed-footer">
+
+            <div class="modal-content">
+
+                <form class="formRegister" id="formSignUp">
+
+                    <h2 class="center">Sign Up <span id="free">Free!</span></h2>
+
+                    <div class="row">
+
+                        <div class="input-field col s12">
+                            <input id="firstName" type="text" class="validate">
+                            <label class="active" for="firstName">First Name</label>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="input-field col s12">
+                            <input id="lastName" type="text" class="validate">
+                            <label class="active" for="lastName">Last Name</label>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="input-field col s12">
+                            <input id="newEmail" type="email" class="validate">
+                            <label class="active" for="newEmail">Email</label>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="input-field col s12">
+                            <input id="newpassword" type="password" class="validate">
+                            <label class="active" for="newpassword">Password</label>
+                        </div>
+
+                    </div>
+
+                    <button class="waves-effect waves-light btn" id="signupEmail">
+
+                        <i class="material-icons left" id="emailIcon">email</i>
+                        Sign up with email
+
+                    </button>
+
+                    <br>
+
+                    <button class="waves-effect waves-light btn" id="signinGoole"><img src="img/sign in.png"
+                            id="googleIcon">Sign up with Google</img></button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+
+        var firebaseConfig = {
+            apiKey: "AIzaSyB6SgCIap2pUYqSmwpGo30GR3LBj8wZKHg",
+            authDomain: "cash-flow-app-236ed.firebaseapp.com",
+            databaseURL: "https://cash-flow-app-236ed.firebaseio.com",
+            projectId: "cash-flow-app-236ed",
+            storageBucket: "cash-flow-app-236ed.appspot.com",
+            messagingSenderId: "897825428960",
+            appId: "1:897825428960:web:13e76cb018e62da56f0785",
+            measurementId: "G-L1DXJG8LED"
+        };
+        firebase.initializeApp(firebaseConfig);
+        // const auth = firebase.auth();
+        let db = firebase.firestore();
+
+    </script>
+    <!-- <script src="table.js"></script> -->
+
+    <script src="index.js"></script>
+
+
+    <!-- <script src="auth.js"></script> -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+</body>
+
+</html>

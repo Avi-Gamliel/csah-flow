@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://www.google.com/jsapi"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-firestore.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+    <title>Cash Flow</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+
+    <!-- <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-functions.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-database.js"></script>
+    <!--     
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-firestore.js"></script> -->
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+</head>
+
+<body>
+
+
+    <div class="navbar-fixed ">
+        <nav class=" blue-grey darken-4">
+            <div class="nav-wrapper container ">
+                <a href="#Home" class="brand-logo">Cash Flow</a>
+                <a id="addbtn" class="btn-floating btn-small waves-effect waves-light green modal-trigger"
+                    data-target="modal1" class="btn modal-trigger"><i id="iconaddbtn" class="material-icons">add</i></a>
+                <a id="setting" class="btn-floating btn-small waves-effect waves-light red modal-trigger right"
+                    data-target="modal3" class="btn modal-trigger"><i class="material-icons">settings</i></a>
+
+                <a id="minusbtn" class="btn-floating btn-small waves-effect waves-light modal-trigger"
+                    data-target="modal2" class="btn modal-trigger"><i id="iconminusbtn"
+                        class="material-icons">remove</i></a>
+
+                <a id="addloan" class="btn-floating btn-small waves-effect waves-light  modal-trigger"
+                    data-target="modal4" class="btn modal-trigger"><i id="iconaddbtn"
+                        class="material-icons">control_point_duplicate</i></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li class="logged-in"><a href="#" id="logOut" class="modal-trigger" data-target="">log
+                            out</a></li>
+                    <li>
+                    <li class="logged-out"><a href="#" class="modal-trigger" data-target="modal-signUp">sign
+                            up</a></li>
+                    <li class="logged-in"><a id="TableviewMenu" href="#Tableview">Dashboard</a>
+                    </li>
+                    <li class="logged-in"><a class=" logged-in" id="HomeMenu" href="#Home">Home</a>
+                    </li>
+                    <li class="logged-out"> <a id=" signIn" class="btn modal-trigger"
+                            data-target="modal-signIn">Login</a>
+                    </li>
+
+                    <li>
+                        <div id="img"></div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+    </div>
+
+    <div id="tab-content">
+
+        <div id="Home" class="active container">
+
+            <div id="containertop">
+
+
+                <div id="userData">
+                    <!-- <div class="row">
+                        <div class="input-field col s3">
+                            <select id="btnchartCash">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="1" selected>שנתי</option>
+                                <option value="2">חודשי</option>
+                                <option value="3">יומי</option>
+                            </select>
+                            <label>Materialize Select</label>
+                        </div>
+
+                    </div> -->
+                    <!-- <div id="donutchart" style="width: 340px; height:340px;"></div> -->
+                    <canvas id="donutchart" width="300" height="300"></canvas>
+
+
+                </div>
+
+                <div id="in_out_monthly">
+
+                    <canvas id="barchart_material" width="300" height="240"></canvas>
+                </div>
+                <div id="details">
+                    <div class="center">
+                        <div>
+                            <i id="statusIcons" class="material-icons">remove</i>
+                            <span id="titleCash">
+                            </span>
+
+                            <span id="cashFlowtitle"> :מצב חשבון עדכני </span>
+
+                        </div>
+
+                        <div>
+
+                            <i id="statusIconsLiq" class="material-icons">remove</i>
+
+                            <span id="LiquidCash">
+                            </span>
+
+                            <span id="cashFlowtitle"> :מזומן נזיל </span>
+                            <br>
+                            <span id="overmas">
+                            </span>
+
+
+                        </div>
+                        <div id="divider"></div>
+                        <div>
+
+                            <i id="statusIconsincoming" class="material-icons">arrow_upward</i>
+
+                            <span id="IncomingCash">0
+                            </span>
+
+                            <span id="cashFlowtitle"> :הכנסות </span>
+                            <br>
+
+
+                        </div>
+
+
+                        <div>
+
+                            <i id="statusIconsoutcoming" class="material-icons">arrow_downward</i>
+
+                            <span id="outcomingCash">0
+                            </span>
+
+                            <span id="cashFlowtitle"> :הוצאות </span>
+                            <br>
+
+
+                        </div>
+
+                    </div>
+
+                    <div id="massageBox">
+
+                        <span id="massage">
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div id="container_weekly">
+                <table id="table_week" class="center">
+                    <span id="titleWeekly">פעילות לשבוע הקרוב</span>
+                    <thead id="thead">
+
+                        <tr>
+
+                            <th class="center">סכום</th>
+                            <th class="center">מצב</th>
+                            <th class="center">סוג תשלום</th>
+                            <th class="center">פירוט</th>
+                            <th class="center">יום</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tableWeek">
+                    </tbody>
+                </table>
+            </div>
+
+
+
+            <div id="chartYearly" class="right">
+                <canvas id="chart_div" width="1260" height="350"></canvas>
+            </div>
+
+            <div class="containerb horizontal flat right" id="containerLoan">
+                <h6 id="titleLoanMain">הלוואות</h6>
+
+            </div>
+
+            <div id="table" class="container">
+
+            </div>
+        </div>
+
+        <div id="Tableview" class=" container">
+
+            <div id="bannerbutton">
+
+                <div id="boxCorrectCash">
+                    <div id="title">
+                        <span id="TitleCreditLimit">מאזן </span>
+                    </div>
+                    <div id="BodyBoxBal">
+                        <span id="balance"></span>
+                    </div>
+
+                </div>
+
+
+                <div id="boxCorrectCash">
+                    <div id="title">
+                        <span id="TitleCreditLimit">הוצאות</span>
+                    </div>
+                    <div id="BodyBoxOut">
+                        <span id="outcoming"></span>
+                    </div>
+
+                </div>
+
+                <div id="boxCorrectCash">
+                    <div id="title">
+                        <span id="TitleCreditLimit">הכנסות </span>
+                    </div>
+                    <div id="BodyBoxInc">
+                        <span id="incoming"></span>
+                    </div>
+
+                </div>
+
+                <div id="boxCorrectCash">
+                    <div id="title">
+                        <span id="TitleCreditLimit">מצב עדכני </span>
+                    </div>
+                    <div id="BodyBoxSta">
+                        <span id="Status"></span>
+                    </div>
+
+                </div>
+            </div>
+
+            <br>
+            <canvas id="dual_x_div" width="1270" height="230"></canvas>
+
+            <!-- <div id="dual_x_div" style="top:50px; width:1270; height: 230px;" class="container"></div> -->
+
+            <table class="centered">
+                <thead>
+                    <tr>
+                        <th>כושר פרעון</th>
+                        <th>סכום</th>
+                        <th>מצב</th>
+                        <th>תאריך</th>
+                        <th>תנאי תשלום</th>
+                        <th>סוג תשלום</th>
+                        <th>פירוט</th>
+                        <th>
+
+
+
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody id="mainTable">
+                    <!-- <tr id="newRow">
+                    <td id="TotalCashAfter">ש"ח 0</td>
+                    <td id="TotalCash">100 ש"ח</td>
+                    <td id="DateCash"> 01/01/2020</td>
+                    <td id="typeCash">רואת חשבון</td>
+                </tr> -->
+
+                </tbody>
+            </table>
+
+        </div>
+
+
+
+        <div id="dashboardView"></div>
+
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal">
+
+            <div class="modal-content">
+
+                <h3 class="center green-text">הוסף הכנסה</h3>
+
+                <div class="row right-align">
+
+                    <form class="col s12" id="incomingForm">
+
+                        <div class="row">
+
+                            <div class="col s6">
+
+                                <p>
+
+                                <div class="row center">
+                                    <label class="center">אמצעי תשלום</label>
+                                </div>
+
+                                <label class=" input-field col s4">
+                                    <input name="group3" id="cashType" type="radio" checked />
+                                    <span class="left typeTitle">מזומן</span>
+                                </label>
+
+                                <label class="input-field col s4">
+                                    <input name="group3" id="cardType" type="radio" />
+                                    <span class="left typeTitle">אשראי</span>
+                                </label>
+
+                                <label class="input-field col s4">
+                                    <input name="group3" id="cheqType" type="radio" />
+                                    <span class="left typeTitle">צ'ק</span>
+                                </label>
+
+
+                                </p>
+
+                            </div>
+
+                            <div class="input-field  col s6">
+                                <a id="btnaddsetting" class="btn-floating btn-tiny waves-effect waves-light green"><i
+                                        id="iconaddSetting" class="material-icons">add</i></a>
+                                <input id="typeIncoimg" type="text" class="autocomplete">
+                                <label for="typeIncoimg">הוסף הכנסה</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col s6">
+
+                                <p>
+
+                                    <label class="input-field col s4">
+                                        <input name="group3" id="transeType" type="radio" />
+                                        <span class="left typeTitle">העברה בנקאית</span>
+                                    </label>
+
+                                    <label class="input-field col s4">
+                                        <input name="group3" id="directDebitType" type="radio" />
+                                        <span class="left typeTitle">הוראת קבע</span>
+                                    </label>
+
+                                    <label class="input-field col s4">
+                                        <input name="group3" id="bitType" type="radio" />
+                                        <span class="left typeTitle">ביט</span>
+                                    </label>
+
+                                </p>
+
+                            </div>
+
+
+                            <div class="input-field col s6">
+                                <input id="infoIncoimg" type="text" class="validate">
+                                <label for="infoIncoimg">פירוט</label>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="input-field col s6">
+
+                                <div class="col s1" id="FlowBox">
+
+                                    <div>
+                                        <input id="flowin" type="number" class="validate" placeholder="0">
+                                        <label class="right typeTitle" for="flowin">שוטף +</label>
+                                    </div>
+
+                                </div>
+
+                                <div id="creditbox" class="col s1">
+
+                                    <div>
+                                        <input id="creditinput" type="number" class="validate" placeholder="0">
+                                        <label class="right typeTitle" for="creditinput">מס' תשלומים</label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="input-field col s6 ">
+
+                                <input id="totalIncoimg" type="number" class="validate">
+                                <label for="totalIncoimg">סכום</label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="input-field col s3 offset-s9">
+                                <input type="text" id="dateIncoimg" class="date">
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="divider"></div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col s12">
+
+                                <div class="col s12 m4 l2"></div>
+
+                                <div class="col s12 m4 l8">
+
+                                    <p>
+
+                                        <label class="input-field col s2">
+                                            <input name="group2" id="paymentIn" type="radio" />
+                                            <span class="right typeTitle">תשלומים</span>
+                                        </label>
+
+                                        <label class="input-field col s2">
+                                            <input name="group2" id="flowIn" type="radio" />
+                                            <span class="right typeTitle">שוטף</span>
+                                        </label>
+
+                                        <label class="input-field col s2">
+                                            <input name="group2" id="yearlyIn" type="radio" />
+                                            <span class="right typeTitle">שנתי</span>
+                                        </label>
+
+
+                                        <label class="input-field col s2">
+                                            <input name="group2" id="dusIn" type="radio" />
+                                            <span class="right typeTitle">דו חודשי</span>
+                                        </label>
+
+                                        <label class="input-field col s2">
+                                            <input name="group2" id="onceIn" type="radio" checked />
+                                            <span class="right typeTitle">חד פעמי</span>
+                                        </label>
+
+
+                                    </p>
+                                </div>
+
+                                <div class="col s12 m4 l2"></div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 center">
+                                <button class="btn waves-effect waves-light " type="submit" name="action" id="submit">
+                                    <i class="material-icons ">add</i>
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Modal Structure -->
+        <div id="modal2" class="modal">
+
+            <div class="modal-content">
+
+                <h3 class="center red-text">הוסף הוצאה</h3>
+
+                <div class="row right-align">
+
+                    <form class="col s12" id="outcomingForm">
+
+
+                        <div class="row">
+
+                            <div class="col s6">
+
+                                <p>
+
+                                <div class="row center">
+                                    <label class="center">אמצעי תשלום</label>
+                                </div>
+
+                                <label class=" input-field col s4">
+                                    <input name="group4" id="cashTypeOut" type="radio" checked />
+                                    <span class="left typeTitle">מזומן</span>
+                                </label>
+
+                                <label class="input-field col s4">
+                                    <input name="group4" id="cardTypeOut" type="radio" />
+                                    <span class="left typeTitle">אשראי</span>
+                                </label>
+
+                                <label class="input-field col s4">
+                                    <input name="group4" id="cheqTypeOut" type="radio" />
+                                    <span class="left typeTitle">צ'ק</span>
+                                </label>
+
+
+                                </p>
+
+                            </div>
+
+                            <div class=" input-field col s6">
+
+
+                                <a id="newExpend" class="btn-floating btn-small waves-effect waves-light red">
+                                    <i class="material-icons">add</i>
+                                </a>
+                                <input id="typeOut" type="text" class="validate">
+                                <label for="typeOut"> הוסף הוצאה חדשה</label>
+
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+
+                            <div class="col s6">
+
+                                <p>
+
+                                    <label class="input-field col s4">
+                                        <input name="group4" id="transeTypeOut" type="radio" />
+                                        <span class="left typeTitle">העברה בנקאית</span>
+                                    </label>
+
+                                    <label class="input-field col s4">
+                                        <input name="group4" id="directDebitTypeOut" type="radio" />
+                                        <span class="left typeTitle">הוראת קבע</span>
+                                    </label>
+
+                                    <label class="input-field col s4">
+                                        <input name="group4" id="bitTypeOut" type="radio" />
+                                        <span class="left typeTitle">ביט</span>
+                                    </label>
+
+                                </p>
+
+
+                            </div>
+
+                            <div class="input-field col s6 ">
+
+                                <input id="infoOut" type="text" class="validate">
+                                <label for="infoOut">פירוט הוצאה</label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="input-field col s6">
+
+                                <div class="col s1" id="FlowBoxOut">
+
+                                    <div>
+                                        <input id="flowOut" type="number" class="validate" placeholder="0">
+                                        <label class="right typeTitle" for="flowOut">שוטף +</label>
+                                    </div>
+
+                                </div>
+
+                                <div id="creditboxOut" class="col s1">
+
+                                    <div>
+                                        <input id="creditinputOut" type="number" class="validate" placeholder="0">
+                                        <label class="right typeTitle" for="creditinputOut">מס' תשלומים</label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row col s6">
+                                <input id="totalOut" type="number" class="validate" placeholder="0">
+                                <label for="totalOut">סכום</label>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="row col s3 offset-s9">
+
+                                <input id="dateOut" type="text" class="datepicker">
+                                <label for="dateOut"> בחר תאריך</label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="divider"></div>
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col s12 m4 l2"></div>
+
+                            <div class="col s12 m4 l8">
+
+
+                                <p>
+
+                                    <label class="input-field col s2">
+                                        <input name="group1" id="payment" type="radio" />
+                                        <span class="right typeTitle">תשלומים</span>
+                                    </label>
+
+                                    <label class="input-field col s2">
+                                        <input name="group1" id="flow" type="radio" />
+                                        <span class="right typeTitle">שוטף</span>
+                                    </label>
+
+                                    <label class="input-field col s2">
+                                        <input name="group1" id="yearly" type="radio" />
+                                        <span class="right typeTitle">שנתי</span>
+                                    </label>
+
+                                    <label class="input-field col s2">
+                                        <input name="group1" id="dus" type="radio" />
+                                        <span class="right typeTitle">דו חודשי</span>
+                                    </label>
+
+                                    <label class="input-field col s2">
+                                        <input name="group1" id="once" type="radio" checked />
+                                        <span class="right typeTitle">חד פעמי</span>
+                                    </label>
+
+                                </p>
+                            </div>
+
+                            <div class="col s12 m4 l2"></div>
+                        </div>
+
+                </div>
+
+
+                <div class="row center">
+
+                    <button class="btn waves-effect waves-light red center" type="submit" name="action" id="submitOut">
+                        <i id="addExpandBtn" class="material-icons">remove</i>
+                    </button>
+
+                </div>
+
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div id="modal4" class="modal">
+
+            <div class="modal-content">
+
+                <h3 class="center red-text">הוסף הלוואה</h3>
+
+                <div class="row right-align">
+
+                    <form class="col s12" id="loanForm">
+
+                        <div class="row">
+
+                            <div class="col s6">
+
+
+
+                            </div>
+
+                            <div class=" input-field col s12">
+
+                                <!-- <a id="newExpend" class="btn-floating btn-small waves-effect waves-light red">
+                                    <i class="material-icons">add</i>
+                                </a> -->
+                                <input id="bankType" type="text" class="validate">
+                                <label for="bankType"> שם הבנק</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+
+                            <div class="input-field col s12 ">
+
+                                <input id="infoLoan" type="text" class="validate">
+                                <label for="infoLoan">סיבת ההלוואה</label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+
+
+                            <div class="input-field col s6 offset-s6">
+
+                                <input id="CashLoan" type="number" class="validate" placeholder="0">
+                                <label for="CashLoan">סכום ההלואה</label>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="row col s3 offset-s9">
+                                <input id="totalYear" type="number" class="validate" placeholder="0">
+                                <label for="totalYear">מס' שנים</label>
+                            </div>
+                            <div class="row col s3 offset-s9">
+
+                                <input id="startLoan" type="text" class="datepicker">
+                                <label for="startLoan">תאריך התחלה</label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="divider"></div>
+                        </div>
+
+
+
+                </div>
+
+
+                <div class="row center">
+
+                    <button class="btn waves-effect waves-light red center" type="submit" name="action" id="submitOut">
+                        <i id="addNewLoanBtn" class="material-icons">remove</i>
+                    </button>
+
+                </div>
+
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- //sign in  -->
+
+        <div id="modal-signIn" class="modal  modal-fixed-footer">
+
+            <div class="modal-content">
+
+                <form class="formSignIn" id="loginform">
+
+                    <h2 class="center">Login</h2>
+
+                    <div class="row">
+
+                        <div class="input-field col s12">
+                            <input id="Email" type="text" class="validate">
+                            <label class="active" for="Email">Email</label>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="input-field col s12">
+
+                            <input id="password" type="password" class="validate">
+                            <label class="active" for="password">Password</label>
+
+                        </div>
+
+                    </div>
+
+                    <!-- <input id="password" type="password"> -->
+
+                    <button class="waves-effect waves-light btn" id="signinEmail">
+                        <i class="material-icons left" id="emailIcon">email
+                        </i>
+                        Sign in with email
+                    </button>
+                    <br>
+
+                    <!-- <i class="material-icons" id="emailIcon">email</i> -->
+
+                    <button class="waves-effect waves-light btn" id="signinGoole">
+                        <img src="img/sign in.png" id="googleIcon">Sign in
+                        with Google
+                        </img>
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- //sign Up  -->
+
+        <div id="modal-signUp" class="modal modal-fixed-footer">
+
+            <div class="modal-content">
+
+                <form class="formRegister" id="formSignUp">
+
+                    <h2 class="center">Sign Up <span id="free">Free!</span></h2>
+
+                    <div class="row">
+
+                        <div class="input-field col s12">
+                            <input id="firstName" type="text" class="validate">
+                            <label class="active" for="firstName">First Name</label>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="input-field col s12">
+                            <input id="lastName" type="text" class="validate">
+                            <label class="active" for="lastName">Last Name</label>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="input-field col s12">
+                            <input id="newEmail" type="email" class="validate">
+                            <label class="active" for="newEmail">Email</label>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="input-field col s12">
+                            <input id="newpassword" type="password" class="validate">
+                            <label class="active" for="newpassword">Password</label>
+                        </div>
+
+                    </div>
+
+                    <button class="waves-effect waves-light btn" id="signupEmail">
+                        <i class="material-icons left" id="emailIcon">email
+                        </i>
+                        Sign up with email
+                    </button>
+                    <!-- <button class="waves-effect waves-light btn-large">Sign Up</button> -->
+                    <br>
+                    <button class="waves-effect waves-light btn" id="signinGoole"><img src="img/sign in.png"
+                            id="googleIcon">Sign
+                        up
+                        with Google</img></button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- <-- //setting -->
+
+        <div id="modal3" class="modal">
+
+            <div class="modal-content container">
+
+                <form id="addInOut">
+
+                    <h3 class="center blue-grey-darken-4-text">הגדרות</h3>
+
+                    <div class="row">
+
+                        <div class="col s6">
+                            <label for="startDate">ת.התחלה</label>
+                            <input id="startDate" type="text" class="datepicker">
+                        </div>
+
+                        <div class="input-field col s12">
+                            <input id="statusStart" type="number" class="validate">
+                            <label for="statusStart">מצב חשבון התחלתי</label>
+                        </div>
+
+                        <div class="row">
+
+                            <label>
+                                <input name="group1" type="radio" checked />
+                                <span>הוצאה</span>
+                            </label>
+
+                            <label>
+                                <input name="group1" type="radio" />
+                                <span>הכנסה</span>
+                            </label>
+
+                        </div>
+
+                        <div class="row">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">save
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+                <form class="col s6 offset-s6" id="settingForm">
+
+                    <div class="row">
+
+                        <div class="col s12">
+                            <label for="startDate">ת.התחלה</label>
+                            <input id="startDate" type="text" class="datepicker">
+                        </div>
+
+                        <div class="input-field col s12">
+                            <input id="statusStart" type="number" class="validate">
+                            <label for="statusStart">מצב חשבון התחלתי</label>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="input-field col s12">
+                            <input id="creditLine" type="number" class="validate">
+                            <label for="creditLine">מסגרת אשראי</label>
+                        </div>
+
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input id="creditBank" type="number" class="validate">
+                        <label for="creditBank">מסגרת חשבון</label>
+                    </div>
+
+
+                    <button class="btn waves-effect waves-light blue-grey darken-4 " type="submit" name="action"
+                        id="settingbtn">עדכן
+                        <i class="material-icons blue-grey darken-4">send</i>
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="logged-out" id="openpage">
+        <!-- 
+        <div id="imgpromotion">
+            <img src="img/Untitled Project/Untitled Project.gif" id="videoPro">
+        </div>
+
+        <div id="bannertext">
+            <h3 id="title">A new way to <br>PLAN your work</h3>
+        </div>
+
+        <div id="btns">
+            <button id="tryItFree"> Get Start <i id="arrow" class="material-icons">arrow_forward</i></button>
+        </div>
+
+        <div id="Sample">
+
+            <div class="features"><i id="icons" class="material-icons">format_shapes</i></div>
+            <div class="features"><i id="icons" class="material-icons">subscriptions</i></div>
+            <div class="features"><i id="icons" class="material-icons">place</i></div>
+            <div class="features"><i id="icons" class="material-icons">person_pin</i></div>
+            <div class="features"><i id="icons" class="material-icons">description</i></div>
+
+        </div> -->
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+        // Your web app's Firebase configurationfucntio
+
+
+        var firebaseConfig = {
+            apiKey: "AIzaSyB6SgCIap2pUYqSmwpGo30GR3LBj8wZKHg",
+            authDomain: "cash-flow-app-236ed.firebaseapp.com",
+            databaseURL: "https://cash-flow-app-236ed.firebaseio.com",
+            projectId: "cash-flow-app-236ed",
+            storageBucket: "cash-flow-app-236ed.appspot.com",
+            messagingSenderId: "897825428960",
+            appId: "1:897825428960:web:13e76cb018e62da56f0785",
+            measurementId: "G-L1DXJG8LED"
+        };
+        // Initialize Firebase
+
+        firebase.initializeApp(firebaseConfig);
+
+        const auth = firebase.auth();
+        let db = firebase.firestore();
+
+        // firebase.analytics();
+        // db.setting({ timestampsInSnapshots: true });
+
+    </script>
+    <script src="index.js"></script>
+    <script src="auth.js"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script>
+
+
+
+
+    </script>
+</body>
+
+</html>
